@@ -18,6 +18,7 @@ return new class extends Migration
             $table->dateTime('date')->nullable();
             $table->foreignUuid('produit_id')->nullable()->constrained('produits');
             $table->foreignUuid('vente_id')->nullable()->constrained('ventes');
+            $table->foreignUuid('abonnement_id')->nullable()->constrained('abonnements');
             $table->timestamps();
         });
     }

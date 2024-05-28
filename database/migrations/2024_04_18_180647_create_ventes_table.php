@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('montant_total')->default(0);
             $table->string('etat',50)->nullable();
             $table->foreignUuid('client_id')->nullable()->constrained('clients');
+            $table->foreignUuid('abonnement_id')->nullable()->constrained('abonnements');
             $table->timestamps();
         });
     }

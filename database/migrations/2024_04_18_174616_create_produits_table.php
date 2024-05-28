@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('prix')->default(0);
             $table->integer('quantite')->default(0);
             $table->string('photo',150)->nullable();
+            $table->foreignUuid('abonnement_id')->nullable()->constrained('abonnements');
             $table->timestamps();
         });
     }

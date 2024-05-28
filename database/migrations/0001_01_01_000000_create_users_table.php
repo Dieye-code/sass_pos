@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nom',50)->nullable();
             $table->string('role', 50)->nullable();
             $table->string('code');
+            $table->foreignUuid('abonnement_id')->nullable()->constrained('abonnements');
             $table->rememberToken();
             $table->timestamps();
         });
