@@ -16,18 +16,21 @@ class UserController extends BaseController
         parent::__construct($userRepository);
 
         $this->validateCreate = [
+            'abonnement_id' => 'required|exists:App\Models\Abonnement,id',
             'prenom' => 'required',
             'nom' => 'required',
-            'profil' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'role' => 'required',
+            'telephone' => 'required',
+            'code' => 'required',
         ];
         $this->messageCreate = [
+            'abonnement_id.required' => 'Vous devez selectionner l\'abonnement',
+            'abonnement_id.exists' => 'L\'abonnement que vous avez selectionné n\'existe pas ',
             'prenom.required' => 'Le prenom est obligatoire',
-            'email.required' => 'L\'email est obligatoire',
+            'telephone.required' => 'Le numéro de téléphone est obligatoire',
             'nom.required' => 'Le nom est obligatoire',
-            'profil.required' => 'Le profil est obligatoire',
-            'password.required' => 'Le mot de passe est obligatoire',
+            'role.required' => 'Le role est obligatoire',
+            'code.required' => 'Le code est obligatoire',
         ];
         
         $this->validateUpdate = [

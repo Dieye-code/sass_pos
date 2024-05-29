@@ -28,6 +28,7 @@ class User extends Authenticatable
         'role',
         'telephone',
         'code',
+        'abonnement_id'
     ];
 
     /**
@@ -53,7 +54,7 @@ class User extends Authenticatable
     }
 
     public function abonnement(){
-        return $this->hasOne(Abonnement::class);
+        return $this->belongsTo(Abonnement::class);
     }
 
 

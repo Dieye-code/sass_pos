@@ -25,9 +25,9 @@ class BaseController extends Controller
         $this->repository = $repository;
     }
 
-    public function index()
+    public function index($idAbonnement)
     {
-        return response()->json($this->repository->getAll(), 200);
+        return response()->json($this->repository->getAll($idAbonnement), 200);
     }
 
     public function get($id)

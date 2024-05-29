@@ -11,6 +11,5 @@ class AchatRepository extends BaseRepository implements AchatInterface
      */
     public function __construct()
     {
-        $this->with = 'abonnement';
     }
 }

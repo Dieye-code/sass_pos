@@ -17,7 +17,7 @@ function responseFind($data)
 
 function defaultRoutesFor(string $route, string $controller = null,$name = '')
 {
-    Route::get("/$route", [$controller, "index"])->name('user.getall');
+    Route::get("/$route/{idAbonnement}", [$controller, "index"])->where('idAbonnement', "[0-9a-z]+")->name('user.getall');
     Route::get("/$route/{id}", [$controller, "get"])->where('id', "[0-9a-z]+")->name('user.find');
     Route::post("/$route", [$controller, "create"])->name('user.create');
     Route::put("/$route/{id}", [$controller, "update"])->where('id', "[0-9a-z]+")->name('user.update');
