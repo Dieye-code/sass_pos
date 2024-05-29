@@ -1,16 +1,13 @@
 <?php
 
-use App\Http\Controllers\AgentController;
-use App\Http\Controllers\AnnonceController;
-use App\Http\Controllers\BienController;
+use App\Http\Controllers\AchatController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\FournisseurController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\PieceController;
+use App\Http\Controllers\PaiementAchatController;
+use App\Http\Controllers\PaiementVenteController;
+use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 defaultRoutesFor('users', UserController::class);
 defaultRoutesFor('fournisseurs', FournisseurController::class);
 defaultRoutesFor('clients', ClientController::class);
-defaultRoutesFor('fournisseurs', FournisseurController::class);
-defaultRoutesFor('fournisseurs', FournisseurController::class);
-defaultRoutesFor('fournisseurs', FournisseurController::class);
-defaultRoutesFor('fournisseurs', FournisseurController::class);
+defaultRoutesFor('produits', ProduitController::class);
+defaultRoutesFor('achats', AchatController::class);
+defaultRoutesFor('ventes', VenteController::class);
+defaultRoutesFor('paiement-achat', PaiementAchatController::class);
+defaultRoutesFor('paiement-vente', PaiementVenteController::class);
