@@ -2,26 +2,22 @@
 
 namespace App\Providers;
 
-use app\Interfaces\AgentInterface;
-use App\Interfaces\AnnonceInterface;
-use App\Interfaces\BienInterface;
-use App\Interfaces\CommentaireInterface;
-use App\Interfaces\LocationInterface;
-use App\Interfaces\MessageInterface;
-use App\Interfaces\PaiementInterface;
-use App\Interfaces\PieceInterface;
-use App\Interfaces\TransactionInterface;
+use App\Interfaces\AchatInterface;
+use App\Interfaces\ClientInterface;
+use App\Interfaces\FournisseurInterface;
+use App\Interfaces\PaiementAchatInterface;
+use App\Interfaces\PaiementVenteInterface;
+use App\Interfaces\ProduitInterface;
 use App\Interfaces\UserInterface;
-use App\Repositories\AgentRepository;
-use App\Repositories\AnnonceRepository;
-use App\Repositories\BienRepository;
-use App\Repositories\CommentaireRepository;
-use App\Repositories\LocationRepository;
-use App\Repositories\MessageRepository;
-use App\Repositories\PaiementRepository;
-use App\Repositories\PieceRepository;
-use App\Repositories\TransactionRepository;
+use App\Interfaces\VenteInterface;
+use App\Repositories\AchatRepository;
+use App\Repositories\ClientRepository;
+use App\Repositories\FournisseurRepository;
+use App\Repositories\PaiementAchatRepository;
+use App\Repositories\PaiementVenteRepository;
+use App\Repositories\ProduitRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\VenteRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider
@@ -31,15 +27,13 @@ class RepositoryProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(AgentInterface::class, AgentRepository::class);
-        $this->app->bind(AnnonceInterface::class, AnnonceRepository::class);
-        $this->app->bind(BienInterface::class, BienRepository::class);
-        $this->app->bind(CommentaireInterface::class, CommentaireRepository::class);
-        $this->app->bind(LocationInterface::class, LocationRepository::class);
-        $this->app->bind(MessageInterface::class, MessageRepository::class);
-        $this->app->bind(PaiementInterface::class, PaiementRepository::class);
-        $this->app->bind(PieceInterface::class, PieceRepository::class);
-        $this->app->bind(TransactionInterface::class, TransactionRepository::class);
+        $this->app->bind(ClientInterface::class, ClientRepository::class);
+        $this->app->bind(FournisseurInterface::class, FournisseurRepository::class);
+        $this->app->bind(ProduitInterface::class, ProduitRepository::class);
+        $this->app->bind(AchatInterface::class, AchatRepository::class);
+        $this->app->bind(VenteInterface::class, VenteRepository::class);
+        $this->app->bind(PaiementAchatInterface::class, PaiementAchatRepository::class);
+        $this->app->bind(PaiementVenteInterface::class, PaiementVenteRepository::class);
         $this->app->bind(UserInterface::class, UserRepository::class);
     }
 
