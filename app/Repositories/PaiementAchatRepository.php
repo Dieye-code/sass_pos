@@ -2,10 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\UserInterface;
-use App\Models\User;
+use App\Interfaces\PaiementAchatInterface;
 
-class UserRepository extends BaseRepository implements UserInterface
+class PaiementAchatRepository extends BaseRepository implements PaiementAchatInterface
 {
     /**
      * Create a new class instance.

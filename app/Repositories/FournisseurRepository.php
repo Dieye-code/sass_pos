@@ -2,10 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\UserInterface;
-use App\Models\User;
+use App\Interfaces\FournisseurInterface;
 
-class UserRepository extends BaseRepository implements UserInterface
+class FournisseurRepository extends BaseRepository implements FournisseurInterface
 {
     /**
      * Create a new class instance.

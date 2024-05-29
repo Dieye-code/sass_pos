@@ -23,20 +23,19 @@ class BaseRepository implements BaseInterface
         $this->with = $with;
     }
 
-    public function getAll()
+    public function getAll($idAbonnement)
     {
         if ($this->with != null) {
-            return $this->model::with($this->with)->get();
+            return $this->model::with($this->with)->where('abonnement_id', $idAbonnement)->get();
         }
         return $this->model::all();
     }
     public function find($id)
     {
-        
         if ($this->with != null) {
             return $this->model::with($this->with)->where('id', $id)->first();
         }
-        return $this->model::where('id', $id)->with('agent')->first();
+        return $this->model::where('id', $id)->first();
     }
     public function delete($id)
     {

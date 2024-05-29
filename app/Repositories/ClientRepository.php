@@ -2,16 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\UserInterface;
-use App\Models\User;
+use App\Interfaces\ClientInterface;
 
-class UserRepository extends BaseRepository implements UserInterface
+class ClientRepository extends BaseRepository implements ClientInterface
 {
     /**
      * Create a new class instance.
      */
     public function __construct()
     {
-        //
+        
     }
 }

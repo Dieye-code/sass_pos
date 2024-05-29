@@ -2,10 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\UserInterface;
-use App\Models\User;
+use App\Interfaces\VenteInterface;
 
-class UserRepository extends BaseRepository implements UserInterface
+class VenteRepository  extends BaseRepository implements VenteInterface
 {
     /**
      * Create a new class instance.
