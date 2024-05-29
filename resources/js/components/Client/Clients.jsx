@@ -44,7 +44,7 @@ function Clients() {
 	}, [show])
 
 	const initClient = () => {
-		setClient({nom: "", telephone: "", adresse: "" });
+		setClient({nom: "", telephone: ""});
 	}
 
 	const editClient = (a) => {
