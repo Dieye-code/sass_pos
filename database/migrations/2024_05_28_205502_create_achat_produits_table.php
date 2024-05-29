@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->unsignedInteger('montant_achat')->default(0);
             $table->unsignedInteger('quantite')->default(0);
-            $table->dateTime('date')->nullable();
             $table->foreignUuid('produit_id')->nullable()->constrained('produits');
             $table->foreignUuid('achat_id')->nullable()->constrained('achats');
             $table->foreignUuid('abonnement_id')->nullable()->constrained('abonnements');

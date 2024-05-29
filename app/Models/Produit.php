@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Produit extends BaseModel
 {
 
+    public function abonnement()
+    {
+        return $this->belongsTo(Abonnement::class);
+    }
+
 }

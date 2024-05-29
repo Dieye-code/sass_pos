@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Fournisseur extends BaseModel
 {
 
+    public function abonnement()
+    {
+        return $this->belongsTo(Abonnement::class);
+    }
+
 }
