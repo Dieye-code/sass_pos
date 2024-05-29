@@ -26,7 +26,7 @@ function Sidebar() {
                         <Link to="/fournisseurs"><i className="bi bi-people-fill" /> Fournisseurs</Link>
                     </li>
                     <li>
-                        <Link to="/client"><i className="bi bi-people-fill" /> Clients</Link>
+                        <Link to="/clients"><i className="bi bi-people-fill" /> Clients</Link>
                     </li>
                     <li>
                         <Link to="/produits"><i className="bi bi-diagram-3-fill" /> Produits</Link>

@@ -56,7 +56,7 @@ function Fournisseurs() {
 	}
 
 	const editFournisseur = (a) => {
-		setFournisseur({ id: a.id, nom: a.nom, telephone: a.telephone, adresse: a.adresse, agent_id: a.agent?.id })
+		setFournisseur({ id: a.id, nom: a.nom, telephone: a.telephone, adresse: a.adresse })
 		handleShow()
 	}
 

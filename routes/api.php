@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\BienController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\LocationController;
@@ -15,4 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 
 defaultRoutesFor('users', UserController::class);
+defaultRoutesFor('fournisseurs', FournisseurController::class);
+defaultRoutesFor('clients', ClientController::class);
+defaultRoutesFor('fournisseurs', FournisseurController::class);
+defaultRoutesFor('fournisseurs', FournisseurController::class);
+defaultRoutesFor('fournisseurs', FournisseurController::class);
 defaultRoutesFor('fournisseurs', FournisseurController::class);
