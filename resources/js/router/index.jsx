@@ -7,6 +7,7 @@ import Main from '../layouts/Main';
 import Agents from '../components/Agent/Agents';
 import Biens from '../components/Bien/Biens';
 import ViewBien from '../components/Bien/ViewBien';
+import Fournisseurs from '../components/Fournisseur/Fournisseurs';
 function Router(props) {
     return (
         <div>
@@ -15,6 +16,7 @@ function Router(props) {
                     <Routes>
                         <Route path='/' element={<Main />}>
                             <Route index element={<Home />}></Route>
+                            <Route path="fournisseurs" element={<Fournisseurs />}></Route>
                             <Route path="agents" element={<Agents />}></Route>
                             <Route path="biens" element={<Biens />}></Route>
                             <Route path='biens/:id' element={<ViewBien />} ></Route>

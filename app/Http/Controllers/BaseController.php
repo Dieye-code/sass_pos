@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\BaseInterface;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,7 +26,7 @@ class BaseController extends Controller
         $this->repository = $repository;
     }
 
-    public function index($idAbonnement)
+    public function index($idAbonnement = null)
     {
         return response()->json($this->repository->getAll($idAbonnement), 200);
     }
