@@ -10,25 +10,25 @@ function Produits() {
 	const columns = [
 		{
 			name: 'Libelle',
-      cell: row => {
-        if (row.photo != null)
-          return (<>
-            <Image src={Env.API_URL + "/storage/" + row.photo} width={30} height={30} roundedCircle />
-            {row.libelle}
-          </>)
-        else
-          return (row.libelle)
-      },
+			cell: row => {
+				if (row.photo != null)
+					return (<>
+						<Image src={Env.API_URL + "/storage/" + row.photo} width={30} height={30} roundedCircle className='mr-2' />
+						<span className='m-2'>{row.libelle}</span>
+					</>)
+				else
+					return (row.libelle)
+			},
 			sortable: true,
 		},
 		{
 			name: 'Prix',
-			selector: row => row.prix +" Francs CFA",
+			selector: row => row.prix + " Francs CFA",
 			sortable: true,
 		},
 		{
 			name: 'Quantite en Stock',
-			selector: row => row.quantite ,
+			selector: row => row.quantite,
 			sortable: true,
 		},
 		{
@@ -50,16 +50,16 @@ function Produits() {
 	};
 	const [show, setShow] = useState(false);
 	const [produits, setProduits] = useState([]);
-	const [produit, setProduit] = useState({ libelle: "", prix: 0, quantite: 0});
+	const [produit, setProduit] = useState({ libelle: "", prix: 0, quantite: 0 });
 	useEffect(() => {
 		baseApi.get("produits").then((response) => {
 			setProduits(response.data);
 		})
 	}, [show])
 	const initProduit = () => {
-		setProduit({ libelle: "", prix: 0, quantite: 0});
+		setProduit({ libelle: "", prix: 0, quantite: 0 });
 	}
-  
+
 
 	const editProduit = (a) => {
 		setProduit({ id: a.id, libelle: a.libelle, prix: a.prix, quantite: a.quantite })
@@ -110,7 +110,7 @@ function Produits() {
 
 
 
-  return (
+	return (
 		<>
 			<Button className='mb-3' variant="primary" onClick={handleShow}>Nouveau Produit</Button>
 			<Modal show={show} size='lg' centered
@@ -122,7 +122,7 @@ function Produits() {
 				</Modal.Header>
 				<Modal.Body>
 
-					<SaveProduit newProduity={produit} setShowModal={setShow} />
+					<SaveProduit newProduit={produit} setShowModal={setShow} />
 				</Modal.Body>
 			</Modal>
 			<DataTable
@@ -132,7 +132,7 @@ function Produits() {
 				paginationComponentOptions={paginationComponentOptions}
 			/>
 		</>
-  )
+	)
 }
 
 export default Produits
