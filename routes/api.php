@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AchatController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\PaiementAchatController;
 use App\Http\Controllers\PaiementVenteController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
 
 
+
+Route::get('/dashboard', [DashboardController::class, 'index']);
 
 defaultRoutesFor('users', UserController::class);
 defaultRoutesFor('fournisseurs', FournisseurController::class);
