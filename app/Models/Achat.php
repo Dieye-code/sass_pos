@@ -16,7 +16,11 @@ class Achat extends BaseModel
 
     public function produits()
     {
-        return $this->belongsToMany(Produit::class)->withPivot('montant_achat', 'quantite', 'date');
+        return $this->belongsToMany(Produit::class, 'achat_produits')->withPivot('montant_achat', 'quantite');
+    }
+
+    public function fournisseur() {
+        return $this->belongsTo(Fournisseur::class);
     }
 
 }

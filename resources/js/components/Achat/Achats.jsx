@@ -15,7 +15,7 @@ function Achats() {
     },
     {
       name: 'Montant Total',
-      selector: row => row.montant_achat + " Francs CFA",
+      selector: row => row.montant_total + " Francs CFA",
       sortable: true,
     },
     {
@@ -23,19 +23,19 @@ function Achats() {
       selector: row => row.fournisseur?.nom,
       sortable: true,
     },
-    {
-      name: 'Etat',
-      selector: row => row.etat,
-      sortable: true,
-    },
-    {
-      name: 'Edit',
-      cell: row => (<>
-        <span className='text-primary btn'><i className="bi bi-pencil m-r-5"></i></span>
-        <span className='text-danger btn'><i className="bi bi-trash m-r-5"></i></span>
-      </>
-      )
-    },
+    // {
+    //   name: 'Etat',
+    //   selector: row => row.etat,
+    //   sortable: true,
+    // },
+    // {
+    //   name: 'Edit',
+    //   cell: row => (<>
+    //     <span className='text-primary btn'><i className="bi bi-pencil m-r-5"></i></span>
+    //     <span className='text-danger btn'><i className="bi bi-trash m-r-5"></i></span>
+    //   </>
+    //   )
+    // },
   ];
 
   const paginationComponentOptions = {
@@ -45,6 +45,7 @@ function Achats() {
   const [achats, setAchats] = useState([]);
   useEffect(() => {
     baseApi.get("achats").then((response) => {
+      console.log(response.data);
       setAchats(response.data);
     })
   }, [])

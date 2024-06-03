@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 function SaveAchat() {
 
     // const id = useParams();
-    const [client, setClient] = useState();
+    const [achat, setAchat] = useState({ date: '', fournisseur_id: '' });
     const [fournisseurs, setFournisseurs] = useState([]);
     const [produits, setProduits] = useState([]);
     const [produitAchats, setProduitAchats] = useState([]);
@@ -25,7 +25,8 @@ function SaveAchat() {
     }, [])
 
     const onInputChange = (e) => {
-        setClient({ ...client, [e.target.name]: e.target.value })
+        console.log(e.value);
+        setAchat({ ...achat, [e.target.name]: e.target.value })
     }
 
     const changeProduitSelect = (e) => {
@@ -44,7 +45,7 @@ function SaveAchat() {
         p = newProducts.find(produit => produit.produit_id === currentProduit.produit_id);
 
         if (p === undefined) {
-            newProducts.push( {produit_id:  currentProduit.produit_id, libelle: currentProduit.libelle, montant_achat: currentProduit.montant_achat, quantite: parseInt(currentProduit.quantite) });
+            newProducts.push({ produit_id: currentProduit.produit_id, libelle: currentProduit.libelle, montant_achat: currentProduit.montant_achat, quantite: parseInt(currentProduit.quantite) });
             setProduitAchats(produitAchats);
         }
         else {
@@ -53,7 +54,7 @@ function SaveAchat() {
                     console.log(currentProduit);
                     console.log(newProducts[i]);
                     newProducts[i] = currentProduit;
-                    newProducts[i] = {produit_id:  currentProduit.produit_id, libelle: currentProduit.libelle, montant_achat: currentProduit.montant_achat, quantite: parseInt(currentProduit.quantite) + parseInt(newProducts[i].quantite)};
+                    newProducts[i] = { produit_id: currentProduit.produit_id, libelle: currentProduit.libelle, montant_achat: currentProduit.montant_achat, quantite: parseInt(currentProduit.quantite) + parseInt(newProducts[i].quantite) };
                 } else {
                     newProducts[i] = c;
                 }
@@ -71,12 +72,24 @@ function SaveAchat() {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            if (client.id === undefined) {
-                baseApi.post("clients", client).then(
+
+            let tab = {
+                date: achat.date,
+                fournisseur_id: achat.fournisseur_id,
+                produits: produitAchats
+            }
+            // var formData = new FormData();
+            // formData.append('date', achat.date);
+            // formData.append('fournisseur_id', achat.fournisseur_id);
+            // produitAchats.map(e => {
+            //     formData.append('produits[]', e);
+            // })
+            // formData.append('produits', produitAchats);
+
+            if (achat.id === undefined) {
+                baseApi.post("achats", tab).then(
                     (response) => {
                         console.log(response);
-                        setShowModal(false);
-                        initClient();
                     }
                 ).catch(
                     (error) => {
@@ -93,24 +106,24 @@ function SaveAchat() {
                 )
             } else {
 
-                baseApi.put("clients/" + client.id, client).then(
-                    (response) => {
-                        console.log(response);
-                        setShowModal(false);
-                        initClient();
-                    }
-                ).catch(
-                    (error) => {
-                        // for (const key in error.response.data.errors) {
-                        //   if (Object.hasOwnProperty.call(error.response.data.errors, key)) {
-                        //     const element = error.response.data.errors[key];
-                        //     console.log(element.toString());
-                        //   }
-                        // }
-                        // console.log(error.response.data.errors);
+                // baseApi.put("clients/" + client.id, client).then(
+                //     (response) => {
+                //         console.log(response);
+                //         setShowModal(false);
+                //         initClient();
+                //     }
+                // ).catch(
+                //     (error) => {
+                //         // for (const key in error.response.data.errors) {
+                //         //   if (Object.hasOwnProperty.call(error.response.data.errors, key)) {
+                //         //     const element = error.response.data.errors[key];
+                //         //     console.log(element.toString());
+                //         //   }
+                //         // }
+                //         // console.log(error.response.data.errors);
 
-                    }
-                )
+                //     }
+                // )
             }
         }
         setValidated(true);
@@ -118,6 +131,31 @@ function SaveAchat() {
     return (
         <>
 
+
+
+            <Row>
+                <FormGroup as={Col} sm="6">
+                    <Form.Label>Produit</Form.Label>
+                    <Form.Select onChange={changeProduitSelect} >
+                        {produits.map((element) => {
+                            return <option value={element.id}>{element.libelle}</option>
+                        })}
+                    </Form.Select>
+                </FormGroup>
+                <FormGroup as={Col} sm="2">
+                    <Form.Label>Prix d'achat</Form.Label>
+                    <Form.Control name='montant_achat' value={currentProduit.montant_achat} type='number' onChange={handleValChange} />
+                </FormGroup>
+                <FormGroup as={Col} sm="2">
+                    <Form.Label>Quantité</Form.Label>
+                    <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
+                </FormGroup>
+                <FormGroup as={Col} sm="2" className='d-flex justify-content-end flex-row text-center' >
+                    <div className='col-auto text-end mb-2'>
+                        <Button onClick={addProduit} >Ajouter</Button>
+                    </div>
+                </FormGroup>
+            </Row>
 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row>
@@ -128,35 +166,13 @@ function SaveAchat() {
                     </FormGroup>
                     <FormGroup as={Col}>
                         <Form.Label>Fournisseur</Form.Label>
-                        <Form.Select name='fournisseur_id' required>
+                        <Form.Select name='fournisseur_id' onChange={(e) => onInputChange(e)} value={achat.fournisseur_id} required>
+
+                            <option value="">...........</option>
                             {fournisseurs?.map(element => {
                                 return <option value={element?.id} >{element?.nom}</option>
                             })}
                         </Form.Select>
-                    </FormGroup>
-                </Row>
-
-                <Row>
-                    <FormGroup as={Col} sm="6">
-                        <Form.Label>Produit</Form.Label>
-                        <Form.Select onChange={changeProduitSelect} >
-                            {produits.map((element) => {
-                                return <option value={element.id}>{element.libelle}</option>
-                            })}
-                        </Form.Select>
-                    </FormGroup>
-                    <FormGroup as={Col} sm="2">
-                        <Form.Label>Prix d'achat</Form.Label>
-                        <Form.Control name='montant_achat' value={currentProduit.montant_achat} type='number' onChange={handleValChange} />
-                    </FormGroup>
-                    <FormGroup as={Col} sm="2">
-                        <Form.Label>Quantité</Form.Label>
-                        <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
-                    </FormGroup>
-                    <FormGroup as={Col} sm="2" className='d-flex justify-content-end flex-row text-center' >
-                        <div className='col-auto text-end mb-2'>
-                            <Button onClick={addProduit} >Ajouter</Button>
-                        </div>
                     </FormGroup>
                 </Row>
 

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\AchatInterface;
 use App\Models\Achat;
+use App\Models\AchatProduit;
 
 class AchatRepository extends BaseRepository implements AchatInterface
 {
@@ -17,7 +18,7 @@ class AchatRepository extends BaseRepository implements AchatInterface
     
     public function getAll($idAbonnement)
     {
-        return Achat::with('produits')->where('abonnement_id', $idAbonnement)->get();
+        return Achat::with('produits')->with('fournisseur')->where('abonnement_id', $idAbonnement)->get();
     }
     public function find($id)
     {
@@ -34,5 +35,8 @@ class AchatRepository extends BaseRepository implements AchatInterface
     public function update($id,$info)
     {
         return Achat::find($id)?->update($info);
+    }
+    public function saveAchatProduit($info){
+        return AchatProduit::create($info);
     }
 }
