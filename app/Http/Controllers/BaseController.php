@@ -42,13 +42,17 @@ class BaseController extends Controller
             $this->model = $this->repository->find($id);
             if ($this->model == null)
                 return responseFind($this->model);
-            DB::transaction(function () {
-                $this->repository->delete($this->model->id);
-                $this->afterDeleting();;
-            });
+
+            DB::beginTransaction();
+            // DB::transaction(function () {
+            $this->repository->delete($this->model->id);
+            $this->afterDeleting();;
+            // });
+            DB::commit();
             return response()->json($this->model);
             //return responseFind($this->repository->delete($id));
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json(["errors" => "Erreur lors de la suppression"], 400);
         }
     }
@@ -64,13 +68,16 @@ class BaseController extends Controller
         $this->validate = $validator->getData();
         $this->request = $request;
         try {
-            DB::transaction(function () use (&$validate) {
-                $this->beforeCreating();
-                $this->model = $this->repository->create($this->validate);
-                $this->afterCreating();
-            });
+            DB::beginTransaction();
+            // DB::transaction(function () use (&$validate) {
+            $this->beforeCreating();
+            $this->model = $this->repository->create($this->validate);
+            $this->afterCreating();
+            // });
+            DB::commit();
             return $this->repository->find($this->model->id);
         } catch (\Throwable $th) {
+            DB::rollBack();
             dd($th->getMessage());
         }
     }

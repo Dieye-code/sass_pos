@@ -6,6 +6,9 @@ import Main from '../layouts/Main';
 import Fournisseurs from '../components/Fournisseur/Fournisseurs';
 import Clients from '../components/Client/Clients';
 import Produits from '../components/Produit/Produits';
+import Achats from '../components/Achat/Achats';
+import Ventes from '../components/Vente/Ventes';
+import SaveAchat from '../components/Achat/SaveAchat';
 function Router(props) {
     return (
         <div>
@@ -17,8 +20,9 @@ function Router(props) {
                             <Route path="fournisseurs" element={<Fournisseurs />}></Route>
                             <Route path="clients" element={<Clients />}></Route>
                             <Route path="produits" element={<Produits />}></Route>
-                            <Route path="fournisseurs" element={<Fournisseurs />}></Route>
-                            <Route path="fournisseurs" element={<Fournisseurs />}></Route>
+                            <Route path="achats" element={<Achats />}></Route>
+                            <Route path="save-achat/:id?" element={<SaveAchat />}></Route>
+                            <Route path="ventes" element={<Ventes />}></Route>
                         </Route>
                         <Route path="*" element={<NotFound />}></Route>
                     </Routes>
