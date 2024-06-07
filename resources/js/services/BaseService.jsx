@@ -2,7 +2,8 @@ import axios from 'axios'
 import React, { Component } from 'react'
 import { Env } from '../config/Env';
 
-const api = Env.API_URL;
+const apiDev = Env.API_DEV_URL;
+const apiProd = Env.API_PROD_URL;
 
 export const BaseService = {
      getAll : () => {
@@ -12,5 +13,5 @@ export const BaseService = {
 
 
 export const baseApi = axios.create({
-    baseURL: `${api}/api`
+    baseURL: `${apiProd}api`
   });
