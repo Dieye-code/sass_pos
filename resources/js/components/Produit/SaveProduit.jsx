@@ -33,8 +33,7 @@ function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quanti
             formData.append('prix', produit.prix);
             formData.append('quantite', produit.quantite);
             formData.append('photo', image);
-            console.log(formData);
-            if (produit.id == undefined) {
+            if (produit.id === undefined) {
                 baseApi.post('produits', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'

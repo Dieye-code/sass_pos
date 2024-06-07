@@ -12,7 +12,7 @@ function Sidebar() {
                         <img src="/assets/images/logo-80x80.png" className="logo-icon" alt="logo icon" />
                     </div>
                     <div>
-                        <h4 className="logo-text">Skodash</h4>
+                        <h4 className="logo-text">Sama Caisse</h4>
                     </div>
                     <div className="toggle-icon ms-auto"><i className="bi bi-chevron-double-left"></i>
                     </div>

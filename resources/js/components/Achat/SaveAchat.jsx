@@ -25,7 +25,6 @@ function SaveAchat() {
     }, [])
 
     const onInputChange = (e) => {
-        console.log(e.value);
         setAchat({ ...achat, [e.target.name]: e.target.value })
     }
 
@@ -51,10 +50,8 @@ function SaveAchat() {
         else {
             produitAchats.map((c, i) => {
                 if (c.produit_id === currentProduit.produit_id) {
-                    console.log(currentProduit);
-                    console.log(newProducts[i]);
                     newProducts[i] = currentProduit;
-                    newProducts[i] = { produit_id: currentProduit.produit_id, libelle: currentProduit.libelle, montant_achat: currentProduit.montant_achat, quantite: parseInt(currentProduit.quantite) + parseInt(newProducts[i].quantite) };
+                    newProducts[i] = { produit_id: currentProduit.produit_id, libelle: currentProduit.libelle, montant_achat: currentProduit.montant_achat, quantite: parseInt(currentProduit.quantite) + parseInt(c.quantite) };
                 } else {
                     newProducts[i] = c;
                 }

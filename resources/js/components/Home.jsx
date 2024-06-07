@@ -76,8 +76,32 @@ function Home() {
       </div>
 
       <Row>
-        <Col md="6">
 
+        <Col md="6">
+          <span className="btn btn-primary text-white mb-3"><Link className='text-white' to={'/ventes'}>Ventes</Link> </span>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>date</th>
+                <th>Client</th>
+                <th>Montant</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {ventes.map(e => {
+                return (
+                  <tr>
+                    <td>{e.date}</td>
+                    <td>{e.client?.nom}</td>
+                    <td>{e.montant_total} Francs CFA</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </Table>
+        </Col>
+        <Col md="6">
           <span className="btn btn-primary text-white mb-3"><Link className='text-white' to={'/achats'}>Achats</Link> </span>
           <Table striped bordered hover>
             <thead>
@@ -93,30 +117,6 @@ function Home() {
                   <tr>
                     <td>{e.date}</td>
                     <td>{e.fournisseur?.nom}</td>
-                    <td>{e.montant_total} Francs CFA</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </Table>
-        </Col>
-        <Col md="6">
-          <span className="btn btn-primary text-white mb-3"><Link className='text-white' to={'/ventes'}>Ventes</Link> </span>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>date</th>
-                <th>Client</th>
-                <th>Montant</th>
-              </tr>
-            </thead>
-            <tbody>
-              
-            {ventes.map(e => {
-                return (
-                  <tr>
-                    <td>{e.date}</td>
-                    <td>{e.client?.nom}</td>
                     <td>{e.montant_total} Francs CFA</td>
                   </tr>
                 )
