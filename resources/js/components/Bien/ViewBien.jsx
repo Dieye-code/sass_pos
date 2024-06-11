@@ -24,7 +24,7 @@ function ViewBien() {
                     <Card >
                         <Card.Body>
                             <div className='d-flex justify-content-center mb-5'>
-                                <Image src={bien?.photo ? Env.API_URL + "/storage/" + bien?.photo : Env.API_URL + "/home.png"} width={200} rounded ></Image>
+                                <Image src={bien?.photo ? Env.API_URL + "storage/" + bien?.photo : Env.API_URL + "/home.png"} width={200} rounded ></Image>
                                 <div className="btn text-primary " style={{position: 'absolute', top: '150px', marginLeft: '175px'}} ><i className='bi bi-camera fs-5'></i></div>
                             </div>
                             <p>Propriétaire: <b>{bien?.agent?.user?.prenom} {bien?.agent?.user?.nom}</b></p>

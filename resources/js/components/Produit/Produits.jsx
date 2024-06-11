@@ -13,7 +13,7 @@ function Produits() {
 			cell: row => {
 				if (row.photo != null)
 					return (<>
-						<Image src={Env.API_URL + "/storage/" + row.photo} width={30} height={30} roundedCircle className='mr-2' />
+						<Image src={Env.API_URL + "storage/" + row.photo} width={30} height={30} roundedCircle className='mr-2' />
 						<span className='m-2'>{row.libelle}</span>
 					</>)
 				else

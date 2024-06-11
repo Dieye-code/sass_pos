@@ -5,8 +5,8 @@ import React, { Component } from 'react'
 // }
 
 
+export const URL = 'DEV'
+
 export const Env = {
-     API_URL : 'https://shop.samacaisse.cloud/',
-     API_PROD_URL : 'https://shop.samacaisse.cloud/',
-     API_DEV_URL : 'http://localhost:8000/'
+     API_URL : URL == 'DEV' ? 'http://localhost:8000/' : 'https://shop.samacaisse.cloud/',
 }

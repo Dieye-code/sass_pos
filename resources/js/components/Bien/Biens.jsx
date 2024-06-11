@@ -15,7 +15,7 @@ function Biens() {
       cell: row => {
         if (row.photo != null)
           return (<>
-            <Image src={Env.API_URL + "/storage/" + row.photo} width={30} height={30} roundedCircle />
+            <Image src={Env.API_URL + "storage/" + row.photo} width={30} height={30} roundedCircle />
             {row.categorie}
           </>)
         else
