@@ -17,8 +17,8 @@ class AchatRepository extends BaseRepository implements AchatInterface
     }
 
 
-    public function getLastAchat(){
-        return Achat::orderBy('created_at', 'desc')->limit(10)->get();
+    public function getLastAchat($idAbonnement = null){
+        return Achat::with('produits')->with('fournisseur')->where('abonnement_id', $idAbonnement)->orderBy('created_at', 'desc')->limit(10)->get();
     }
     
     public function getAll($idAbonnement)

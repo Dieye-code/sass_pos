@@ -16,8 +16,8 @@ class VenteRepository  extends BaseRepository implements VenteInterface
         //
     }
 
-    public function getLatestVente(){
-        return Vente::orderBy('created_at', 'desc')->limit(10)->get();
+    public function getLatestVente($idAbonnement = null){
+        return Vente::with('produits')->with('client')->where('abonnement_id', $idAbonnement)->orderBy('created_at', 'desc')->limit(10)->get();
     }
     
     public function getAll($idAbonnement)

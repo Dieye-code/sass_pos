@@ -23,7 +23,7 @@
       <link href="/assets/css/pace.min.css" rel="stylesheet" />
       <link href="/assets/css/semi-dark.css" rel="stylesheet" />
     
-    <title>Skodash - Bootstrap 5 Admin Template</title>
+    <title>Sama caisse</title>
 
     @viteReactRefresh
     @vite('resources/js/app.jsx')
