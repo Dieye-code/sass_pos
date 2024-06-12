@@ -17,8 +17,10 @@ class DashboardController
         $this->achatRepository = $achatRepository;
     }
     public function index(){
-        $ventes = $this->venteRepository->getAll(null);
-        $achats = $this->achatRepository->getAll(null);
-        return response()->json(['achats' => $achats, 'ventes' => $ventes]);
+        $ventes = $this->venteRepository->getLatestVente();
+        $achats = $this->achatRepository->getLastAchat(null);
+        $totalVente = $this->venteRepository->getAll(null)->sum('montant_total');
+        $totalAchat = $this->achatRepository->getAll(null)->sum('montant_total');
+        return response()->json(['achats' => $achats, 'ventes' => $ventes, 'achatTotal' => $totalAchat, 'venteTotal' => $totalVente]);
     }
 }

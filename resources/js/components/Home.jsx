@@ -15,14 +15,8 @@ function Home() {
     baseApi.get('dashboard').then((result) => {
       setVentes(result.data.ventes);
       setAchats(result.data.achats);
-      let ta = 0;
-      let tv = 0;
-      result.data.ventes.map(e => {
-        tv += e.montant_total;
-      })
-      result.data.achats.map(e => {
-        ta += e.montant_total;
-      })
+      let ta = result.data.achatTotal;
+      let tv = result.data.venteTotal;
       setTotalAchats(ta);
       setTotalVentes(tv);
     })
