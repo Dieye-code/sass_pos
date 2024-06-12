@@ -34,7 +34,6 @@ class AchatController extends BaseController
             $this->model->montant_total = $total;
              $this->repository->update($this->model->id, $this->model->toArray());
             
-            dd($this->model);
             DB::commit();
             return $this->repository->find($this->model->id);
         } catch (\Throwable $th) {

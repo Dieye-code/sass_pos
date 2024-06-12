@@ -20,7 +20,7 @@ function SaveAchat() {
         });
         baseApi.get('produits').then(response => {
             setProduits(response.data)
-            setCurrentProduit({ ...currentProduit, produit_id: response.data[0].id, libelle: response.data[0].libelle, montant_achat: response.data[0].prix, quantite: response.data[0].quantite })
+            setCurrentProduit({ ...currentProduit, produit_id: response.data[0].id, libelle: response.data[0].libelle, montant_achat: response.data[0].prix, quantite: 0 })
         })
     }, [])
 
@@ -28,9 +28,13 @@ function SaveAchat() {
         setAchat({ ...achat, [e.target.name]: e.target.value })
     }
 
+    const removeProduit = (element) => {
+        setProduitAchats(produitAchats.filter(item => item.produit_id != element.produit_id));
+    }
+
     const changeProduitSelect = (e) => {
         const produit = produits.find(p => p.id === e.target.value);
-        setCurrentProduit({ ...currentProduit, produit_id: produit.id, libelle: produit.libelle, montant_achat: produit.prix, quantite: produit.quantite })
+        setCurrentProduit({ ...currentProduit, produit_id: produit.id, libelle: produit.libelle, montant_achat: produit.prix, quantite: 0 })
     }
 
     const handleValChange = (e) => {
@@ -39,6 +43,15 @@ function SaveAchat() {
     const addProduit = (e) => {
         e.preventDefault();
         e.stopPropagation();
+        if (currentProduit.quantite <= 0) {
+            swal({
+                text: "Vous devez saisir la quantité à acheter!",
+                icon: "info",
+                buttons: true,
+                showCancelButton: false,
+            });
+            return;
+        }
         let p = undefined;
         const newProducts = [...produitAchats];
         p = newProducts.find(produit => produit.produit_id === currentProduit.produit_id);
@@ -58,9 +71,6 @@ function SaveAchat() {
             })
         }
         setProduitAchats(newProducts);
-    }
-    const initClient = () => {
-        setClient({ nom: "", telephone: "", });
     }
 
     const handleSubmit = (event) => {
@@ -127,9 +137,6 @@ function SaveAchat() {
     };
     return (
         <>
-
-
-
             <Row>
                 <FormGroup as={Col} sm="6">
                     <Form.Label>Produit</Form.Label>
@@ -182,6 +189,11 @@ function SaveAchat() {
                                     <td>{element.libelle}</td>
                                     <td>{element.montant_achat}</td>
                                     <td>{element.quantite}</td>
+                                    <td>
+                                        <span className='text-danger btn' onClick={() => {
+                                            removeProduit(element)
+                                        }}><i className="fs-3 bi bi-trash m-r-5"></i></span>
+                                    </td>
                                 </tr>
                             )
                         })}
