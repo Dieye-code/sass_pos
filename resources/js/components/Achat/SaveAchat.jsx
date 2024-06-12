@@ -3,6 +3,7 @@ import { Button, Col, Container, Form, FormGroup, Row, Table } from 'react-boots
 import { baseApi } from '../../services/BaseService';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import Select from 'react-select';
 
 function SaveAchat() {
 
@@ -14,14 +15,21 @@ function SaveAchat() {
     const [validated, setValidated] = useState(false);
     const [currentProduit, setCurrentProduit] = useState({ produit_id: '', libelle: '', montant_achat: 0, quantite: 0 })
 
+    const [items, setItems] = useState([]);
+
     useEffect(() => {
         baseApi.get('fournisseurs').then(response => {
             setFournisseurs(response.data);
+
         });
         baseApi.get('produits').then(response => {
             setProduits(response.data)
             setCurrentProduit({ ...currentProduit, produit_id: response.data[0].id, libelle: response.data[0].libelle, montant_achat: response.data[0].prix, quantite: 0 })
+            
+            setItems(response.data.map(e => { return { value: e.id, label: e.libelle } }))
         })
+
+
     }, [])
 
     const onInputChange = (e) => {
@@ -33,8 +41,8 @@ function SaveAchat() {
     }
 
     const changeProduitSelect = (e) => {
-        const produit = produits.find(p => p.id === e.target.value);
-        setCurrentProduit({ ...currentProduit, produit_id: produit.id, libelle: produit.libelle, montant_achat: produit.prix, quantite: 0 })
+        const produit = produits.find(p => p.id === e.value);
+        setCurrentProduit({ ...currentProduit, produit_id: produit?.id, libelle: produit?.libelle, montant_achat: produit?.prix, quantite: 0 })
     }
 
     const handleValChange = (e) => {
@@ -140,11 +148,14 @@ function SaveAchat() {
             <Row>
                 <FormGroup as={Col} sm="6">
                     <Form.Label>Produit</Form.Label>
-                    <Form.Select onChange={changeProduitSelect} >
+
+                    <Select options={items} onChange={changeProduitSelect} name='produit_id'/>
+
+                    {/* <Form.Select onChange={changeProduitSelect} >
                         {produits.map((element) => {
                             return <option value={element.id}>{element.libelle}</option>
                         })}
-                    </Form.Select>
+                    </Form.Select> */}
                 </FormGroup>
                 <FormGroup as={Col} sm="2">
                     <Form.Label>Prix d'achat</Form.Label>
