@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\AchatInterface;
 use App\Models\Achat;
 use App\Models\AchatProduit;
+use App\Models\Produit;
 
 class AchatRepository extends BaseRepository implements AchatInterface
 {
@@ -15,6 +16,10 @@ class AchatRepository extends BaseRepository implements AchatInterface
     {
     }
 
+
+    public function getLastAchat(){
+        return Achat::orderBy('created_at', 'desc')->limit(10)->get();
+    }
     
     public function getAll($idAbonnement)
     {

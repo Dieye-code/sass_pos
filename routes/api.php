@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 
 
+Route::get('/achats/last', [AchatController::class, 'last']);
+Route::get('/ventes/last', [VenteController::class, 'last']);
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
 defaultRoutesFor('users', UserController::class);
