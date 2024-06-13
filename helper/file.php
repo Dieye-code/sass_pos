@@ -15,6 +15,27 @@ function responseFind($data)
     return response()->json($data);
 }
 
+function paiemen($type)
+{
+    switch ($type) {
+        case 2:
+            return 'crédit';
+            break;
+        case 3:
+            return 'cash';
+            break;
+        case 4:
+            return 'orange money';
+            break;
+        case 5:
+            return 'wave';
+            break;
+        case 6:
+            return 'free money';
+            break;
+    }
+}
+
 function defaultRoutesFor(string $route, string $controller = null,$name = '')
 {
     Route::get("/$route/{idAbonnement?}", [$controller, "index"])->where('idAbonnement', "[0-9a-z]+")->name('user.getall');

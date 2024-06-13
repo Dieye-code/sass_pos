@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\AchatInterface;
+use App\Interfaces\PaiementAchatInterface;
 use App\Repositories\AchatRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,10 +13,12 @@ class AchatController extends BaseController
 {
 
     private AchatRepository $achatRepository;
-    public function __construct(AchatInterface $repository)
+    private PaiementAchatInterface $paiementRepository;
+    public function __construct(AchatInterface $repository, PaiementAchatInterface $paiement)
     {
         $this->repository = $repository;
         $this->achatRepository = $repository;
+        $this->paiementRepository = $paiement;
     }
 
     public function last($idAbonnement = null){
@@ -27,7 +31,8 @@ class AchatController extends BaseController
 
             
             DB::beginTransaction();
-            $data = $request->only(['fournisseur_id','date','en attente']);
+            $data = $request->only(['fournisseur_id','date']);
+            $data['etat'] = $request->paiement == 1 ?  'en attente' : 'payé' ;
             $this->model = $this->repository->create($data);
             $total = 0;
 
@@ -37,7 +42,10 @@ class AchatController extends BaseController
             }
             $this->model->montant_total = $total;
              $this->repository->update($this->model->id, $this->model->toArray());
-            
+             if($request->paiement != 1){
+                $p = $this->paiementRepository->create(['montant' => $total, 'date' => Carbon::now(), 'mode_paiement' => paiemen($request->paiement), 'achat_id' => $this->model->id]);
+             }
+            //  paiemen
             DB::commit();
             return $this->repository->find($this->model->id);
         } catch (\Throwable $th) {

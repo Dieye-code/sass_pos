@@ -116,14 +116,6 @@ function Fournisseurs() {
 
 					<Savefournisseur newFournisseur={fournisseur} setShowModal={setShow} />
 				</Modal.Body>
-				{/* <Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
-						Annuler
-					</Button>
-					<Button variant="primary" onClick={handleClose}>
-						Enregistrer
-					</Button>
-				</Modal.Footer> */}
 			</Modal>
 			<DataTable
 				columns={columns}
