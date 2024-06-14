@@ -37,9 +37,7 @@ function SaveAchat() {
     }, [show])
 
     const onInputChange = (e) => {
-        console.log(e);
         setAchat({ ...achat, [e.target.name]: e.target.value })
-        console.log(achat);
     }
 
     const removeProduit = (element) => {
@@ -219,18 +217,16 @@ function SaveAchat() {
                     </tbody>
                 </Table>
                 <div>
-                    <Form.Check inline name="paiement" checked value="1" type='radio' id='attente' onChange={(e) => onInputChange(e)}
-                        label={(<> En Attente </>)} />
-                    <Form.Check className='text-center' inline name="paiement" value="2" type='radio' id='credit' onChange={(e) => onInputChange(e)}
+                    <Form.Check className='text-center' inline name="paiement" value="1" type='radio' id='credit' onChange={(e) => onInputChange(e)}
                         label={(<> Crédit </>)} />
-                    <Form.Check inline name="paiement" value="3" type='radio' id='cash' onChange={(e) => onInputChange(e)}
-                        label={(<Image src={Env.API_URL + "images/cash.jpg"} width={20} height={20} roundedCircle className='mr-2' />)} />
-                    <Form.Check inline name="paiement" value="4" type='radio' id='om' onChange={(e) => onInputChange(e)}
-                        label={(<Image src={Env.API_URL + "images/om.png"} width={20} height={20} roundedCircle className='mr-2' />)} />
-                    <Form.Check inline name="paiement" value="5" type='radio' id='wave' onChange={(e) => onInputChange(e)}
-                        label={(<Image src={Env.API_URL + "images/wave.jpg"} width={20} height={20} roundedCircle className='mr-2' />)} />
-                    <Form.Check inline name="paiement" value="6" type='radio' id='free' onChange={(e) => onInputChange(e)}
-                        label={(<Image src={Env.API_URL + "images/free-money.png"} width={20} height={20} roundedCircle className='mr-2' />)} />
+                    <Form.Check inline name="paiement" value="2" type='radio' id='cash' onChange={(e) => onInputChange(e)}
+                        label={(<Image src={Env.API_URL + "images/cash.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                    <Form.Check inline name="paiement" value="3" type='radio' id='om' onChange={(e) => onInputChange(e)}
+                        label={(<Image src={Env.API_URL + "images/om.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                    <Form.Check inline name="paiement" value="4" type='radio' id='wave' onChange={(e) => onInputChange(e)}
+                        label={(<Image src={Env.API_URL + "images/wave.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                    <Form.Check inline name="paiement" value="5" type='radio' id='free' onChange={(e) => onInputChange(e)}
+                        label={(<Image src={Env.API_URL + "images/free-money.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
                 </div>
 
                 <div><Button className='mt-3' type="submit">Enregistrer</Button></div>

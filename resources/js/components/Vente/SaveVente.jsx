@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { baseApi } from '../../services/BaseService';
-import { Button, Col, Form, FormGroup, Row, Table } from 'react-bootstrap';
+import { Button, Col, Form, FormGroup, Image, Modal, Row, Table } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import SaveClient from '../Client/SaveClient'
+import Select from 'react-select';
+import { Env } from '../../config/Env';
 
 function SaveVente() {
 
 
-    const [vente, setvente] = useState({ date: '', client_id: '' });
+    const navigate = useNavigate();
+    const [vente, setvente] = useState({ date: '', client_id: '', paiement: 1 });
     const [produits, setProduits] = useState([]);
     const [produitVentes, setProduitVentes] = useState([]);
     const [clients, setClients] = useState([]);
     const [validated, setValidated] = useState(false);
     const [currentProduit, setCurrentProduit] = useState({ produit_id: '', libelle: '', montant_vente: 0, quantite: 0 })
+    const [show, setShow] = useState(false);
+    const [items, setItems] = useState([]);
 
 
     useEffect(() => {
@@ -19,12 +26,16 @@ function SaveVente() {
         });
         baseApi.get('produits').then(response => {
             setProduits(response.data)
-            setCurrentProduit({ ...currentProduit, produit_id: response.data[0].id, libelle: response.data[0].libelle, montant_vente: response.data[0].prix, quantite: response.data[0].quantite })
+            setCurrentProduit({ ...currentProduit, produit_id: response.data[0].id, libelle: response.data[0].libelle, montant_vente: response.data[0].prix, quantite: 0 })
+            setItems(response.data.map(e => { return { value: e.id, label: e.libelle } }))
         })
-    }, [])
+    }, [show])
 
     const onInputChange = (e) => {
         setvente({ ...vente, [e.target.name]: e.target.value })
+    }
+    const removeProduit = (element) => {
+        setProduitVentes(produitVentes.filter(item => item.produit_id != element.produit_id));
     }
 
     const changeProduitSelect = (e) => {
@@ -38,6 +49,16 @@ function SaveVente() {
     const addProduit = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
+        if (currentProduit.quantite <= 0) {
+            swal({
+                text: "Vous devez saisir la quantité à vendre!",
+                icon: "info",
+                buttons: true,
+                showCancelButton: false,
+            });
+            return;
+        }
         let p = undefined;
         const newProducts = [...produitVentes];
         p = newProducts.find(produit => produit.produit_id === currentProduit.produit_id);
@@ -61,6 +82,17 @@ function SaveVente() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const form = event.currentTarget;
+
+        if (produitVentes.length == 0) {
+
+            swal({
+                text: "Vous devez selectionner les produits à vendre!",
+                icon: "info",
+                buttons: true,
+                showCancelButton: false,
+            });
+            return;
+        }
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
@@ -68,71 +100,58 @@ function SaveVente() {
             let tab = {
                 date: vente.date,
                 client_id: vente.client_id,
-                produits: produitVentes
+                produits: produitVentes,
+                paiement: vente.paiement
             }
-            // var formData = new FormData();
-            // formData.append('date', vente.date);
-            // formData.append('client_id', vente.client_id);
-            // produitVentes.map(e => {
-            //     formData.append('produits[]', e);
-            // })
-            // formData.append('produits', produitVentes);
 
             if (vente.id === undefined) {
                 baseApi.post("ventes", tab).then(
                     (response) => {
-                        console.log(response);
+                        return navigate("/ventes");
                     }
                 ).catch(
                     (error) => {
                         console.log(error);
-                        // for (const key in error.response.data.errors) {
-                        //   if (Object.hasOwnProperty.call(error.response.data.errors, key)) {
-                        //     const element = error.response.data.errors[key];
-                        //     console.log(element.toString());
-                        //   }
-                        // }
-                        // console.log(error.response.data.errors);
 
                     }
                 )
             } else {
-
-                // baseApi.put("clients/" + client.id, client).then(
-                //     (response) => {
-                //         console.log(response);
-                //         setShowModal(false);
-                //         initClient();
-                //     }
-                // ).catch(
-                //     (error) => {
-                //         // for (const key in error.response.data.errors) {
-                //         //   if (Object.hasOwnProperty.call(error.response.data.errors, key)) {
-                //         //     const element = error.response.data.errors[key];
-                //         //     console.log(element.toString());
-                //         //   }
-                //         // }
-                //         // console.log(error.response.data.errors);
-
-                //     }
-                // )
             }
         }
         setValidated(true);
     };
+    const handleClose = () => {
+        setShow(false)
+    };
+    const handleShow = () => setShow(true);
 
 
     return (
         <>
 
+            <Modal show={show} size='lg' centered
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Client</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                    <SaveClient setShowModal={setShow} />
+                </Modal.Body>
+            </Modal>
+
             <Row>
                 <FormGroup as={Col} sm="6">
                     <Form.Label>Produit</Form.Label>
-                    <Form.Select onChange={changeProduitSelect} >
+                    
+                    <Select options={items} onChange={changeProduitSelect} name='produit_id' />
+                    {/* <Form.Select onChange={changeProduitSelect} >
                         {produits.map((element) => {
                             return <option value={element.id}>{element.libelle}</option>
                         })}
-                    </Form.Select>
+                    </Form.Select> */}
                 </FormGroup>
                 <FormGroup as={Col} sm="2">
                     <Form.Label>Prix d'vente</Form.Label>
@@ -151,7 +170,6 @@ function SaveVente() {
 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row>
-
                     <FormGroup as={Col} >
                         <Form.Label>Date</Form.Label>
                         <Form.Control required name='date' onChange={(e) => onInputChange(e)} type='date' ></Form.Control>
@@ -166,6 +184,7 @@ function SaveVente() {
                             })}
                         </Form.Select>
                     </FormGroup>
+                    <FormGroup as={Col} sm="1" className='pb-0'><span className="btn btn-primary fs-6" onClick={handleShow}>Nouveau</span></FormGroup>
                 </Row>
 
 
@@ -182,8 +201,20 @@ function SaveVente() {
                         })}
                     </tbody>
                 </Table>
+                <div>
+                    <Form.Check className='text-center' inline name="paiement" value="1" type='radio' id='credit' onChange={(e) => onInputChange(e)}
+                        label={(<> Crédit </>)} />
+                    <Form.Check inline name="paiement" value="2" type='radio' id='cash' onChange={(e) => onInputChange(e)}
+                        label={(<Image src={Env.API_URL + "images/cash.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                    <Form.Check inline name="paiement" value="3" type='radio' id='om' onChange={(e) => onInputChange(e)}
+                        label={(<Image src={Env.API_URL + "images/om.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                    <Form.Check inline name="paiement" value="54" type='radio' id='wave' onChange={(e) => onInputChange(e)}
+                        label={(<Image src={Env.API_URL + "images/wave.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                    <Form.Check inline name="paiement" value="5" type='radio' id='free' onChange={(e) => onInputChange(e)}
+                        label={(<Image src={Env.API_URL + "images/free-money.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                </div>
 
-                <Button className='mt-3' type="submit">Enregistrer</Button>
+                <div><Button className='mt-3' type="submit">Enregistrer</Button></div>
 
             </Form>
         </>

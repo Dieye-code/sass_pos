@@ -18,19 +18,19 @@ function responseFind($data)
 function paiemen($type)
 {
     switch ($type) {
-        case 2:
+        case 1:
             return 'crédit';
             break;
-        case 3:
+        case 2:
             return 'cash';
             break;
-        case 4:
+        case 3:
             return 'orange money';
             break;
-        case 5:
+        case 4:
             return 'wave';
             break;
-        case 6:
+        case 5:
             return 'free money';
             break;
     }
