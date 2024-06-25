@@ -169,7 +169,7 @@ function SaveAchat() {
                     <Form.Label>Quantité</Form.Label>
                     <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
                 </FormGroup>
-                <FormGroup as={Col} sm="2" className='d-flex justify-content-end flex-row text-center' >
+                <FormGroup as={Col}>
                     <div className='col-auto text-end mb-2'>
                         <Button onClick={addProduit} >Ajouter</Button>
                     </div>
@@ -192,24 +192,31 @@ function SaveAchat() {
                                 return <option value={element?.id} >{element?.nom}</option>
                             })}
                         </Form.Select>
+                        <span className="btn btn-primary fs-6 mt-3" onClick={handleShow}>Nouveau Fournisseur</span>
                     </FormGroup>
 
-                    <FormGroup as={Col} sm="1" className='pb-0'><span className="btn btn-primary fs-6" onClick={handleShow}>Nouveau</span></FormGroup>
+                    <FormGroup as={Col} sm="1" className='pb-0'></FormGroup>
                 </Row>
 
 
                 <Table className='m-5'>
+                        <thead>
+                            <th>Libelle</th>
+                            <th>Prix d'achat</th>
+                            <th>Quantité</th>
+                            <th>Action</th>
+                        </thead>
                     <tbody>
                         {produitAchats.map(element => {
                             return (
                                 <tr>
                                     <td>{element.libelle}</td>
-                                    <td>{element.montant_achat}</td>
+                                    <td>{element.montant_achat} Francs CFA</td>
                                     <td>{element.quantite}</td>
                                     <td>
                                         <span className='text-danger btn' onClick={() => {
                                             removeProduit(element)
-                                        }}><i className="fs-3 bi bi-trash m-r-5"></i></span>
+                                        }}><i className="fs-5 bi bi-trash m-r-5"></i></span>
                                     </td>
                                 </tr>
                             )
@@ -217,9 +224,9 @@ function SaveAchat() {
                     </tbody>
                 </Table>
                 <div>
-                    <Form.Check className='text-center' inline name="paiement" value="1" type='radio' id='credit' onChange={(e) => onInputChange(e)}
+                    <Form.Check className='text-center' inline name="paiement"  value="1" type='radio' id='credit' onChange={(e) => onInputChange(e)}
                         label={(<> Crédit </>)} />
-                    <Form.Check inline name="paiement" value="2" type='radio' id='cash' onChange={(e) => onInputChange(e)}
+                    <Form.Check inline name="paiement" value="2" checked type='radio' id='cash' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/cash.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
                     <Form.Check inline name="paiement" value="3" type='radio' id='om' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/om.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
