@@ -11,6 +11,7 @@ import Ventes from '../components/Vente/Ventes';
 import SaveAchat from '../components/Achat/SaveAchat';
 import SaveVente from '../components/Vente/SaveVente';
 import Payer from '../components/Achat/Payer';
+import PaiementVente from '../components/Vente/PaiementVente';
 function Router(props) {
     return (
         <div>
@@ -27,6 +28,7 @@ function Router(props) {
                             <Route path="achats/paiement/:id" element={<Payer />}></Route>
                             <Route path="ventes" element={<Ventes />}></Route>
                             <Route path="save-vente/:id?" element={<SaveVente />}></Route>
+                            <Route path="ventes/paiement/:id" element={<PaiementVente />}></Route>
                         </Route>
                         <Route path="*" element={<NotFound />}></Route>
                     </Routes>

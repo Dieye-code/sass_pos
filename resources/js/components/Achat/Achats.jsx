@@ -53,14 +53,6 @@ function Achats() {
 
           }
         }
-
-        if (row.etat != null)
-          return (<>
-            <Image src={Env.API_URL + "storage/" + row.photo} width={30} height={30} roundedCircle className='mr-2' />
-            <span className='m-2'>{row.libelle}</span>
-          </>)
-        else
-          return (row.libelle)
       },
       sortable: true,
     },

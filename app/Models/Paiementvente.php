@@ -9,6 +9,8 @@ class Paiementvente extends BaseModel
 {
     
 
+    protected $table = 'paiement_ventes';
+
     public function vente()
     {
         return $this->belongsTo(Vente::class);

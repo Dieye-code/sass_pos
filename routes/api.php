@@ -19,6 +19,8 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::get('/achats/paiements/{idAchat}',[PaiementAchatController::class, 'getPaiementByAchat']);
 Route::post('/achats/paiement', [PaiementAchatController::class, 'save']);
+Route::get('/ventes/paiements/{idVente}',[PaiementVenteController::class, 'getPaiementByVente']);
+Route::post('/ventes/paiement', [PaiementVenteController::class, 'save']);
 
 defaultRoutesFor('users', UserController::class);
 defaultRoutesFor('fournisseurs', FournisseurController::class);

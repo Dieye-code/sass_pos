@@ -18,6 +18,11 @@ class PaiementVenteRepository extends BaseRepository implements PaiementVenteInt
     {
         return Paiementvente::with('abonnement')->where('abonnement_id', $idAbonnement)->get();
     }
+    
+    public function getByVente($idVente)
+    {
+        return Paiementvente::where('vente_id', $idVente)->get();
+    }
     public function find($id)
     {
         return Paiementvente::where('id', $id)->with('abonnement')->first();

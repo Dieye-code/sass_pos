@@ -6,30 +6,6 @@ import { Env } from '../../config/Env';
 
 function Payer() {
 
-
-  const columns = [
-    {
-      name: 'Montant',
-      selector: row => row.montant + "Francs CFA",
-      sortable: true,
-    },
-    {
-      name: 'Mode de paiement',
-      selector: row => row.mode_paiement,
-      sortable: true,
-    },
-    {
-      name: 'Date',
-      selector: row => row.date,
-      sortable: true,
-    },
-  ];
-
-  const paginationComponentOptions = {
-    rowsPerPageText: 'lignes par page',
-    rangeSeparatorText: 'sur',
-  };
-
   const [paiement, setPaiement] = useState({ montant: 0, mode_paiement: '2' })
   const [paiements, setPaiements] = useState([]);
   const [total, setTotal] = useState(0);

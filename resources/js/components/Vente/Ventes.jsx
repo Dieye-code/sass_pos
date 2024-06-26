@@ -22,19 +22,37 @@ function Ventes() {
       selector: row => row.client?.nom,
       sortable: true,
     },
-    // {
-    //   name: 'Etat',
-    //   selector: row => row.etat,
-    //   sortable: true,
-    // },
-    // {
-    //   name: 'Edit',
-    //   cell: row => (<>
-    //     <span className='text-primary btn'><i className="bi bi-pencil m-r-5"></i></span>
-    //     <span className='text-danger btn'><i className="bi bi-trash m-r-5"></i></span>
-    //   </>
-    //   )
-    // },
+    {
+      name: 'Etat',
+      selector: row => {
+
+        if (row.etat === "en attente") {
+          return <>
+            <span className='text-danger'>{row.etat}</span>
+            <Link to={`/ventes/paiement/${row.id}`} >
+              <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
+            </Link>
+          </>
+        } else {
+          if (row.etat == "en cours") {
+            return <>
+              <span className='text-primary'>{row.etat}</span>
+              <Link to={`/ventes/paiement/${row.id}`} >
+                <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
+              </Link>
+            </>
+          } else {
+            return <>
+              <span className='text-success'>{row.etat}</span>
+              <Link to={`/ventes/paiement/${row.id}`} >
+                <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
+              </Link>
+            </>
+          }
+        }
+      },
+      sortable: true,
+    }
   ];
 
   const paginationComponentOptions = {
@@ -44,7 +62,7 @@ function Ventes() {
   const [ventes, setVentes] = useState([]);
   useEffect(() => {
     baseApi.get("ventes").then((response) => {
-      
+
       setVentes(response.data);
     })
   }, [])
@@ -92,18 +110,6 @@ function Ventes() {
       <span className="btn btn-primary text-white">
         <Link className='text-white' to={'/save-vente'}>Nouveau Vente</Link>
       </span>
-      {/* <Modal show={show} size='lg' centered
-				onHide={handleClose}
-				backdrop="static"
-				keyboard={false}>
-				<Modal.Header closeButton>
-					<Modal.Title>Produit</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-
-					<SaveProduit newProduit={produit} setShowModal={setShow} />
-				</Modal.Body>
-			</Modal> */}
       <DataTable
         columns={columns}
         data={ventes}

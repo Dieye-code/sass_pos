@@ -38,14 +38,11 @@ class PaiementAchatController extends BaseController
         if ($total + $request->montant > $achat->montant_total)
             return response()->json(['Le montant que vous voulez payer dépasse le montant total'], 400);
         $paiement = $this->paiementRepository->create(['montant' => $request->montant, 'achat_id' => $achat->id, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->mode_paiement)]);
-        if($total + $paiement->montant){
+        if ($total + $paiement->montant == $achat->montant_total)
             $achat->etat = 'payé';
-            $achat->save();
-        }
-
-
+        else
+            $achat->etat = 'en';
+        $achat->save();
         return response()->json($paiement);
-        dd($total);
-        dd($request->all());
     }
 }
