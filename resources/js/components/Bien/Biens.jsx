@@ -84,7 +84,7 @@ function Biens() {
   useEffect(() => {
     baseApi.get('/biens').then(
       (response) => {
-        console.log(response.data);
+        
         setBiens(response.data);
       }
     );

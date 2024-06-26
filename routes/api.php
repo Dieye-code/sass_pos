@@ -17,11 +17,14 @@ Route::get('/achats/last', [AchatController::class, 'last']);
 Route::get('/ventes/last', [VenteController::class, 'last']);
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
+Route::get('/achats/paiements/{idAchat}',[PaiementAchatController::class, 'getPaiementByAchat']);
+Route::post('/achats/paiement', [PaiementAchatController::class, 'save']);
+
 defaultRoutesFor('users', UserController::class);
 defaultRoutesFor('fournisseurs', FournisseurController::class);
 defaultRoutesFor('clients', ClientController::class);
 defaultRoutesFor('produits', ProduitController::class);
 defaultRoutesFor('achats', AchatController::class);
 defaultRoutesFor('ventes', VenteController::class);
-defaultRoutesFor('paiement-achat', PaiementAchatController::class);
-defaultRoutesFor('paiement-vente', PaiementVenteController::class);
+// defaultRoutesFor('paiement-achat', PaiementAchatController::class);
+// defaultRoutesFor('paiement-vente', PaiementVenteController::class);

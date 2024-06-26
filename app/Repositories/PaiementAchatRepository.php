@@ -18,6 +18,10 @@ class PaiementAchatRepository extends BaseRepository implements PaiementAchatInt
     {
         return PaiementAchat::with('abonnement')->where('abonnement_id', $idAbonnement)->get();
     }
+    public function getByAchat($idAchat)
+    {
+        return PaiementAchat::where('achat_id', $idAchat)->get();
+    }
     public function find($id)
     {
         return PaiementAchat::where('id', $id)->with('abonnement')->first();

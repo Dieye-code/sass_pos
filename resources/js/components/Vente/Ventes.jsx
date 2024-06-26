@@ -44,7 +44,7 @@ function Ventes() {
   const [ventes, setVentes] = useState([]);
   useEffect(() => {
     baseApi.get("ventes").then((response) => {
-      console.log(response.data);
+      
       setVentes(response.data);
     })
   }, [])

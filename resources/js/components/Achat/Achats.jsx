@@ -23,11 +23,47 @@ function Achats() {
       selector: row => row.fournisseur?.nom,
       sortable: true,
     },
-    // {
-    //   name: 'Etat',
-    //   selector: row => row.etat,
-    //   sortable: true,
-    // },
+    {
+      name: 'Etat',
+      selector: row => {
+
+        if (row.etat === "en attente") {
+          return <>
+            <span className='text-danger'>{row.etat}</span>
+            <Link to={`/achats/paiement/${row.id}`} >
+              <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
+            </Link>
+          </>
+        } else {
+          if (row.etat == "en cours") {
+            return <>
+              <span className='text-primary'>{row.etat}</span>
+              <Link to={`/achats/paiement/${row.id}`} >
+                <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
+              </Link>
+            </>
+          } else {
+            return <>
+              <span className='text-success'>{row.etat}</span>
+              <Link to={`/achats/paiement/${row.id}`} >
+                <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
+              </Link>
+
+            </>
+
+          }
+        }
+
+        if (row.etat != null)
+          return (<>
+            <Image src={Env.API_URL + "storage/" + row.photo} width={30} height={30} roundedCircle className='mr-2' />
+            <span className='m-2'>{row.libelle}</span>
+          </>)
+        else
+          return (row.libelle)
+      },
+      sortable: true,
+    },
     // {
     //   name: 'Edit',
     //   cell: row => (<>
@@ -44,8 +80,9 @@ function Achats() {
   };
   const [achats, setAchats] = useState([]);
   useEffect(() => {
+
+    document.title = "Achat produit"
     baseApi.get("achats").then((response) => {
-      console.log(response.data);
       setAchats(response.data);
     })
   }, [])
@@ -62,7 +99,6 @@ function Achats() {
       .then((willDelete) => {
         if (willDelete) {
           baseApi.delete('/achats/' + c.id).then((response) => {
-            console.log(response);
             if (response.status === 200) {
               swal("Le produit a été bien supprimer", {
                 icon: "success",

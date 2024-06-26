@@ -43,7 +43,7 @@ class AchatController extends BaseController
             $this->model->montant_total = $total;
              $this->repository->update($this->model->id, $this->model->toArray());
              if($request->paiement != 1){
-                $p = $this->paiementRepository->create(['montant' => $total, 'date' => Carbon::now(), 'mode_paiement' => paiemen($request->paiement), 'achat_id' => $this->model->id]);
+                $p = $this->paiementRepository->create(['montant' => $total, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'achat_id' => $this->model->id]);
              }
             //  paiemen
             DB::commit();

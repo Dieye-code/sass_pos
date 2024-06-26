@@ -10,6 +10,7 @@ import Achats from '../components/Achat/Achats';
 import Ventes from '../components/Vente/Ventes';
 import SaveAchat from '../components/Achat/SaveAchat';
 import SaveVente from '../components/Vente/SaveVente';
+import Payer from '../components/Achat/Payer';
 function Router(props) {
     return (
         <div>
@@ -23,6 +24,7 @@ function Router(props) {
                             <Route path="produits" element={<Produits />}></Route>
                             <Route path="achats" element={<Achats />}></Route>
                             <Route path="save-achat/:id?" element={<SaveAchat />}></Route>
+                            <Route path="achats/paiement/:id" element={<Payer />}></Route>
                             <Route path="ventes" element={<Ventes />}></Route>
                             <Route path="save-vente/:id?" element={<SaveVente />}></Route>
                         </Route>
