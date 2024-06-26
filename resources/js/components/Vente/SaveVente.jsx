@@ -183,8 +183,8 @@ function SaveVente() {
                                 return <option value={element?.id} >{element?.nom}</option>
                             })}
                         </Form.Select>
+                        <span className="btn btn-primary fs-6 mt-3" onClick={handleShow}>Nouveau Client</span>
                     </FormGroup>
-                    <FormGroup as={Col} sm="1" className='pb-0'><span className="btn btn-primary fs-6" onClick={handleShow}>Nouveau</span></FormGroup>
                 </Row>
 
 

@@ -170,6 +170,7 @@ function SaveAchat() {
                     <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
                 </FormGroup>
                 <FormGroup as={Col}>
+                    <Form.Label></Form.Label>
                     <div className='col-auto text-end mb-2'>
                         <Button onClick={addProduit} >Ajouter</Button>
                     </div>
@@ -195,7 +196,6 @@ function SaveAchat() {
                         <span className="btn btn-primary fs-6 mt-3" onClick={handleShow}>Nouveau Fournisseur</span>
                     </FormGroup>
 
-                    <FormGroup as={Col} sm="1" className='pb-0'></FormGroup>
                 </Row>
 
 
