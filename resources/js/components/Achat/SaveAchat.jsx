@@ -11,7 +11,7 @@ function SaveAchat() {
 
     // const id = useParams();
     const navigate = useNavigate();
-    const [achat, setAchat] = useState({ date: '', fournisseur_id: '', paiement: 1 });
+    const [achat, setAchat] = useState({ date: '', fournisseur_id: '', paiement: 2 });
     const [fournisseurs, setFournisseurs] = useState([]);
     const [produits, setProduits] = useState([]);
     const [produitAchats, setProduitAchats] = useState([]);

@@ -10,7 +10,7 @@ function SaveVente() {
 
 
     const navigate = useNavigate();
-    const [vente, setvente] = useState({ date: '', client_id: '', paiement: 1 });
+    const [vente, setvente] = useState({ date: '', client_id: '', paiement: 2 });
     const [produits, setProduits] = useState([]);
     const [produitVentes, setProduitVentes] = useState([]);
     const [clients, setClients] = useState([]);
@@ -39,8 +39,8 @@ function SaveVente() {
     }
 
     const changeProduitSelect = (e) => {
-        const produit = produits.find(p => p.id === e.target.value);
-        setCurrentProduit({ ...currentProduit, produit_id: produit.id, libelle: produit.libelle, montant_vente: produit.prix, quantite: produit.quantite })
+        const produit = produits.find(p => p.id === e.value);
+        setCurrentProduit({ ...currentProduit, produit_id: produit.id, libelle: produit.libelle, montant_vente: produit.prix, quantite: 0 })
     }
 
     const handleValChange = (e) => {
@@ -84,7 +84,6 @@ function SaveVente() {
         const form = event.currentTarget;
 
         if (produitVentes.length == 0) {
-
             swal({
                 text: "Vous devez selectionner les produits à vendre!",
                 icon: "info",
@@ -145,7 +144,7 @@ function SaveVente() {
             <Row>
                 <FormGroup as={Col} sm="6">
                     <Form.Label>Produit</Form.Label>
-                    
+
                     <Select options={items} onChange={changeProduitSelect} name='produit_id' />
                     {/* <Form.Select onChange={changeProduitSelect} >
                         {produits.map((element) => {
@@ -161,7 +160,8 @@ function SaveVente() {
                     <Form.Label>Quantité</Form.Label>
                     <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
                 </FormGroup>
-                <FormGroup as={Col} sm="2" className='d-flex justify-content-end flex-row text-center' >
+                <FormGroup as={Col}>
+                    <Form.Label></Form.Label>
                     <div className='col-auto text-end mb-2'>
                         <Button onClick={addProduit} >Ajouter</Button>
                     </div>
@@ -189,13 +189,24 @@ function SaveVente() {
 
 
                 <Table className='m-5'>
+                    <thead>
+                        <th>Libelle</th>
+                        <th>Prix de vente</th>
+                        <th>Quantité</th>
+                        <th>Action</th>
+                    </thead>
                     <tbody>
                         {produitVentes.map(element => {
                             return (
                                 <tr>
                                     <td>{element.libelle}</td>
-                                    <td>{element.montant_vente}</td>
+                                    <td>{element.montant_vente} Francs CFA</td>
                                     <td>{element.quantite}</td>
+                                    <td>
+                                        <span className='text-danger btn' onClick={() => {
+                                            removeProduit(element)
+                                        }}><i className="fs-5 bi bi-trash m-r-5"></i></span>
+                                    </td>
                                 </tr>
                             )
                         })}
@@ -204,11 +215,11 @@ function SaveVente() {
                 <div>
                     <Form.Check className='text-center' inline name="paiement" value="1" type='radio' id='credit' onChange={(e) => onInputChange(e)}
                         label={(<> Crédit </>)} />
-                    <Form.Check inline name="paiement" value="2" type='radio' id='cash' onChange={(e) => onInputChange(e)}
+                    <Form.Check inline name="paiement" value="2" type='radio' id='cash' checked onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/cash.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
                     <Form.Check inline name="paiement" value="3" type='radio' id='om' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/om.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
-                    <Form.Check inline name="paiement" value="54" type='radio' id='wave' onChange={(e) => onInputChange(e)}
+                    <Form.Check inline name="paiement" value="4" type='radio' id='wave' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/wave.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
                     <Form.Check inline name="paiement" value="5" type='radio' id='free' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/free-money.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
