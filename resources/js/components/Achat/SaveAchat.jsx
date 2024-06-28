@@ -11,13 +11,14 @@ function SaveAchat() {
 
     // const id = useParams();
     const navigate = useNavigate();
-    const [achat, setAchat] = useState({ date: '', fournisseur_id: '', paiement: 2 });
+    const [achat, setAchat] = useState({ date: '', fournisseur_id: '', paiement: 0, montant_paye: 0 });
     const [fournisseurs, setFournisseurs] = useState([]);
     const [produits, setProduits] = useState([]);
     const [produitAchats, setProduitAchats] = useState([]);
     const [validated, setValidated] = useState(false);
     const [currentProduit, setCurrentProduit] = useState({ produit_id: '', libelle: '', montant_achat: 0, quantite: 0 })
     const [show, setShow] = useState(false);
+    const [total, setTotal] = useState(0);
 
     const [items, setItems] = useState([]);
 
@@ -41,7 +42,12 @@ function SaveAchat() {
     }
 
     const removeProduit = (element) => {
+        var p = produitAchats.find(item => item.produit_id == element.produit_id);
         setProduitAchats(produitAchats.filter(item => item.produit_id != element.produit_id));
+        let t = total;
+        t -= p.montant_achat * p.quantite
+        setTotal(t);
+        setAchat({ ...achat, ['montant_paye']: t })
     }
 
     const changeProduitSelect = (e) => {
@@ -55,6 +61,7 @@ function SaveAchat() {
     const addProduit = (e) => {
         e.preventDefault();
         e.stopPropagation();
+        let t = total;
         if (currentProduit.quantite <= 0) {
             swal({
                 text: "Vous devez saisir la quantité à acheter!",
@@ -71,18 +78,25 @@ function SaveAchat() {
         if (p === undefined) {
             newProducts.push({ produit_id: currentProduit.produit_id, libelle: currentProduit.libelle, montant_achat: currentProduit.montant_achat, quantite: parseInt(currentProduit.quantite) });
             setProduitAchats(produitAchats);
+            t += currentProduit.montant_achat * parseInt(currentProduit.quantite)
         }
         else {
             produitAchats.map((c, i) => {
                 if (c.produit_id === currentProduit.produit_id) {
+                    console.log(c);
+                    console.log(currentProduit);
                     newProducts[i] = currentProduit;
                     newProducts[i] = { produit_id: currentProduit.produit_id, libelle: currentProduit.libelle, montant_achat: currentProduit.montant_achat, quantite: parseInt(currentProduit.quantite) + parseInt(c.quantite) };
+                    t += currentProduit.montant_achat * parseInt(currentProduit.quantite);
+                    console.log(currentProduit.montant_achat * (parseInt(currentProduit.quantite) + parseInt(c.quantite)));
                 } else {
                     newProducts[i] = c;
                 }
             })
         }
         setProduitAchats(newProducts);
+        setTotal(t);
+        setAchat({ ...achat, ['montant_paye']: t })
     }
 
     const handleSubmit = (event) => {
@@ -106,7 +120,8 @@ function SaveAchat() {
                 date: achat.date,
                 fournisseur_id: achat.fournisseur_id,
                 produits: produitAchats,
-                paiement: achat.paiement
+                paiement: achat.paiement,
+                montant_paye: achat.montant_paye
             }
 
             var status;
@@ -114,7 +129,7 @@ function SaveAchat() {
                 baseApi.post("achats", tab).then(
                     (response) => {
                         return navigate("/achats");
-                    } 
+                    }
                 ).catch(
                     (error) => {
                         console.log(error);
@@ -122,9 +137,9 @@ function SaveAchat() {
                 )
             } else {
             }
-            if(status == 1)
-                
-                return  navigate("/achats");
+            if (status == 1)
+
+                return navigate("/achats");
         }
         setValidated(true);
     };
@@ -197,15 +212,13 @@ function SaveAchat() {
                     </FormGroup>
 
                 </Row>
-
-
                 <Table className='m-5'>
-                        <thead>
-                            <th>Libelle</th>
-                            <th>Prix d'achat</th>
-                            <th>Quantité</th>
-                            <th>Action</th>
-                        </thead>
+                    <thead>
+                        <th>Libelle</th>
+                        <th>Prix d'achat</th>
+                        <th>Quantité</th>
+                        <th>Action</th>
+                    </thead>
                     <tbody>
                         {produitAchats.map(element => {
                             return (
@@ -224,16 +237,31 @@ function SaveAchat() {
                     </tbody>
                 </Table>
                 <div>
-                    <Form.Check className='text-center' inline name="paiement"  value="1" type='radio' id='credit' onChange={(e) => onInputChange(e)}
+                    <b>Total à payer:</b> {total} Francs CFA
+                </div>
+                <div>
+                    <Form.Check className='text-center' inline name="paiement" value={1} type='radio' id='credit' onChange={(e) => onInputChange(e)}
                         label={(<> Crédit </>)} />
-                    <Form.Check inline name="paiement" value="2" checked type='radio' id='cash' onChange={(e) => onInputChange(e)}
+
+                    <Form.Check inline name="paiement" value={2} type='radio' id='cash' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/cash.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
-                    <Form.Check inline name="paiement" value="3" type='radio' id='om' onChange={(e) => onInputChange(e)}
+
+                    <Form.Check inline name="paiement" value={3} type='radio' id='om' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/om.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
-                    <Form.Check inline name="paiement" value="4" type='radio' id='wave' onChange={(e) => onInputChange(e)}
+
+                    <Form.Check inline name="paiement" value={4} type='radio' id='wave' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/wave.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
-                    <Form.Check inline name="paiement" value="5" type='radio' id='free' onChange={(e) => onInputChange(e)}
+
+                    <Form.Check inline name="paiement" value={5} type='radio' id='free' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/free-money.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                </div>
+                <div>
+                    {achat.paiement != 1 ?
+                        <FormGroup>
+                            <Form.Label>Montant payé</Form.Label>
+                            <Form.Control name='montant_paye' value={achat.montant_paye} onChange={e => onInputChange(e)} />
+                        </FormGroup>
+                        : <></>}
                 </div>
 
                 <div><Button className='mt-3' type="submit">Enregistrer</Button></div>
