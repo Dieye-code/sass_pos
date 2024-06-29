@@ -10,7 +10,7 @@ function SaveVente() {
 
 
     const navigate = useNavigate();
-    const [vente, setvente] = useState({ date: '', client_id: '', paiement: 2 });
+    const [vente, setVente] = useState({ date: '', client_id: '', paiement: 0, montant_paye: 0 });
     const [produits, setProduits] = useState([]);
     const [produitVentes, setProduitVentes] = useState([]);
     const [clients, setClients] = useState([]);
@@ -18,6 +18,7 @@ function SaveVente() {
     const [currentProduit, setCurrentProduit] = useState({ produit_id: '', libelle: '', montant_vente: 0, quantite: 0 })
     const [show, setShow] = useState(false);
     const [items, setItems] = useState([]);
+    const [total, setTotal] = useState(0);
 
 
     useEffect(() => {
@@ -32,10 +33,17 @@ function SaveVente() {
     }, [show])
 
     const onInputChange = (e) => {
-        setvente({ ...vente, [e.target.name]: e.target.value })
+        setVente({ ...vente, [e.target.name]: e.target.value })
     }
     const removeProduit = (element) => {
+
+
+        var p = produitVentes.find(item => item.produit_id == element.produit_id);
         setProduitVentes(produitVentes.filter(item => item.produit_id != element.produit_id));
+        let t = total;
+        t -= p.montant_vente * p.quantite
+        setTotal(t);
+        setVente({ ...vente, ['montant_paye']: t })
     }
 
     const changeProduitSelect = (e) => {
@@ -49,6 +57,7 @@ function SaveVente() {
     const addProduit = (e) => {
         e.preventDefault();
         e.stopPropagation();
+        let t = total;
 
         if (currentProduit.quantite <= 0) {
             swal({
@@ -65,17 +74,22 @@ function SaveVente() {
 
         if (p === undefined) {
             newProducts.push({ produit_id: currentProduit.produit_id, libelle: currentProduit.libelle, montant_vente: currentProduit.montant_vente, quantite: parseInt(currentProduit.quantite) });
+            setProduitVentes(produitVentes);
+            t += currentProduit.montant_vente * parseInt(currentProduit.quantite)
         }
         else {
             produitVentes.map((c, i) => {
                 if (c.produit_id === currentProduit.produit_id) {
                     newProducts[i] = currentProduit;
                     newProducts[i] = { produit_id: currentProduit.produit_id, libelle: currentProduit.libelle, montant_vente: currentProduit.montant_vente, quantite: parseInt(currentProduit.quantite) + parseInt(c.quantite) };
+                    t += currentProduit.montant_vente * parseInt(currentProduit.quantite);
                 } else {
                     newProducts[i] = c;
                 }
             })
         }
+        setTotal(t);
+        setVente({ ...vente, ['montant_paye']: t })
         setProduitVentes(newProducts);
     }
 
@@ -100,7 +114,8 @@ function SaveVente() {
                 date: vente.date,
                 client_id: vente.client_id,
                 produits: produitVentes,
-                paiement: vente.paiement
+                paiement: vente.paiement,
+                montant_paye: vente.montant_paye
             }
 
             if (vente.id === undefined) {
@@ -127,7 +142,6 @@ function SaveVente() {
 
     return (
         <>
-
             <Modal show={show} size='lg' centered
                 onHide={handleClose}
                 backdrop="static"
@@ -140,7 +154,6 @@ function SaveVente() {
                     <SaveClient setShowModal={setShow} />
                 </Modal.Body>
             </Modal>
-
             <Row>
                 <FormGroup as={Col} sm="6">
                     <Form.Label>Produit</Form.Label>
@@ -187,7 +200,6 @@ function SaveVente() {
                     </FormGroup>
                 </Row>
 
-
                 <Table className='m-5'>
                     <thead>
                         <th>Libelle</th>
@@ -213,9 +225,12 @@ function SaveVente() {
                     </tbody>
                 </Table>
                 <div>
+                    <b>Total à payer:</b> {total} Francs CFA
+                </div>
+                <div>
                     <Form.Check className='text-center' inline name="paiement" value="1" type='radio' id='credit' onChange={(e) => onInputChange(e)}
                         label={(<> Crédit </>)} />
-                    <Form.Check inline name="paiement" value="2" type='radio' id='cash' checked onChange={(e) => onInputChange(e)}
+                    <Form.Check inline name="paiement" value="2" type='radio' id='cash' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/cash.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
                     <Form.Check inline name="paiement" value="3" type='radio' id='om' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/om.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
@@ -223,6 +238,14 @@ function SaveVente() {
                         label={(<Image src={Env.API_URL + "images/wave.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
                     <Form.Check inline name="paiement" value="5" type='radio' id='free' onChange={(e) => onInputChange(e)}
                         label={(<Image src={Env.API_URL + "images/free-money.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                </div>
+                <div>
+                    {vente.paiement != 1 ?
+                        <FormGroup>
+                            <Form.Label>Montant payé</Form.Label>
+                            <Form.Control name='montant_paye' value={vente.montant_paye} onChange={e => onInputChange(e)} />
+                        </FormGroup>
+                        : <></>}
                 </div>
 
                 <div><Button className='mt-3' type="submit">Enregistrer</Button></div>

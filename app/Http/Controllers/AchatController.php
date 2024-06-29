@@ -53,25 +53,5 @@ class AchatController extends BaseController
         } catch (\Throwable $th) {
             throw $th;
         }
-        // $validator = Validator::make($request->all(), $this->validateCreate, $this->messageCreate);
-        // if ($validator->fails()) {
-
-        //     return response()->json(['errors' => $validator->messages()], 400);
-        // }
-        // $this->validate = $validator->getData();
-        // $this->request = $request;
-        // try {
-        //     DB::beginTransaction();
-        //     // DB::transaction(function () use (&$validate) {
-        //     $this->beforeCreating();
-        //     $this->model = $this->repository->create($this->validate);
-        //     $this->afterCreating();
-        //     // });
-        //     DB::commit();
-        //     return $this->repository->find($this->model->id);
-        // } catch (\Throwable $th) {
-        //     DB::rollBack();
-        //     dd($th->getMessage());
-        // }
     }
 }

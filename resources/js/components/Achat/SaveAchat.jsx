@@ -83,12 +83,9 @@ function SaveAchat() {
         else {
             produitAchats.map((c, i) => {
                 if (c.produit_id === currentProduit.produit_id) {
-                    console.log(c);
-                    console.log(currentProduit);
                     newProducts[i] = currentProduit;
                     newProducts[i] = { produit_id: currentProduit.produit_id, libelle: currentProduit.libelle, montant_achat: currentProduit.montant_achat, quantite: parseInt(currentProduit.quantite) + parseInt(c.quantite) };
                     t += currentProduit.montant_achat * parseInt(currentProduit.quantite);
-                    console.log(currentProduit.montant_achat * (parseInt(currentProduit.quantite) + parseInt(c.quantite)));
                 } else {
                     newProducts[i] = c;
                 }

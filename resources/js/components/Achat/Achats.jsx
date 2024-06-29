@@ -72,14 +72,11 @@ function Achats() {
   };
   const [achats, setAchats] = useState([]);
   useEffect(() => {
-
     document.title = "Achat produit"
     baseApi.get("achats").then((response) => {
-      setAchats(response.data);
+      setAchats(response.data.reverse())
     })
   }, [])
-
-
 
   const deleteAchat = (c) => {
     swal({
@@ -95,9 +92,8 @@ function Achats() {
               swal("Le produit a été bien supprimer", {
                 icon: "success",
               }).then(() => {
-
                 baseApi.get("achats").then((data) => {
-                  setAchats(data.data)
+                  setAchats(data.data.reverse())
                   initProduit();
                 })
               });
@@ -116,22 +112,9 @@ function Achats() {
       });
   }
 
-
   return (
     <>
       <span className="btn btn-primary text-white"><Link className='text-white' to={'/save-achat'}>Nouveau Achat</Link> </span>
-      {/* <Modal show={show} size='lg' centered
-				onHide={handleClose}
-				backdrop="static"
-				keyboard={false}>
-				<Modal.Header closeButton>
-					<Modal.Title>Produit</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-
-					<SaveProduit newProduit={produit} setShowModal={setShow} />
-				</Modal.Body>
-			</Modal> */}
       <DataTable
         columns={columns}
         data={achats}

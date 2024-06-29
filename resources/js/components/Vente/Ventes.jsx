@@ -63,7 +63,7 @@ function Ventes() {
   useEffect(() => {
     baseApi.get("ventes").then((response) => {
 
-      setVentes(response.data);
+      setVentes(response.data.reverse());
     })
   }, [])
 
@@ -84,7 +84,7 @@ function Ventes() {
               }).then(() => {
 
                 baseApi.get("achats").then((data) => {
-                  setAchats(data.data)
+                  setAchats(data.data.reverse())
                   initProduit();
                 })
               });
