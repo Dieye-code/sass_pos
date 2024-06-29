@@ -225,7 +225,7 @@ function SaveVente() {
                     </tbody>
                 </Table>
                 <div>
-                    <b>Total à payer:</b> {total} Francs CFA
+                    <b>Total à encaiser:</b> {total} Francs CFA
                 </div>
                 <div>
                     <Form.Check className='text-center' inline name="paiement" value="1" type='radio' id='credit' onChange={(e) => onInputChange(e)}
@@ -242,7 +242,7 @@ function SaveVente() {
                 <div>
                     {vente.paiement != 1 ?
                         <FormGroup>
-                            <Form.Label>Montant payé</Form.Label>
+                            <Form.Label>Montant encaiser</Form.Label>
                             <Form.Control name='montant_paye' value={vente.montant_paye} onChange={e => onInputChange(e)} />
                         </FormGroup>
                         : <></>}

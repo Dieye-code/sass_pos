@@ -62,7 +62,6 @@ function Ventes() {
   const [ventes, setVentes] = useState([]);
   useEffect(() => {
     baseApi.get("ventes").then((response) => {
-
       setVentes(response.data.reverse());
     })
   }, [])
@@ -106,7 +105,6 @@ function Ventes() {
 
   return (
     <>
-
       <span className="btn btn-primary text-white">
         <Link className='text-white' to={'/save-vente'}>Nouveau Vente</Link>
       </span>

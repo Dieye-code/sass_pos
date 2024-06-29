@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\AchatInterface;
 use App\Interfaces\PaiementAchatInterface;
+use App\Interfaces\ProduitInterface;
 use App\Repositories\AchatRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

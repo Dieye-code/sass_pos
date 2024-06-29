@@ -17,10 +17,11 @@ class AchatRepository extends BaseRepository implements AchatInterface
     }
 
 
-    public function getLastAchat($idAbonnement = null){
+    public function getLastAchat($idAbonnement = null)
+    {
         return Achat::with('produits')->with('fournisseur')->where('abonnement_id', $idAbonnement)->orderBy('created_at', 'desc')->limit(10)->get();
     }
-    
+
     public function getAll($idAbonnement)
     {
         return Achat::with('produits')->with('fournisseur')->where('abonnement_id', $idAbonnement)->get();
@@ -37,11 +38,17 @@ class AchatRepository extends BaseRepository implements AchatInterface
     {
         return Achat::create($info);
     }
-    public function update($id,$info)
+    public function update($id, $info)
     {
         return Achat::find($id)?->update($info);
     }
-    public function saveAchatProduit($info){
+    public function saveAchatProduit($info)
+    {
+        $p = Produit::where('id', $info['produit_id'])->first();
+        if ($p != null) {
+            $p->quantite = $p->quantite + $info['quantite'];
+            $p?->save();
+        }
         return AchatProduit::create($info);
     }
 }
