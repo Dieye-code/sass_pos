@@ -144,7 +144,7 @@ function Biens() {
 
   return (
     <>
-      <Button className='mb-2' variant="primary" onClick={handleShow}>Nouveau Bien</Button>
+      <Button className='mb-3' variant="primary" onClick={handleShow}>Nouveau Bien</Button>
       <Modal show={show} size='lg' centered
         onHide={handleClose}
         backdrop="static"

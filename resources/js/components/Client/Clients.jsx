@@ -97,7 +97,7 @@ function Clients() {
 
   return (
 		<>
-			<Button variant="primary" onClick={handleShow}>Nouveau client</Button>
+			<Button className='mb-3' variant="primary" onClick={handleShow}>Nouveau client</Button>
 			<Modal show={show} size='lg' centered
 				onHide={handleClose}
 				backdrop="static"

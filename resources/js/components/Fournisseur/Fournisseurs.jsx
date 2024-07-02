@@ -104,7 +104,7 @@ function Fournisseurs() {
 
 	return (
 		<>
-			<Button variant="primary" onClick={handleShow}>Nouveau fournisseur</Button>
+			<Button className='mb-3' variant="primary" onClick={handleShow}>Nouveau fournisseur</Button>
 			<Modal show={show} size='lg' centered
 				onHide={handleClose}
 				backdrop="static"

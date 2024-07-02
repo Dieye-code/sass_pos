@@ -105,7 +105,7 @@ function Ventes() {
 
   return (
     <>
-      <span className="btn btn-primary text-white">
+      <span className="btn btn-primary text-white  mb-2">
         <Link className='text-white' to={'/save-vente'}>Nouveau Vente</Link>
       </span>
       <DataTable

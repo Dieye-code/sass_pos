@@ -114,7 +114,7 @@ function Achats() {
 
   return (
     <>
-      <span className="btn btn-primary text-white"><Link className='text-white' to={'/save-achat'}>Nouveau Achat</Link> </span>
+      <span className="btn btn-primary text-white  mb-2"><Link className='text-white' to={'/save-achat'}>Nouveau Achat</Link> </span>
       <DataTable
         columns={columns}
         data={achats}
