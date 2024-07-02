@@ -159,7 +159,27 @@ function SaveVente() {
                     <SaveClient setShowModal={setShow} />
                 </Modal.Body>
             </Modal>
-            <Row>
+
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                <Row>
+                    <FormGroup as={Col} >
+                        <Form.Label>Date</Form.Label>
+                        <Form.Control required name='date' onChange={(e) => onInputChange(e)} type='date' ></Form.Control>
+                    </FormGroup>
+                    <FormGroup as={Col}>
+                        <Form.Label>Client</Form.Label>
+                        <Form.Select name='client_id' onChange={(e) => onInputChange(e)} value={vente.client_id} required>
+
+                            <option value="">...........</option>
+                            {clients?.map(element => {
+                                return <option value={element?.id} >{element?.nom}</option>
+                            })}
+                        </Form.Select>
+                        <span className="btn btn-primary fs-6 mt-3" onClick={handleShow}>Nouveau Client</span>
+                    </FormGroup>
+                </Row>
+                
+            <Row className='mt-3'>
                 <FormGroup as={Col} sm="6">
                     <Form.Label>Produit</Form.Label>
 
@@ -185,25 +205,6 @@ function SaveVente() {
                     </div>
                 </FormGroup>
             </Row>
-
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Row>
-                    <FormGroup as={Col} >
-                        <Form.Label>Date</Form.Label>
-                        <Form.Control required name='date' onChange={(e) => onInputChange(e)} type='date' ></Form.Control>
-                    </FormGroup>
-                    <FormGroup as={Col}>
-                        <Form.Label>Client</Form.Label>
-                        <Form.Select name='client_id' onChange={(e) => onInputChange(e)} value={vente.client_id} required>
-
-                            <option value="">...........</option>
-                            {clients?.map(element => {
-                                return <option value={element?.id} >{element?.nom}</option>
-                            })}
-                        </Form.Select>
-                        <span className="btn btn-primary fs-6 mt-3" onClick={handleShow}>Nouveau Client</span>
-                    </FormGroup>
-                </Row>
 
                 <Table className='m-5'>
                     <thead>

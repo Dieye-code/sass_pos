@@ -168,34 +168,6 @@ function SaveAchat() {
                 </Modal.Body>
             </Modal>
 
-            <Row>
-                <FormGroup as={Col} sm="6">
-                    <Form.Label>Produit</Form.Label>
-
-                    <Select options={items} onChange={changeProduitSelect} name='produit_id' />
-
-                    {/* <Form.Select onChange={changeProduitSelect} >
-                        {produits.map((element) => {
-                            return <option value={element.id}>{element.libelle}</option>
-                        })}
-                    </Form.Select> */}
-                </FormGroup>
-                <FormGroup as={Col} sm="2">
-                    <Form.Label>Prix d'achat</Form.Label>
-                    <Form.Control name='montant_achat' value={currentProduit.montant_achat} type='number' onChange={handleValChange} />
-                </FormGroup>
-                <FormGroup as={Col} sm="2">
-                    <Form.Label>Quantité</Form.Label>
-                    <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
-                </FormGroup>
-                <FormGroup as={Col}>
-                    <Form.Label></Form.Label>
-                    <div className='col-auto text-end mb-2'>
-                        <Button onClick={addProduit} >Ajouter</Button>
-                    </div>
-                </FormGroup>
-            </Row>
-
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row>
 
@@ -216,6 +188,36 @@ function SaveAchat() {
                     </FormGroup>
 
                 </Row>
+
+
+                <Row className='mt-2'>
+                    <FormGroup as={Col} sm="6">
+                        <Form.Label>Produit</Form.Label>
+
+                        <Select options={items} onChange={changeProduitSelect} name='produit_id' />
+
+                        {/* <Form.Select onChange={changeProduitSelect} >
+                        {produits.map((element) => {
+                            return <option value={element.id}>{element.libelle}</option>
+                        })}
+                    </Form.Select> */}
+                    </FormGroup>
+                    <FormGroup as={Col} sm="2">
+                        <Form.Label>Prix d'achat</Form.Label>
+                        <Form.Control name='montant_achat' value={currentProduit.montant_achat} type='number' onChange={handleValChange} />
+                    </FormGroup>
+                    <FormGroup as={Col} sm="2">
+                        <Form.Label>Quantité</Form.Label>
+                        <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
+                    </FormGroup>
+                    <FormGroup as={Col}>
+                        <Form.Label></Form.Label>
+                        <div className='col-auto text-end mb-2'>
+                            <Button onClick={addProduit} >Ajouter</Button>
+                        </div>
+                    </FormGroup>
+                </Row>
+
                 <Table className='m-5'>
                     <thead>
                         <th>Libelle</th>
