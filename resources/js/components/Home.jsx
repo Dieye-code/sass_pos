@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { baseApi } from '../services/BaseService';
 import { Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useMediaQuery } from '@mui/material';
 
 function Home() {
 
+
+  const matches = useMediaQuery('(min-width:768px)');
 
   const [ventes, setVentes] = useState([]);
   const [achats, setAchats] = useState([]);
@@ -31,7 +34,7 @@ function Home() {
               <div className="d-flex align-items-center">
                 <div>
                   <p className="mb-0 text-secondary">Total Achat</p>
-                  <h4 className="my-1">{totalAchats} Francs CFA</h4>
+                  <h4 >{totalAchats} Francs CFA</h4>
                 </div>
                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-basket2-fill"></i>
                 </div>
@@ -71,7 +74,8 @@ function Home() {
 
       <Row>
 
-        <Col md="6">
+        <Col md="6" className='mt-2' style={!matches ? { maxHeight: "300px", overflowY: 'auto' } : { height: 'auto' }}>
+          {/* <span>{`(min-width:600px) matches: ${matches}`}</span>; */}
           <span className="btn btn-primary text-white mb-3"><Link className='text-white' to={'/ventes'}>Ventes</Link> </span>
           <Table striped bordered hover>
             <thead>
@@ -83,11 +87,11 @@ function Home() {
             </thead>
             <tbody>
 
-              {ventes.map(e => {
+              {achats.map(e => {
                 return (
                   <tr>
                     <td>{e.date}</td>
-                    <td>{e.client?.nom}</td>
+                    <td>{e.fournisseur?.nom}</td>
                     <td>{e.montant_total} Francs CFA</td>
                   </tr>
                 )
@@ -95,7 +99,7 @@ function Home() {
             </tbody>
           </Table>
         </Col>
-        <Col md="6">
+        <Col md="6" className='mt-2' style={!matches ? { maxHeight: "300px", overflowY: 'auto' } : { height: 'auto' }}>
           <span className="btn btn-primary text-white mb-3"><Link className='text-white' to={'/achats'}>Achats</Link> </span>
           <Table striped bordered hover>
             <thead>
