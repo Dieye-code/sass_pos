@@ -35,12 +35,12 @@ class PaiementVenteController extends BaseController
         $paiements = $this->paiementRepository->getByVente($vente->id);
         $total = $paiements->sum('montant');
         if ($total >= $vente->montant_total)
-            return response()->json(['La vente a été payé'], 400);
+            return response()->json(['La vente a été encaissé'], 400);
         if ($total + $request->montant > $vente->montant_total)
             return response()->json(['Le montant que vous voulez payer dépasse le montant total'], 400);
         $paiement = $this->paiementRepository->create(['montant' => $request->montant, 'vente_id' => $vente->id, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->mode_paiement)]);
         if ($total + $paiement->montant == $vente->montant_total)
-            $vente->etat = 'payé';
+            $vente->etat = 'encaissé';
         else
             $vente->etat = 'en cours';
         $vente->save();

@@ -4,6 +4,7 @@ import Savefournisseur from './SaveFournisseur';
 import { Button, Modal } from 'react-bootstrap';
 import { baseApi } from '../../services/BaseService';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 
 function Fournisseurs() {
 
@@ -34,6 +35,9 @@ function Fournisseurs() {
 				<span className='text-danger btn' onClick={() => {
 					deleteFournisseur(row)
 				}}><i className="bi bi-trash m-r-5"></i></span>
+				<span className='text-primary btn'>
+					<Link to={'/fournisseurs/' + row.id + '/details'}><i className="bi bi-eye m-r-5"></i></Link>
+				</span>
 			</>
 			)
 		},
@@ -52,7 +56,7 @@ function Fournisseurs() {
 	}, [show])
 
 	const initfournisseur = () => {
-		setFournisseur({nom: "", telephone: "", adresse: "" });
+		setFournisseur({ nom: "", telephone: "", adresse: "" });
 	}
 
 	const editFournisseur = (a) => {

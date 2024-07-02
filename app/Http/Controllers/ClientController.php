@@ -11,4 +11,10 @@ class ClientController extends BaseController
     {
         $this->repository = $repository;
     }
+
+    public function details($id)
+    {
+        
+    }
+
 }

@@ -41,7 +41,7 @@ class PaiementAchatController extends BaseController
         if ($total + $paiement->montant == $achat->montant_total)
             $achat->etat = 'payé';
         else
-            $achat->etat = 'en';
+            $achat->etat = 'en cours';
         $achat->save();
         return response()->json($paiement);
     }

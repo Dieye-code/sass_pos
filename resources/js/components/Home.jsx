@@ -87,12 +87,12 @@ function Home() {
             </thead>
             <tbody>
 
-              {achats.map(e => {
+              {ventes.map(e => {
                 return (
                   <tr>
                     <td>{e.date}</td>
                     <td>{e.fournisseur?.nom}</td>
-                    <td>{e.montant_total} Francs CFA</td>
+                    <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success' }>{e.montant_total} Francs CFA</td>
                   </tr>
                 )
               })}
@@ -115,7 +115,9 @@ function Home() {
                   <tr>
                     <td>{e.date}</td>
                     <td>{e.fournisseur?.nom}</td>
-                    <td>{e.montant_total} Francs CFA</td>
+                    <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success' }>
+                      {e.montant_total} Francs CFA
+                      </td>
                   </tr>
                 )
               })}

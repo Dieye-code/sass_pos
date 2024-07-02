@@ -51,4 +51,9 @@ class AchatRepository extends BaseRepository implements AchatInterface
         }
         return AchatProduit::create($info);
     }
+
+    public function getAchatByFournisseur($idFournisseur)
+    {
+        return Achat::with('produits')->with('paiements')->where('fournisseur_id', $idFournisseur)->get();
+    }
 }

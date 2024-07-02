@@ -3,6 +3,7 @@ import SaveClient from './SaveClient';
 import { Button, Modal } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { baseApi } from '../../services/BaseService';
+import { Link } from 'react-router-dom';
 
 function Clients() {
 
@@ -26,6 +27,9 @@ function Clients() {
 				<span className='text-danger btn' onClick={() => {
 					deleteClient(row)
 				}}><i className="bi bi-trash m-r-5"></i></span>
+				<span className='text-primary btn' >
+					<Link to={'/clients/' + row.id + '/details'} ><i className="bi bi-eye m-r-5"></i></Link>
+				</span>
 			</>
 			)
 		},
@@ -36,7 +40,7 @@ function Clients() {
 	};
 	const [show, setShow] = useState(false);
 	const [clients, setClients] = useState([]);
-	const [client, setClient] = useState({ nom: "", telephone: ""});
+	const [client, setClient] = useState({ nom: "", telephone: "" });
 	useEffect(() => {
 		baseApi.get("clients").then((response) => {
 			setClients(response.data);
@@ -44,7 +48,7 @@ function Clients() {
 	}, [show])
 
 	const initClient = () => {
-		setClient({nom: "", telephone: ""});
+		setClient({ nom: "", telephone: "" });
 	}
 
 	const editClient = (a) => {
@@ -95,7 +99,7 @@ function Clients() {
 	const handleShow = () => setShow(true);
 
 
-  return (
+	return (
 		<>
 			<Button className='mb-3' variant="primary" onClick={handleShow}>Nouveau client</Button>
 			<Modal show={show} size='lg' centered
@@ -117,7 +121,7 @@ function Clients() {
 				paginationComponentOptions={paginationComponentOptions}
 			/>
 		</>
-  )
+	)
 }
 
 export default Clients

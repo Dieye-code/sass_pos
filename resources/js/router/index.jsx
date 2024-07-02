@@ -12,6 +12,9 @@ import SaveAchat from '../components/Achat/SaveAchat';
 import SaveVente from '../components/Vente/SaveVente';
 import Payer from '../components/Achat/Payer';
 import PaiementVente from '../components/Vente/PaiementVente';
+import DetailClient from '../components/Client/DetailClient';
+import DetailFournisseur from '../components/Fournisseur/DetailFournisseur';
+import DetailAchat from '../components/Achat/DetailAchat';
 function Router(props) {
     return (
         <div>
@@ -21,9 +24,12 @@ function Router(props) {
                         <Route path='/' element={<Main />}>
                             <Route index element={<Home />}></Route>
                             <Route path="fournisseurs" element={<Fournisseurs />}></Route>
+                            <Route path="fournisseurs/:id/details" element={<DetailFournisseur />}></Route>
                             <Route path="clients" element={<Clients />}></Route>
+                            <Route path="clients/:id/details" element={<DetailClient />}></Route>
                             <Route path="produits" element={<Produits />}></Route>
                             <Route path="achats" element={<Achats />}></Route>
+                            <Route path="achats/:id/details" element={<DetailAchat />}></Route>
                             <Route path="save-achat/:id?" element={<SaveAchat />}></Route>
                             <Route path="achats/paiement/:id" element={<Payer />}></Route>
                             <Route path="ventes" element={<Ventes />}></Route>

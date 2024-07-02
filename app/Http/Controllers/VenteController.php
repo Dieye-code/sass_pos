@@ -34,7 +34,7 @@ class VenteController extends BaseController
         try {
             DB::beginTransaction();
             $data = $request->only(['client_id', 'date', 'en attente']);
-            $data['etat'] = $request->paiement == 1 ?  'en attente' : 'payé';
+            $data['etat'] = $request->paiement == 1 ?  'en attente' : 'encaissé';
             $this->model = $this->repository->create($data);
             $total = 0;
 

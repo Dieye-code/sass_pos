@@ -23,4 +23,9 @@ class Achat extends BaseModel
         return $this->belongsTo(Fournisseur::class);
     }
 
+    public function paiements()
+    {
+        return $this->hasMany(PaiementAchat::class, 'achat_id');
+    }
+
 }
