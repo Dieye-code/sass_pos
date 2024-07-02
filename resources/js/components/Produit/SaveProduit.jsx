@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { baseApi } from '../../services/BaseService';
-import { Button, Form, FormGroup, Row } from 'react-bootstrap';
+import { Button, Form, FormGroup, Row, Spinner } from 'react-bootstrap';
 
 function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quantite: 0 } }) {
 
 
     const [produit, setProduit] = useState(newProduit);
     const [validated, setValidated] = useState(false);
+    const [load, setLoad] = useState(false);
     const [image, setImage] = useState()
 
     const onInputChange = (e) => {
@@ -23,6 +24,7 @@ function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quanti
 
 
     const handleSubmit = async (e) => {
+        setLoad(true);
         e.preventDefault();
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
@@ -51,6 +53,7 @@ function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quanti
         }
 
         setValidated(true);
+        setLoad(false);
     }
 
 
@@ -82,7 +85,9 @@ function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quanti
 
                 </Row>
 
-                <Button className='mt-3' type="submit">Enregistrer</Button>
+                <div><Button className='mt-3' type="submit" disabled={load}>
+                    {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
+                </Button></div>
             </Form>
         </>
     )

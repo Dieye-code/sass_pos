@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Button, Col, Form, FormGroup, Row } from 'react-bootstrap'
+import { Button, Col, Form, FormGroup, Row, Spinner } from 'react-bootstrap'
 import { baseApi } from '../../services/BaseService';
 
-function SaveClient({setShowModal, newClient = { nom: "", telephone: ''}}) {
+function SaveClient({ setShowModal, newClient = { nom: "", telephone: '' } }) {
 
-    
+
 
   const [client, setClient] = useState(newClient);
   const [validated, setValidated] = useState(false);
+  const [load, setLoad] = useState(false)
 
   const onInputChange = (e) => {
     setClient({ ...client, [e.target.name]: e.target.value })
@@ -15,8 +16,9 @@ function SaveClient({setShowModal, newClient = { nom: "", telephone: ''}}) {
   const initClient = () => {
     setClient({ nom: "", telephone: "", });
   }
-  
+
   const handleSubmit = (event) => {
+    setLoad(true)
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -65,11 +67,12 @@ function SaveClient({setShowModal, newClient = { nom: "", telephone: ''}}) {
       }
     }
     setValidated(true);
+    setLoad(false)
   };
 
-    return (
-        <>
-        
+  return (
+    <>
+
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row>
 
@@ -83,11 +86,12 @@ function SaveClient({setShowModal, newClient = { nom: "", telephone: ''}}) {
           </FormGroup>
 
         </Row>
-
-        <Button className='mt-3' type="submit">Enregistrer</Button>
+        <div><Button className='mt-3' type="submit" disabled={load}>
+          {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
+        </Button></div>
       </Form>
-        </>
-    )
+    </>
+  )
 }
 
 export default SaveClient

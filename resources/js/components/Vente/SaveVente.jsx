@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { baseApi } from '../../services/BaseService';
-import { Button, Col, Form, FormGroup, Image, Modal, Row, Table } from 'react-bootstrap';
+import { Button, Col, Form, FormGroup, Image, Modal, Row, Spinner, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import SaveClient from '../Client/SaveClient'
 import Select from 'react-select';
@@ -19,6 +19,7 @@ function SaveVente() {
     const [show, setShow] = useState(false);
     const [items, setItems] = useState([]);
     const [total, setTotal] = useState(0);
+    const [load, setLoad] = useState(false);
 
 
     useEffect(() => {
@@ -94,6 +95,7 @@ function SaveVente() {
     }
 
     const handleSubmit = (event) => {
+        setLoad(true);
         event.preventDefault();
         const form = event.currentTarget;
 
@@ -104,6 +106,7 @@ function SaveVente() {
                 buttons: true,
                 showCancelButton: false,
             });
+            setLoad(false);
             return;
         }
         if (form.checkValidity() === false) {
@@ -121,6 +124,7 @@ function SaveVente() {
             if (vente.id === undefined) {
                 baseApi.post("ventes", tab).then(
                     (response) => {
+                        setLoad(false);
                         return navigate("/ventes");
                     }
                 ).catch(
@@ -132,6 +136,7 @@ function SaveVente() {
             } else {
             }
         }
+        setLoad(false)
         setValidated(true);
     };
     const handleClose = () => {
@@ -248,7 +253,10 @@ function SaveVente() {
                         : <></>}
                 </div>
 
-                <div><Button className='mt-3' type="submit">Enregistrer</Button></div>
+
+                <div><Button className='mt-3' type="submit" disabled={load}>
+                    {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
+                </Button></div>
 
             </Form>
         </>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Col, Container, Form, FormGroup, Image, Modal, Row, Table } from 'react-bootstrap';
+import { Button, Col, Container, Form, FormGroup, Image, Modal, Row, Spinner, Table } from 'react-bootstrap';
 import { baseApi } from '../../services/BaseService';
 import { redirect, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -18,6 +18,7 @@ function SaveAchat() {
     const [validated, setValidated] = useState(false);
     const [currentProduit, setCurrentProduit] = useState({ produit_id: '', libelle: '', montant_achat: 0, quantite: 0 })
     const [show, setShow] = useState(false);
+    const [load, setLoad] = useState(false);
     const [total, setTotal] = useState(0);
 
     const [items, setItems] = useState([]);
@@ -97,6 +98,7 @@ function SaveAchat() {
     }
 
     const handleSubmit = (event) => {
+        setLoad(true);
         event.preventDefault();
         const form = event.currentTarget;
         if (produitAchats.length == 0) {
@@ -107,6 +109,7 @@ function SaveAchat() {
                 buttons: true,
                 showCancelButton: false,
             });
+            setLoad(false);
             return;
         }
         if (form.checkValidity() === false) {
@@ -125,20 +128,24 @@ function SaveAchat() {
             if (achat.id === undefined) {
                 baseApi.post("achats", tab).then(
                     (response) => {
+                        setLoad(false);
                         return navigate("/achats");
                     }
                 ).catch(
                     (error) => {
+                        setLoad(false);
                         console.log(error);
                     }
                 )
             } else {
             }
-            if (status == 1)
-
+            if (status == 1) {
+                setLoad(false);
                 return navigate("/achats");
+            }
         }
         setValidated(true);
+        setLoad(false);
     };
 
     const handleClose = () => {
@@ -261,7 +268,9 @@ function SaveAchat() {
                         : <></>}
                 </div>
 
-                <div><Button className='mt-3' type="submit">Enregistrer</Button></div>
+                <div><Button className='mt-3' type="submit" disabled={load}>
+                    {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
+                </Button></div>
 
             </Form>
         </>

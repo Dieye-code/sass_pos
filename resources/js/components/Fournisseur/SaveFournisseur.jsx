@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Col, Form, FormGroup, Row } from 'react-bootstrap'
+import { Button, Col, Form, FormGroup, Row, Spinner } from 'react-bootstrap'
 import { Env } from '../../config/Env';
 import { baseApi } from '../../services/BaseService';
 
@@ -11,6 +11,7 @@ function SaveFournisseur({ setShowModal,
 
   const [fournisseur, setFournisseur] = useState(newFournisseur);
   const [validated, setValidated] = useState(false);
+  const [load, setLoad] = useState(false);
 
   const onInputChange = (e) => {
     setFournisseur({ ...fournisseur, [e.target.name]: e.target.value })
@@ -20,6 +21,7 @@ function SaveFournisseur({ setShowModal,
   }
 
   const handleSubmit = (event) => {
+    setLoad(true)
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -66,6 +68,7 @@ function SaveFournisseur({ setShowModal,
       }
     }
     setValidated(true);
+    setLoad(false)
   };
 
   return (
@@ -89,7 +92,9 @@ function SaveFournisseur({ setShowModal,
 
         </Row>
 
-        <Button className='mt-3' type="submit">Enregistrer</Button>
+        <div><Button className='mt-3' type="submit" disabled={load}>
+          {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
+        </Button></div>
       </Form>
 
     </>
