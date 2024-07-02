@@ -45,12 +45,15 @@ class VenteController extends BaseController
             $this->model->montant_total = $total;
             $this->repository->update($this->model->id, $this->model->toArray());
             if ($request->paiement != 1) {
-                $p = $this->paiementRepository->create(['montant' => $total, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'vente_id' => $this->model->id]);
+                $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'vente_id' => $this->model->id]);
             }
             if ($total > $request->montant_paye) {
                 $this->model->etat = 'en cours';
                 $this->repository->update($this->model->id, $this->model->toArray());
             }
+            dump($request->all());
+            dump($this->model);
+            dump($p);
             DB::commit();
             return $this->repository->find($this->model->id);
         } catch (\Throwable $th) {

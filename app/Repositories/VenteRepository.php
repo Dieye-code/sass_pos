@@ -51,4 +51,9 @@ class VenteRepository  extends BaseRepository implements VenteInterface
         }
         return VenteProduit::create($info);
     }
+
+    public function getVenteByClient($idClient)
+    {
+        return Vente::with('produits')->with('paiements')->where('client_id', $idClient)->get();
+    }
 }

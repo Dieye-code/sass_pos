@@ -22,6 +22,7 @@ Route::post('/achats/paiement', [PaiementAchatController::class, 'save']);
 Route::get('/ventes/paiements/{idVente}',[PaiementVenteController::class, 'getPaiementByVente']);
 Route::post('/ventes/paiement', [PaiementVenteController::class, 'save']);
 Route::get('/clients/{id}/details', [ClientController::class, 'details']);
+Route::post('/clients/{id}/paiement', [ClientController::class, 'paiement']);
 Route::get('/fournisseurs/{id}/details', [FournisseurController::class, 'details']);
 Route::post('/fournisseurs/{id}/paiement', [FournisseurController::class, 'paiement']);
 

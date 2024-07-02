@@ -23,4 +23,9 @@ class Vente extends BaseModel
     public function client() {
         return $this->belongsTo(Client::class);
     }
+
+    public function paiements()
+    {
+        return $this->hasMany(Paiementvente::class, 'vente_id');
+    }
 }
