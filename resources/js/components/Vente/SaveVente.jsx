@@ -121,6 +121,8 @@ function SaveVente() {
                 montant_paye: vente.montant_paye
             }
 
+            console.log(tab);
+
             if (vente.id === undefined) {
                 baseApi.post("ventes", tab).then(
                     (response) => {
@@ -259,7 +261,7 @@ function SaveVente() {
                     <Button className='mt-3' type="submit" disabled={load}>
                         {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
                     </Button>
-                    <Button className='mt-3' type="submit" disabled={load}>
+                    <Button className='mt-3 mx-3' type="submit" disabled={load}>
                         {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer et Imprimer</span>}
                     </Button>
                 </div>

@@ -33,7 +33,7 @@ class VenteController extends BaseController
     {
         try {
             DB::beginTransaction();
-            $data = $request->only(['client_id', 'date', 'en attente']);
+            $data = $request->only(['client_id', 'date']);
             $data['etat'] = $request->paiement == 1 ?  'en attente' : 'encaissé';
             $this->model = $this->repository->create($data);
             $total = 0;
@@ -46,14 +46,11 @@ class VenteController extends BaseController
             $this->repository->update($this->model->id, $this->model->toArray());
             if ($request->paiement != 1) {
                 $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'vente_id' => $this->model->id]);
+                if ($total > $request->montant_paye) {
+                    $this->model->etat = 'en cours';
+                    $this->repository->update($this->model->id, $this->model->toArray());
+                }
             }
-            if ($total > $request->montant_paye) {
-                $this->model->etat = 'en cours';
-                $this->repository->update($this->model->id, $this->model->toArray());
-            }
-            dump($request->all());
-            dump($this->model);
-            dump($p);
             DB::commit();
             return $this->repository->find($this->model->id);
         } catch (\Throwable $th) {
