@@ -16,57 +16,57 @@ function PaiementVente() {
     const { id } = useParams();
 
     useEffect(() => {
-      baseApi.get("ventes/" + id).then((result) => {
-        setVente(result.data);
-      })
-      baseApi.get("ventes/paiements/" + id).then((result) => {
-        console.log(result.data);
-        setPaiements(result.data);
-        let t = 0;
-        result.data.map(element => t += element.montant);
-        setTotal(t);
-      })
+        baseApi.get("ventes/" + id).then((result) => {
+            setVente(result.data);
+        })
+        baseApi.get("ventes/paiements/" + id).then((result) => {
+            console.log(result.data);
+            setPaiements(result.data);
+            let t = 0;
+            result.data.map(element => t += element.montant);
+            setTotal(t);
+        })
     }, [show, id])
-  
-  
+
+
     const onInputChange = (e) => {
-      setPaiement({ ...paiement, [e.target.name]: e.target.value })
+        setPaiement({ ...paiement, [e.target.name]: e.target.value })
     }
     const handleClose = () => {
-      setShow(false)
+        setShow(false)
     };
     const handleShow = () => setShow(true);
-  
-  
+
+
     const handleSubmit = (event) => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      if (form.checkValidity() === false) {
-        event.stopPropagation();
-      } else {
-  
-        let tab = {
-          montant: paiement.montant,
-          mode_paiement: paiement.mode_paiement,
-          vente_id: vente?.id
+        event.preventDefault();
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+        } else {
+
+            let tab = {
+                montant: paiement.montant,
+                mode_paiement: paiement.mode_paiement,
+                vente_id: vente?.id
+            }
+            baseApi.post("ventes/paiement", tab).then(
+                (response) => {
+                    handleClose();
+                }
+            ).catch(
+                (error) => {
+                    swal({
+                        text: error.response?.data[0],
+                        icon: "info",
+                        buttons: true,
+                        showCancelButton: false,
+                    });
+                    console.log(error.response.data);
+                }
+            )
         }
-        baseApi.post("ventes/paiement", tab).then(
-          (response) => {
-            handleClose();
-          }
-        ).catch(
-          (error) => {
-            swal({
-              text: error.response?.data[0],
-              icon: "info",
-              buttons: true,
-              showCancelButton: false,
-          });
-            console.log(error.response.data);
-          }
-        )
-      }
-      setValidated(true);
+        setValidated(true);
     };
 
     return (
@@ -103,6 +103,14 @@ function PaiementVente() {
                     </Form>
                 </Modal.Body>
             </Modal>
+
+
+            <div>
+                Client: <b>{vente?.client?.nom}</b> <br />
+                Téléphone: <i>{vente?.client?.telephone}</i> <br />
+                Etat: <span className={vente?.etat == 'en attente' ? 'text-danger' : vente?.etat == 'en cours' ? 'text-warning' : 'text-success'}>{vente?.etat}</span> <br />
+                Date: {vente?.date}<br />
+            </div>
 
             <Row>
                 <Col md='6'>

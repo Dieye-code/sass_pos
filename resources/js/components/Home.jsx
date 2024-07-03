@@ -73,7 +73,6 @@ function Home() {
       </div>
 
       <Row>
-
         <Col md="6" className='mt-2' style={!matches ? { maxHeight: "300px", overflowY: 'auto' } : { height: 'auto' }}>
           {/* <span>{`(min-width:600px) matches: ${matches}`}</span>; */}
           <span className="btn btn-primary text-white mb-3"><Link className='text-white' to={'/ventes'}>Ventes</Link> </span>
@@ -83,16 +82,23 @@ function Home() {
                 <th>date</th>
                 <th>Client</th>
                 <th>Montant</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-
               {ventes.map(e => {
                 return (
                   <tr>
                     <td>{e.date}</td>
                     <td>{e.client?.nom}</td>
-                    <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success' }>{e.montant_total} Francs CFA</td>
+                    <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success'}>{e.montant_total} Francs CFA</td>
+
+                    <td>
+                      <Link to={`/ventes/${e.id}/details`} >
+                        <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
+                      </Link>
+                      <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span>
+                    </td>
                   </tr>
                 )
               })}
@@ -107,6 +113,7 @@ function Home() {
                 <th>Date</th>
                 <th>Fournisseur</th>
                 <th>Montant</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -115,9 +122,15 @@ function Home() {
                   <tr>
                     <td>{e.date}</td>
                     <td>{e.fournisseur?.nom}</td>
-                    <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success' }>
+                    <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success'}>
                       {e.montant_total} Francs CFA
-                      </td>
+                    </td>
+                    <td>
+                      <Link to={`/achats/${e.id}/details`} >
+                        <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
+                      </Link>
+                      <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span>
+                    </td>
                   </tr>
                 )
               })}

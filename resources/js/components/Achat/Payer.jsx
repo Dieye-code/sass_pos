@@ -60,7 +60,7 @@ function Payer() {
             icon: "info",
             buttons: true,
             showCancelButton: false,
-        });
+          });
           console.log(error.response.data);
         }
       )
@@ -101,6 +101,15 @@ function Payer() {
           </Form>
         </Modal.Body>
       </Modal>
+
+
+      <div>
+        Fournisseur: <b>{achat?.fournisseur?.nom}</b> <br />
+        adresse: <i>{achat?.fournisseur?.adresse}</i> <br />
+        Téléphone: <i>{achat?.fournisseur?.telephone}</i> <br />
+        Etat: <span className={achat?.etat == 'en attente' ? 'text-danger' : achat?.etat == 'en cours' ? 'text-warning' : 'text-success'}>{achat?.etat}</span> <br />
+        Date: {achat?.date}
+      </div>
 
       <Row>
         <Col md='6'>
