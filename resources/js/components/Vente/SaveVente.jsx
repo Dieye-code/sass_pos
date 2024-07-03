@@ -178,33 +178,33 @@ function SaveVente() {
                         <span className="btn btn-primary fs-6 mt-3" onClick={handleShow}>Nouveau Client</span>
                     </FormGroup>
                 </Row>
-                
-            <Row className='mt-3'>
-                <FormGroup as={Col} sm="6">
-                    <Form.Label>Produit</Form.Label>
 
-                    <Select options={items} onChange={changeProduitSelect} name='produit_id' />
-                    {/* <Form.Select onChange={changeProduitSelect} >
+                <Row className='mt-3'>
+                    <FormGroup as={Col} sm="6">
+                        <Form.Label>Produit</Form.Label>
+
+                        <Select options={items} onChange={changeProduitSelect} name='produit_id' />
+                        {/* <Form.Select onChange={changeProduitSelect} >
                         {produits.map((element) => {
                             return <option value={element.id}>{element.libelle}</option>
                         })}
                     </Form.Select> */}
-                </FormGroup>
-                <FormGroup as={Col} sm="2">
-                    <Form.Label>Prix d'vente</Form.Label>
-                    <Form.Control name='montant_vente' value={currentProduit.montant_vente} type='number' onChange={handleValChange} />
-                </FormGroup>
-                <FormGroup as={Col} sm="2">
-                    <Form.Label>Quantité</Form.Label>
-                    <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
-                </FormGroup>
-                <FormGroup as={Col}>
-                    <Form.Label></Form.Label>
-                    <div className='col-auto text-end mb-2'>
-                        <Button onClick={addProduit} >Ajouter</Button>
-                    </div>
-                </FormGroup>
-            </Row>
+                    </FormGroup>
+                    <FormGroup as={Col} sm="2">
+                        <Form.Label>Prix d'vente</Form.Label>
+                        <Form.Control name='montant_vente' value={currentProduit.montant_vente} type='number' onChange={handleValChange} />
+                    </FormGroup>
+                    <FormGroup as={Col} sm="2">
+                        <Form.Label>Quantité</Form.Label>
+                        <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
+                    </FormGroup>
+                    <FormGroup as={Col}>
+                        <Form.Label></Form.Label>
+                        <div className='col-auto text-end mb-2'>
+                            <Button onClick={addProduit} >Ajouter</Button>
+                        </div>
+                    </FormGroup>
+                </Row>
 
                 <Table className='m-5'>
                     <thead>
@@ -255,9 +255,14 @@ function SaveVente() {
                 </div>
 
 
-                <div><Button className='mt-3' type="submit" disabled={load}>
-                    {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
-                </Button></div>
+                <div>
+                    <Button className='mt-3' type="submit" disabled={load}>
+                        {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
+                    </Button>
+                    <Button className='mt-3' type="submit" disabled={load}>
+                        {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer et Imprimer</span>}
+                    </Button>
+                </div>
 
             </Form>
         </>

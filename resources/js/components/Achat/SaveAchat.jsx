@@ -104,7 +104,7 @@ function SaveAchat() {
         if (produitAchats.length == 0) {
 
             swal({
-                text: "Vous devez selectionner les produits à acheter!",
+                text: "Vous devez ajouter les produits à acheter!",
                 icon: "info",
                 buttons: true,
                 showCancelButton: false,
@@ -270,9 +270,14 @@ function SaveAchat() {
                         : <></>}
                 </div>
 
-                <div><Button className='mt-3' type="submit" disabled={load}>
-                    {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
-                </Button></div>
+                <div>
+                    <Button className='mt-3' type="submit" disabled={load}>
+                        {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
+                    </Button>
+                    <Button className='mt-3 mx-3' type="submit" disabled={load}>
+                        {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer et Imprimer</span>}
+                    </Button>
+                </div>
 
             </Form>
         </>
