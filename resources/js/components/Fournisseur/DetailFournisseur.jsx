@@ -211,7 +211,7 @@ function DetailFournisseur() {
                         </div>
                     </div>
                     <div>
-                        <span className='btn btn-primary' onClick={handleShow}>Payer</span>
+                        {totalDettes > 0 ? <span className='btn btn-primary' onClick={handleShow}>Payer</span> : <></>} 
                     </div>
                 </Col>
             </Row>

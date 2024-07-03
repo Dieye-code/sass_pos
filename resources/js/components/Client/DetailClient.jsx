@@ -174,7 +174,6 @@ function DetailClient() {
         <Col md={4} >
           <div>
             Client: <b>{client?.nom}</b> <br />
-            adresse: <i>{client?.adresse}</i> <br />
             Téléphone: <i>{client?.telephone}</i> <br />
           </div>
         </Col>
@@ -186,7 +185,7 @@ function DetailClient() {
                 <div className="card-body">
                   <div className="d-flex align-items-center">
                     <div>
-                      <p className="mb-0 text-secondary">Total Vente</p>
+                      <p className="mb-0 text-secondary">totale vente</p>
                       <h4 >{ventes.reduce((mt, a) => mt + a.montant_total, 0)} Francs CFA</h4>
                     </div>
                     <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
@@ -212,7 +211,7 @@ function DetailClient() {
             </div>
           </div>
           <div>
-            <span className='btn btn-primary' onClick={handleShow}>Encaisser</span>
+            {totalDettes > 0 ? <span className='btn btn-primary' onClick={handleShow}>Encaisser</span> : <></> } 
           </div>
         </Col>
       </Row>

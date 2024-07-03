@@ -47,7 +47,7 @@ function Home() {
             <div className="card-body">
               <div className="d-flex align-items-center">
                 <div>
-                  <p className="mb-0 text-secondary">Total Vente</p>
+                  <p className="mb-0 text-secondary">totale vente</p>
                   <h4 className="my-1">{totalVentes}  Francs CFA</h4>
                 </div>
                 <div className="widget-icon-large bg-gradient-success text-white ms-auto"><i className="bi bi-currency-exchange"></i>
