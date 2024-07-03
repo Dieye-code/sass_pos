@@ -28,7 +28,7 @@ class AchatRepository extends BaseRepository implements AchatInterface
     }
     public function find($id)
     {
-        return Achat::where('id', $id)->with('produits')->first();
+        return Achat::where('id', $id)->with('fournisseur')->with('produits')->first();
     }
     public function delete($id)
     {

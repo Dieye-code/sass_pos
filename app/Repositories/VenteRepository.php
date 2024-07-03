@@ -28,7 +28,7 @@ class VenteRepository  extends BaseRepository implements VenteInterface
     }
     public function find($id)
     {
-        return Vente::where('id', $id)->with('produits')->first();
+        return Vente::where('id', $id)->with('client')->with('produits')->first();
     }
     public function delete($id)
     {
