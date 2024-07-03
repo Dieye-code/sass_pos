@@ -1,6 +1,13 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Header() {
+
+    const navigate = useNavigate();
+
+    const back = function (e) {
+        navigate(-1);
+    }
     return (
         <div>
 
@@ -9,6 +16,7 @@ function Header() {
                     <div className="mobile-toggle-icon d-xl-none">
                         <i className="bi bi-list" />
                     </div>
+                    <div className='btn btn-primary mx-3' onClick={back}><i className='bi bi-chevron-double-left'></i></div>
                     <div className="d-none d-xl-flex ms-auto top-navbar-right ms-3">
                         <ul className="navbar-nav align-items-center">
                             <li className="nav-item dropdown dropdown-large">

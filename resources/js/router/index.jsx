@@ -29,12 +29,11 @@ function Router(props) {
                             <Route path="clients/:id/details" element={<DetailClient />}></Route>
                             <Route path="produits" element={<Produits />}></Route>
                             <Route path="achats" element={<Achats />}></Route>
-                            <Route path="achats/:id/details" element={<DetailAchat />}></Route>
+                            <Route path="achats/:id/details" element={<Payer />}></Route>
                             <Route path="save-achat/:id?" element={<SaveAchat />}></Route>
-                            <Route path="achats/paiement/:id" element={<Payer />}></Route>
                             <Route path="ventes" element={<Ventes />}></Route>
                             <Route path="save-vente/:id?" element={<SaveVente />}></Route>
-                            <Route path="ventes/paiement/:id" element={<PaiementVente />}></Route>
+                            <Route path="ventes/:id/details" element={<PaiementVente />}></Route>
                         </Route>
                         <Route path="*" element={<NotFound />}></Route>
                     </Routes>

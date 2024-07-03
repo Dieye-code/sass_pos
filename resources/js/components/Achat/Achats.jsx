@@ -45,7 +45,7 @@ function Achats() {
           } else {
             return <>
               <span className='text-success'>{row.etat}</span>
-              <Link to={`/achats/paiement/${row.id}`} >
+              <Link to={`/achats/${row.id}/details`} >
                 <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
               </Link>
 
