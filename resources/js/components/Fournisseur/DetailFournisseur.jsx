@@ -160,6 +160,8 @@ function DetailFournisseur() {
                                 label={(<Image src={Env.API_URL + "images/wave.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
                             <Form.Check inline name="mode_paiement" value="5" type='radio' id='free' onChange={(e) => onInputChange(e)}
                                 label={(<Image src={Env.API_URL + "images/free-money.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
+                            <Form.Check className='text-center' inline name="paiement" value={6} type='radio' id='credit' onChange={(e) => onInputChange(e)} label={(<> Virement </>)} />
+                            <Form.Check className='text-center' inline name="paiement" value={7} type='radio' id='credit' onChange={(e) => onInputChange(e)} label={(<> Chéque </>)} />
                         </div>
 
                         <div>
@@ -211,7 +213,7 @@ function DetailFournisseur() {
                         </div>
                     </div>
                     <div>
-                        {totalDettes > 0 ? <span className='btn btn-primary' onClick={handleShow}>Payer</span> : <></>} 
+                        {totalDettes > 0 ? <span className='btn btn-primary' onClick={handleShow}>Payer</span> : <></>}
                     </div>
                 </Col>
             </Row>

@@ -73,7 +73,7 @@ function DetailClient() {
 
   const [client, setClient] = useState();
   const [ventes, setVentes] = useState([]);
-  const [totalDettes, setTotalDettes] = useState(0);
+  const [totalCreances, settotalCreances] = useState(0);
   const [paiement, setPaiement] = useState({ montant: 0, mode_paiement: '2' })
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
@@ -88,7 +88,7 @@ function DetailClient() {
         const t = e.paiements.reduce((mt, a) => mt + a.montant, 0);
         montant += e.montant_total - t;
       })
-      setTotalDettes(montant);
+      settotalCreances(montant);
       setPaiement({ ...paiement, ['montant']: montant })
     }).catch(error => {
       console.log(error)
@@ -144,7 +144,7 @@ function DetailClient() {
         backdrop="static"
         keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Paiement de la dette</Modal.Title>
+          <Modal.Title>Paiement de la créance</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -161,6 +161,10 @@ function DetailClient() {
                 label={(<Image src={Env.API_URL + "images/wave.jpg"} width={40} height={40} roundedCircle className='mr-2' />)} />
               <Form.Check inline name="mode_paiement" value="5" type='radio' id='free' onChange={(e) => onInputChange(e)}
                 label={(<Image src={Env.API_URL + "images/free-money.png"} width={40} height={40} roundedCircle className='mr-2' />)} />
+              <Form.Check className='text-center' inline name="paiement" value={6} type='radio' id='credit' onChange={(e) => onInputChange(e)}
+                label={(<> Virement </>)} />
+              <Form.Check className='text-center' inline name="paiement" value={7} type='radio' id='credit' onChange={(e) => onInputChange(e)}
+                label={(<> Chéque </>)} />
             </div>
 
             <div>
@@ -200,8 +204,8 @@ function DetailClient() {
                 <div className="card-body">
                   <div className="d-flex align-items-center">
                     <div>
-                      <p className="mb-0 text-secondary">Totale dette</p>
-                      <h4 >{totalDettes} Francs CFA</h4>
+                      <p className="mb-0 text-secondary">Totale créance</p>
+                      <h4 >{totalCreances} Francs CFA</h4>
                     </div>
                     <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
                     </div>
@@ -211,7 +215,7 @@ function DetailClient() {
             </div>
           </div>
           <div>
-            {totalDettes > 0 ? <span className='btn btn-primary' onClick={handleShow}>Encaisser</span> : <></> } 
+            {totalCreances > 0 ? <span className='btn btn-primary' onClick={handleShow}>Encaisser</span> : <></>}
           </div>
         </Col>
       </Row>

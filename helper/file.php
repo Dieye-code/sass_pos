@@ -33,6 +33,12 @@ function paiement($type)
         case 5:
             return 'free money';
             break;
+        case 6:
+            return 'virement';
+            break;
+        case 7:
+            return 'chéque';
+            break;
     }
 }
 
