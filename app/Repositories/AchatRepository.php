@@ -56,4 +56,8 @@ class AchatRepository extends BaseRepository implements AchatInterface
     {
         return Achat::with('produits')->with('paiements')->where('fournisseur_id', $idFournisseur)->get();
     }
+
+    public function getAchatWithPaiements(){
+        return Achat::with('paiements')->with('fournisseur')->get();
+    }
 }

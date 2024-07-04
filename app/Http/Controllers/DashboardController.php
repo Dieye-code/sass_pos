@@ -16,11 +16,28 @@ class DashboardController
         $this->venteRepository = $venteRepository;
         $this->achatRepository = $achatRepository;
     }
-    public function index(){
+    public function index()
+    {
         $ventes = $this->venteRepository->getLatestVente();
         $achats = $this->achatRepository->getLastAchat(null);
         $totalVente = $this->venteRepository->getAll(null)->sum('montant_total');
         $totalAchat = $this->achatRepository->getAll(null)->sum('montant_total');
-        return response()->json(['achats' => $achats, 'ventes' => $ventes, 'achatTotal' => $totalAchat, 'venteTotal' => $totalVente]);
+        $totalDettes = [];
+        $totalCreances = [];
+        $v = $this->achatRepository->getAchatWithPaiements();
+        foreach ($v as  $value) {
+            $totalPaiement = $value->paiements->sum('montant');
+            if ($value->montant_total > $totalPaiement) {
+                $totalDettes[] = ['achat' => $value, 'dette' => $value->montant_total - $totalPaiement];
+            }
+        }
+        $v = $this->venteRepository->getVenteWithPaiements();
+        foreach ($v as  $value) {
+            $totalPaiement = $value->paiements->sum('montant');
+            if ($value->montant_total > $totalPaiement) {
+                $totalCreances[] = ['vente' => $value, 'dette' => $value->montant_total - $totalPaiement];
+            }
+        }
+        return response()->json(['achats' => $achats, 'ventes' => $ventes, 'achatTotal' => $totalAchat, 'venteTotal' => $totalVente, 'totalDettes' => $totalDettes, 'totalCreances' => $totalCreances]);
     }
 }

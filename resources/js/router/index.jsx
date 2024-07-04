@@ -14,7 +14,6 @@ import Payer from '../components/Achat/Payer';
 import PaiementVente from '../components/Vente/PaiementVente';
 import DetailClient from '../components/Client/DetailClient';
 import DetailFournisseur from '../components/Fournisseur/DetailFournisseur';
-import DetailAchat from '../components/Achat/DetailAchat';
 function Router(props) {
     return (
         <div>
