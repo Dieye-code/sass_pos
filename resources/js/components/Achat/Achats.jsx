@@ -30,7 +30,7 @@ function Achats() {
         if (row.etat === "en attente") {
           return <>
             <span className='text-danger'>{row.etat}</span>
-            <Link to={`/achats/paiement/${row.id}`} >
+            <Link to={`/achats/${row.id}/details`} >
               <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
             </Link>
           </>
@@ -38,7 +38,7 @@ function Achats() {
           if (row.etat == "en cours") {
             return <>
               <span className='text-primary'>{row.etat}</span>
-              <Link to={`/achats/paiement/${row.id}`} >
+              <Link to={`/achats/${row.id}/details`} >
                 <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
               </Link>
             </>

@@ -29,7 +29,7 @@ function Ventes() {
         if (row.etat === "en attente") {
           return <>
             <span className='text-danger'>{row.etat}</span>
-            <Link to={`/ventes/paiement/${row.id}`} >
+            <Link to={`/ventes/${row.id}/details`} >
               <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
             </Link>
           </>
@@ -37,7 +37,7 @@ function Ventes() {
           if (row.etat == "en cours") {
             return <>
               <span className='text-primary'>{row.etat}</span>
-              <Link to={`/ventes/paiement/${row.id}`} >
+              <Link to={`/ventes/${row.id}/details`} >
                 <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
               </Link>
             </>

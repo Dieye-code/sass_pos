@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import Select from 'react-select';
 import SaveFournisseur from '../Fournisseur/SaveFournisseur';
 import { Env } from '../../config/Env';
+import SaveProduit from '../Produit/SaveProduit';
 
 function SaveAchat() {
 
@@ -18,6 +19,7 @@ function SaveAchat() {
     const [validated, setValidated] = useState(false);
     const [currentProduit, setCurrentProduit] = useState({ produit_id: '', libelle: '', montant_achat: 0, quantite: 0 })
     const [show, setShow] = useState(false);
+    const [show1, setShow1] = useState(false);
     const [load, setLoad] = useState(false);
     const [total, setTotal] = useState(0);
 
@@ -36,7 +38,7 @@ function SaveAchat() {
         })
 
 
-    }, [show])
+    }, [show, show1])
 
     const onInputChange = (e) => {
         setAchat({ ...achat, [e.target.name]: e.target.value })
@@ -153,6 +155,11 @@ function SaveAchat() {
     };
     const handleShow = () => setShow(true);
 
+    const handleClose1 = () => {
+        setShow1(false)
+    };
+    const handleShow1 = () => setShow1(true);
+
     return (
         <>
             <Modal show={show} size='lg' centered
@@ -165,6 +172,19 @@ function SaveAchat() {
                 <Modal.Body>
 
                     <SaveFournisseur setShowModal={setShow} />
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={show1} size='lg' centered
+                onHide={handleClose1}
+                backdrop="static"
+                keyboard={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Produit</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                    <SaveProduit setShowModal={setShow1} />
                 </Modal.Body>
             </Modal>
 
@@ -188,19 +208,11 @@ function SaveAchat() {
                     </FormGroup>
 
                 </Row>
-
-
                 <Row className='mt-2'>
                     <FormGroup as={Col} sm="6">
                         <Form.Label>Produit</Form.Label>
-
                         <Select options={items} onChange={changeProduitSelect} name='produit_id' />
-
-                        {/* <Form.Select onChange={changeProduitSelect} >
-                        {produits.map((element) => {
-                            return <option value={element.id}>{element.libelle}</option>
-                        })}
-                    </Form.Select> */}
+                        <Button className='mt-2' variant="primary" onClick={handleShow1}>Nouveau Produit</Button>
                     </FormGroup>
                     <FormGroup as={Col} sm="2">
                         <Form.Label>Prix d'achat</Form.Label>

@@ -147,7 +147,7 @@ function PaiementVente() {
                     <h5>Paiements</h5>
                     {
                         vente?.montant_total > total ?
-                            <><span className="btn btn-primary mb-2" onClick={handleShow}>Payer</span> </> :
+                            <><span className="btn btn-primary mb-2" onClick={handleShow}>Encaisser</span> </> :
                             <></>
                     }
                     <Table striped bordered >
