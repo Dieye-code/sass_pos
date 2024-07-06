@@ -142,7 +142,7 @@ function SaveAchat() {
             formData.append('produits', JSON.stringify(produitAchats));
             formData.append('paiement', achat.paiement);
             formData.append('montant_paye', achat.montant_paye);
-            formData.append('facture', achat.facture);
+            achat.facture ? formData.append('facture', achat.facture) : '';
             console.log(formData);
             var status;
             if (achat.id === undefined) {

@@ -33,7 +33,7 @@ class AchatController extends BaseController
     {
         try {
             DB::beginTransaction();
-            $data = $request->only(['fournisseur_id', 'date']);            
+            $data = $request->only(['fournisseur_id', 'date']);
             if (key_exists('facture', $request->file())) {
                 $facture = storefile($request->file('facture'));
                 $data['facture'] = $facture;
@@ -61,5 +61,18 @@ class AchatController extends BaseController
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function dettes()
+    {
+        $totalDettes = [];
+        $v = $this->achatRepository->getAchatWithPaiements();
+        foreach ($v as  $value) {
+            $totalPaiement = $value->paiements->sum('montant');
+            if ($value->montant_total > $totalPaiement) {
+                $totalDettes[] = ['achat' => $value, 'dette' => $value->montant_total - $totalPaiement];
+            }
+        }
+        return response()->json( $totalDettes);
     }
 }

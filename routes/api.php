@@ -25,6 +25,7 @@ Route::get('/clients/{id}/details', [ClientController::class, 'details']);
 Route::post('/clients/{id}/paiement', [ClientController::class, 'paiement']);
 Route::get('/fournisseurs/{id}/details', [FournisseurController::class, 'details']);
 Route::post('/fournisseurs/{id}/paiement', [FournisseurController::class, 'paiement']);
+Route::get('/dettes', [AchatController::class, 'dettes']);
 
 defaultRoutesFor('users', UserController::class);
 defaultRoutesFor('fournisseurs', FournisseurController::class);

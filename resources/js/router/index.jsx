@@ -14,6 +14,8 @@ import Payer from '../components/Achat/Payer';
 import PaiementVente from '../components/Vente/PaiementVente';
 import DetailClient from '../components/Client/DetailClient';
 import DetailFournisseur from '../components/Fournisseur/DetailFournisseur';
+import Dettes from '../components/Achat/Dettes';
+import Creances from '../components/Vente/Creances';
 function Router(props) {
     return (
         <div>
@@ -33,6 +35,8 @@ function Router(props) {
                             <Route path="ventes" element={<Ventes />}></Route>
                             <Route path="save-vente/:id?" element={<SaveVente />}></Route>
                             <Route path="ventes/:id/details" element={<PaiementVente />}></Route>
+                            <Route path="liste-dette" element={<Dettes />}></Route>
+                            <Route path="liste-creance" element={<Creances />}></Route>
                         </Route>
                         <Route path="*" element={<NotFound />}></Route>
                     </Routes>
