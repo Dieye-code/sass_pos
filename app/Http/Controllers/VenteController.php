@@ -59,4 +59,17 @@ class VenteController extends BaseController
             throw $th;
         }
     }
+
+    public function creances(){
+        
+        $totalCreances = [];
+        $v = $this->venteRepository->getVenteWithPaiements();
+        foreach ($v as  $value) {
+            $totalPaiement = $value->paiements->sum('montant');
+            if ($value->montant_total > $totalPaiement) {
+                $totalCreances[] = ['vente' => $value, 'creance' => $value->montant_total - $totalPaiement];
+            }
+        }
+        return response()->json( $totalCreances);
+    }
 }
