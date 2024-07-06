@@ -11,6 +11,7 @@ function Payer() {
   const [total, setTotal] = useState(0);
   const [achat, setAchat] = useState();
   const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
   const [validated, setValidated] = useState(false);
 
   const { id } = useParams();
@@ -35,6 +36,10 @@ function Payer() {
     setShow(false)
   };
   const handleShow = () => setShow(true);
+  const handleClose1 = () => {
+    setShow1(false)
+  };
+  const handleShow1 = () => setShow1(true);
 
 
   const handleSubmit = (event) => {
@@ -70,6 +75,18 @@ function Payer() {
 
   return (
     <div>
+
+      <Modal show={show1} size='lg' centered
+        onHide={handleClose1}
+        backdrop="static"
+        keyboard={false}>
+          
+        <Modal.Header closeButton>
+        </Modal.Header>
+        <Modal.Body>
+          <Image src={Env.API_URL + "storage/" + achat?.facture} width={300} />
+        </Modal.Body>
+      </Modal>
 
       <Modal show={show} size='lg' centered
         onHide={handleClose}
@@ -112,7 +129,8 @@ function Payer() {
         adresse: <i>{achat?.fournisseur?.adresse}</i> <br />
         Téléphone: <i>{achat?.fournisseur?.telephone}</i> <br />
         Etat: <span className={achat?.etat == 'en attente' ? 'text-danger' : achat?.etat == 'en cours' ? 'text-warning' : 'text-success'}>{achat?.etat}</span> <br />
-        Date: {achat?.date}
+        Date: {achat?.date} <br/>
+        {achat?.facture ? <span className='btn btn-outline-primary' onClick={handleShow1}>Facture</span> : ''}
       </div>
 
       <Row>
