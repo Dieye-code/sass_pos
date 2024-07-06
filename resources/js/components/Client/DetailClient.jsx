@@ -58,7 +58,7 @@ function DetailClient() {
       selector: row => (
         <>
           <span className='text-primary btn'>
-            <Link to={'/vente/' + row.id + '/details'}><i className="bi bi-eye m-r-5"></i></Link>
+            <Link to={'/ventes/' + row.id + '/details'}><i className="bi bi-eye m-r-5"></i></Link>
           </span>
         </>
       )

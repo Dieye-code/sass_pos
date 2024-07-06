@@ -33,16 +33,19 @@ class AchatController extends BaseController
     {
         try {
             DB::beginTransaction();
-            $data = $request->only(['fournisseur_id', 'date']);
+            $data = $request->only(['fournisseur_id', 'date']);            
+            if (key_exists('facture', $request->file())) {
+                $facture = storefile($request->file('facture'));
+                $data['facture'] = $facture;
+            }
             $data['etat'] = $request->paiement == 1 ?  'en attente' : 'payé';
             $this->model = $this->repository->create($data);
             $total = 0;
-
-            foreach ($request->produits as $key => $value) {
-                if (intval($value['quantite']) < 0)
-                    return response()->json(['error' => 'Vous devez sélectionner une quantité valide']);
-                $this->achatRepository->saveAchatProduit(['produit_id' => $value['produit_id'], 'quantite' => $value['quantite'], 'montant_achat' => $value['montant_achat'], 'achat_id' => $this->model->id]);
-                $total += intval($value['quantite']) * intval($value['montant_achat']);
+            foreach (json_decode($request->produits) as  $value) {
+                if (intval($value->quantite) < 0)
+                    return response()->json(['error' => 'Vous devez sélectionner une quantité valide'], 400);
+                $this->achatRepository->saveAchatProduit(['produit_id' => $value->produit_id, 'quantite' => $value->quantite, 'montant_achat' => $value->montant_achat, 'achat_id' => $this->model->id]);
+                $total += intval($value->quantite) * intval($value->montant_achat);
             }
             $this->model->montant_total = $total;
             $this->repository->update($this->model->id, $this->model->toArray());

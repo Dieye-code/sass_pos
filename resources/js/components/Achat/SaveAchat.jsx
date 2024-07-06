@@ -12,7 +12,7 @@ function SaveAchat() {
 
     // const id = useParams();
     const navigate = useNavigate();
-    const [achat, setAchat] = useState({ date: '', fournisseur_id: '', paiement: 0, montant_paye: 0 });
+    const [achat, setAchat] = useState({ date: '', fournisseur_id: '', paiement: 0, montant_paye: 0, facture: null });
     const [fournisseurs, setFournisseurs] = useState([]);
     const [produits, setProduits] = useState([]);
     const [produitAchats, setProduitAchats] = useState([]);
@@ -42,6 +42,24 @@ function SaveAchat() {
 
     const onInputChange = (e) => {
         setAchat({ ...achat, [e.target.name]: e.target.value })
+    }
+
+    const HandleChangeFile = (e) => {
+        const imageFile = e.target.files[0];
+        if (!imageFile.name.match(/\.(jpg|jpeg|png)$/)) {
+            console.log(e);
+            swal({
+                text: "La facture doit etre une image!",
+                icon: "info",
+                buttons: true,
+                showCancelButton: false,
+            });
+            e.value = '';
+            e.target.value = '';
+            e.preventDefault();
+            return;
+        }
+        imageFile ? setAchat({ ...achat, ['facture']: imageFile }) : '';
     }
 
     const removeProduit = (element) => {
@@ -118,20 +136,35 @@ function SaveAchat() {
             event.stopPropagation();
         } else {
 
-            let tab = {
-                date: achat.date,
-                fournisseur_id: achat.fournisseur_id,
-                produits: produitAchats,
-                paiement: achat.paiement,
-                montant_paye: achat.montant_paye
-            }
-
+            var formData = new FormData();
+            formData.append('date', achat.date);
+            formData.append('fournisseur_id', achat.fournisseur_id);
+            formData.append('produits', JSON.stringify(produitAchats));
+            formData.append('paiement', achat.paiement);
+            formData.append('montant_paye', achat.montant_paye);
+            formData.append('facture', achat.facture);
+            console.log(formData);
             var status;
             if (achat.id === undefined) {
-                baseApi.post("achats", tab).then(
+                baseApi.post("achats", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(
                     (response) => {
-                        setLoad(false);
-                        return navigate("/achats");
+                        console.log(response);
+                        if (response.status == 400) {
+                            swal({
+                                text: "La facture doit etre une image!",
+                                icon: "info",
+                                buttons: true,
+                                showCancelButton: false,
+                            });
+                        } else {
+                            setLoad(false);
+                            return navigate("/achats");
+
+                        }
                     }
                 ).catch(
                     (error) => {
@@ -183,7 +216,6 @@ function SaveAchat() {
                     <Modal.Title>Produit</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-
                     <SaveProduit setShowModal={setShow1} />
                 </Modal.Body>
             </Modal>
@@ -191,11 +223,11 @@ function SaveAchat() {
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row>
 
-                    <FormGroup as={Col} >
+                    <FormGroup as={Col} sm="4" >
                         <Form.Label>Date</Form.Label>
                         <Form.Control required name='date' onChange={(e) => onInputChange(e)} type='date' ></Form.Control>
                     </FormGroup>
-                    <FormGroup as={Col}>
+                    <FormGroup as={Col} sm="4" >
                         <Form.Label>Fournisseur</Form.Label>
                         <Form.Select name='fournisseur_id' onChange={(e) => onInputChange(e)} value={achat.fournisseur_id} required>
 
@@ -205,6 +237,11 @@ function SaveAchat() {
                             })}
                         </Form.Select>
                         <span className="btn btn-primary fs-6 mt-3" onClick={handleShow}>Nouveau Fournisseur</span>
+                    </FormGroup>
+
+                    <FormGroup as={Col} sm="4" >
+                        <Form.Label>Facture</Form.Label>
+                        <Form.Control name='date' onChange={(e) => HandleChangeFile(e)} type='file' accept="image/png, image/jpg, image/jpeg" ></Form.Control>
                     </FormGroup>
 
                 </Row>
