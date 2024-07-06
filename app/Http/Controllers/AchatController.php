@@ -15,11 +15,13 @@ class AchatController extends BaseController
 
     private AchatRepository $achatRepository;
     private PaiementAchatInterface $paiementRepository;
-    public function __construct(AchatInterface $repository, PaiementAchatInterface $paiement)
+    private $produitRepository;
+    public function __construct(AchatInterface $repository, PaiementAchatInterface $paiement, ProduitInterface $produitRepository)
     {
         $this->repository = $repository;
         $this->achatRepository = $repository;
         $this->paiementRepository = $paiement;
+        $this->produitRepository = $produitRepository;
     }
 
     public function last($idAbonnement = null)
@@ -37,6 +39,8 @@ class AchatController extends BaseController
             $total = 0;
 
             foreach ($request->produits as $key => $value) {
+                if (intval($value['quantite']) < 0)
+                    return response()->json(['error' => 'Vous devez sélectionner une quantité valide']);
                 $this->achatRepository->saveAchatProduit(['produit_id' => $value['produit_id'], 'quantite' => $value['quantite'], 'montant_achat' => $value['montant_achat'], 'achat_id' => $this->model->id]);
                 $total += intval($value['quantite']) * intval($value['montant_achat']);
             }

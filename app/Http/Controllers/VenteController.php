@@ -39,6 +39,8 @@ class VenteController extends BaseController
             $total = 0;
 
             foreach ($request->produits as $key => $value) {
+                if (intval($value['quantite']) < 0)
+                    return response()->json(['error' => 'Vous devez sélectionner une quantité valide']);
                 $this->venteRepository->saveVenteProduit(['produit_id' => $value['produit_id'], 'quantite' => $value['quantite'], 'montant_vente' => $value['montant_vente'], 'vente_id' => $this->model->id]);
                 $total += intval($value['quantite']) * intval($value['montant_vente']);
             }
