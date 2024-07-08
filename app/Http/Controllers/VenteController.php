@@ -70,6 +70,6 @@ class VenteController extends BaseController
                 $totalCreances[] = ['vente' => $value, 'creance' => $value->montant_total - $totalPaiement];
             }
         }
-        return response()->json( $totalCreances);
+        return response()->json($totalCreances);
     }
 }

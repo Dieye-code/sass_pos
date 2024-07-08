@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
-import { baseApi } from '../../services/BaseService';
+import { baseApi } from '../../services/BaseService'
 
 function Creances() {
 
@@ -82,7 +82,7 @@ function Creances() {
                         <div className="card-body">
                             <div className="d-flex align-items-center">
                                 <div>
-                                    <p className="mb-0 text-secondary">Total vente</p>
+                                    <p className="mb-0 text-secondary">Total créance</p>
                                     <h4 >{creances.reduce((mt, a) => mt + a.creance, 0)} Francs CFA</h4>
                                 </div>
                                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>

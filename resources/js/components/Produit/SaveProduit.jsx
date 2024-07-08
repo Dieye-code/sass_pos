@@ -79,7 +79,7 @@ function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quanti
                     {produit.id === undefined ? (
                         <Form.Group >
                             <Form.Label>Photo</Form.Label>
-                            <Form.Control type='file' name='photo' required onChange={(e) => HandleChangeFile(e)} />
+                            <Form.Control type='file' name='photo' onChange={(e) => HandleChangeFile(e)} />
                         </Form.Group>) : ''
                     }
 

@@ -82,7 +82,7 @@ function Dettes() {
                         <div className="card-body">
                             <div className="d-flex align-items-center">
                                 <div>
-                                    <p className="mb-0 text-secondary">Total achat</p>
+                                    <p className="mb-0 text-secondary">Total dette</p>
                                     <h4 >{dettes.reduce((mt, a) => mt + a.dette, 0)} Francs CFA</h4>
                                 </div>
                                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
