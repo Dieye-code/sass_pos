@@ -69,11 +69,14 @@ function Home() {
                   <p className="mb-0 text-secondary">total dette</p>
                   <h4 className="my-1">{totalDettes.reduce((mt, a) => mt + a.dette, 0)}  Francs CFA</h4>
                 </div>
-                <Link to={'/liste-dette'} >
-                  <div className="widget-icon-large bg-gradient-danger text-white ms-auto">
-                    <i className="bi bi-currency-exchange"></i>
-                  </div>
-                </Link>
+                <div className='ms-auto'>
+                  <Link to={'/liste-dette'} >
+                    <div className="widget-icon-large bg-gradient-danger text-white ms-auto">
+                      <i className="bi bi-currency-exchange"></i>
+                    </div>
+                  </Link>
+
+                </div>
               </div>
             </div>
           </div>
@@ -86,11 +89,13 @@ function Home() {
                   <p className="mb-0 text-secondary">total creance</p>
                   <h4 className="my-1">{totalCreances.reduce((mt, a) => mt + a.dette, 0)}  Francs CFA</h4>
                 </div>
-                <Link to={'/liste-creance'} >
-                  <div className="widget-icon-large bg-gradient-danger text-white ms-auto">
-                    <i className="bi bi-currency-exchange"></i>
-                  </div>
-                </Link>
+                <div className='ms-auto'>
+                  <Link to={'/liste-creance'} >
+                    <div className="widget-icon-large bg-gradient-danger text-white ms-auto">
+                      <i className="bi bi-currency-exchange"></i>
+                    </div>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -127,7 +132,7 @@ function Home() {
                         <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
                       </Link>
                       <Link to={`/ventes/${e.id}/facture`} >
-                      <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span>
+                        <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span>
                       </Link>
                     </td>
                   </tr>

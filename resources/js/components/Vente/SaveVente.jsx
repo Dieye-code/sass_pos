@@ -128,17 +128,30 @@ function SaveVente() {
                     (response) => {
                         if (response.status === 200) {
                             console.log(response.data);
-                            if(facture)
+                            if (facture)
                                 return navigate(`/ventes/${response.data.id}/facture`);
                             else
                                 return navigate(`/ventes`);
+                        } else {
+                            swal({
+                                text: response.data?.error,
+                                icon: "info",
+                                buttons: true,
+                                showCancelButton: false,
+                            })
                         }
                         // setLoad(false);
                         // return navigate("/ventes");
                     }
                 ).catch(
                     (error) => {
-                        console.log(error);
+                        if (error.response?.status == 400)
+                            swal({
+                                text: error.response?.data?.error,
+                                icon: "info",
+                                buttons: true,
+                                showCancelButton: false,
+                            })
 
                     }
                 )
