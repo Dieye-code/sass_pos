@@ -240,7 +240,7 @@ function SaveAchat() {
                     </FormGroup>
 
                     <FormGroup as={Col} sm="4" >
-                        <Form.Label>Facture</Form.Label>
+                        <Form.Label>Bon de réception</Form.Label>
                         <Form.Control name='date' onChange={(e) => HandleChangeFile(e)} type='file' accept="image/png, image/jpg, image/jpeg" ></Form.Control>
                     </FormGroup>
 

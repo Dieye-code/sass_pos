@@ -21,6 +21,8 @@ function SaveVente() {
     const [total, setTotal] = useState(0);
     const [load, setLoad] = useState(false);
 
+    const [facture, SetFacture] = useState(false)
+
 
     useEffect(() => {
         baseApi.get('clients').then(response => {
@@ -96,7 +98,6 @@ function SaveVente() {
 
     const handleSubmit = (event) => {
         setLoad(true);
-        event.preventDefault();
         const form = event.currentTarget;
 
         if (produitVentes.length == 0) {
@@ -120,14 +121,20 @@ function SaveVente() {
                 paiement: vente.paiement,
                 montant_paye: vente.montant_paye
             }
-
-            console.log(tab);
-
+            event.preventDefault();
+            event.stopPropagation();
             if (vente.id === undefined) {
                 baseApi.post("ventes", tab).then(
                     (response) => {
-                        setLoad(false);
-                        return navigate("/ventes");
+                        if (response.status === 200) {
+                            console.log(response.data);
+                            if(facture)
+                                return navigate(`/ventes/${response.data.id}/facture`);
+                            else
+                                return navigate(`/ventes`);
+                        }
+                        // setLoad(false);
+                        // return navigate("/ventes");
                     }
                 ).catch(
                     (error) => {
@@ -265,7 +272,7 @@ function SaveVente() {
                     <Button className='mt-3' type="submit" disabled={load}>
                         {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
                     </Button>
-                    <Button className='mt-3 mx-3' type="submit" disabled={load}>
+                    <Button className='mt-3 mx-3' type="submit" disabled={load} onClick={(e) => SetFacture(true)}>
                         {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer et Imprimer</span>}
                     </Button>
                 </div>

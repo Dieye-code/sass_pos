@@ -14,6 +14,7 @@
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.5",
         "@mui/material": "^5.15.21",
+        "@react-pdf/renderer": "^3.4.4",
         "axios": "^1.6.8",
         "bootstrap": "^5.3.3",
         "react": "^18.2.0",

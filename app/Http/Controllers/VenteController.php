@@ -54,7 +54,7 @@ class VenteController extends BaseController
                 }
             }
             DB::commit();
-            return $this->repository->find($this->model->id);
+            return $this->venteRepository->find($this->model->id);
         } catch (\Throwable $th) {
             throw $th;
         }

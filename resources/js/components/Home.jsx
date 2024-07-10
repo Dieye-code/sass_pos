@@ -126,7 +126,9 @@ function Home() {
                       <Link to={`/ventes/${e.id}/details`} >
                         <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
                       </Link>
+                      <Link to={`/ventes/${e.id}/facture`} >
                       <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span>
+                      </Link>
                     </td>
                   </tr>
                 )
@@ -162,7 +164,7 @@ function Home() {
                       <Link to={`/achats/${e.id}/details`} >
                         <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
                       </Link>
-                      <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span>
+                      {/* <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span> */}
                     </td>
                   </tr>
                 )

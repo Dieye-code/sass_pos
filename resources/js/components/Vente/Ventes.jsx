@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
 import { baseApi } from '../../services/BaseService';
+import Facture from './Facture';
+import { BlobProvider, PDFViewer } from '@react-pdf/renderer';
 
 function Ventes() {
 
@@ -114,6 +116,15 @@ function Ventes() {
         pagination
         paginationComponentOptions={paginationComponentOptions}
       />
+
+      {/* <BlobProvider document={<Facture />}>
+      {({ url, blob }) => (
+
+         <a href={url} target="_blank" >
+               <span>Print</span>
+         </a>
+      )}
+     </BlobProvider> */}
     </>
   )
 }

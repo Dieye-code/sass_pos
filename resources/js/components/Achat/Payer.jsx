@@ -130,7 +130,7 @@ function Payer() {
         Téléphone: <i>{achat?.fournisseur?.telephone}</i> <br />
         Etat: <span className={achat?.etat == 'en attente' ? 'text-danger' : achat?.etat == 'en cours' ? 'text-warning' : 'text-success'}>{achat?.etat}</span> <br />
         Date: {achat?.date} <br/>
-        {achat?.facture ? <span className='btn btn-outline-primary' onClick={handleShow1}>Facture</span> : ''}
+        {achat?.facture ? <span className='btn btn-outline-primary' onClick={handleShow1}>Bon de réception</span> : ''}
       </div>
 
       <Row>
