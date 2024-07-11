@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AchatController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FournisseurController;
@@ -27,6 +28,9 @@ Route::get('/fournisseurs/{id}/details', [FournisseurController::class, 'details
 Route::post('/fournisseurs/{id}/paiement', [FournisseurController::class, 'paiement']);
 Route::get('/dettes', [AchatController::class, 'dettes']);
 Route::get('/creances', [VenteController::class, 'creances']);
+
+Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('login', [AuthController::class, 'login'])->name('login');
 
 defaultRoutesFor('users', UserController::class);
 defaultRoutesFor('fournisseurs', FournisseurController::class);

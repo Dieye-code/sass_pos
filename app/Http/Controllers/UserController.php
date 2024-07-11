@@ -21,7 +21,7 @@ class UserController extends BaseController
             'nom' => 'required',
             'role' => 'required',
             'telephone' => 'required',
-            'code' => 'required',
+            'password' => 'required',
         ];
         $this->messageCreate = [
             'abonnement_id.required' => 'Vous devez selectionner l\'abonnement',
@@ -30,7 +30,7 @@ class UserController extends BaseController
             'telephone.required' => 'Le numéro de téléphone est obligatoire',
             'nom.required' => 'Le nom est obligatoire',
             'role.required' => 'Le role est obligatoire',
-            'code.required' => 'Le code est obligatoire',
+            'password.required' => 'Le code est obligatoire',
         ];
         
         $this->validateUpdate = [

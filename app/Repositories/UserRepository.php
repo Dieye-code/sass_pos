@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\UserInterface;
+use App\Models\Abonnement;
 use App\Models\User;
 
 class UserRepository  implements UserInterface
@@ -16,7 +17,7 @@ class UserRepository  implements UserInterface
         // $this->model = '\App\Models\User';
     }
 
-    
+
 
     public function getAll($idAbonnement)
     {
@@ -34,8 +35,13 @@ class UserRepository  implements UserInterface
     {
         return User::create($info);
     }
-    public function update($id,$info)
+    public function update($id, $info)
     {
         return User::find($id)?->update($info);
+    }
+
+    public function storeAbonnement($info)
+    {
+        return Abonnement::create($info);
     }
 }
