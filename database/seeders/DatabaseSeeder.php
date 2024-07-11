@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        Abonnement::create(['date' => Carbon::now()]);
+        //Abonnement::create(['date' => Carbon::now()]);
         // User::factory(10)->create();
 
         // User::factory()->create([

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->dateTime('date')->nullable();
             $table->string('mode_paiement', 50)->nullable();
             $table->foreignUuid('achat_id')->nullable()->constrained('achats');
-            $table->foreignUuid('abonnement_id')->nullable()->constrained('abonnements');
             $table->timestamps();
         });
     }

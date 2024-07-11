@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('prenom',150)->nullable();
+            $table->string('nom',150)->nullable();
             $table->string('telephone',150)->unique();
-            $table->string('nom',50)->nullable();
             $table->string('role', 50)->nullable();
-            $table->string('code');
+            $table->string('password')->nullable();
             $table->foreignUuid('abonnement_id')->nullable()->constrained('abonnements');
             $table->rememberToken();
             $table->timestamps();

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedInteger('quantite')->default(0);
             $table->foreignUuid('produit_id')->nullable()->constrained('produits');
             $table->foreignUuid('achat_id')->nullable()->constrained('achats');
-            $table->foreignUuid('abonnement_id')->nullable()->constrained('abonnements');
             $table->timestamps();
         });
     }
