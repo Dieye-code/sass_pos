@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react'
 import DataTable from 'react-data-table-component';
 import Savefournisseur from './SaveFournisseur';
 import { Button, Modal } from 'react-bootstrap';
-import { baseApi } from '../../services/BaseService';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
+import { baseApi } from '../../services/BaseService';
 
 function Fournisseurs() {
 

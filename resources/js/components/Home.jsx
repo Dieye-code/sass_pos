@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { baseApi } from '../services/BaseService';
 import { Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
+import { baseApi } from '../services/BaseService';
 
 function Home() {
 
@@ -18,7 +18,7 @@ function Home() {
   const [totalDettes, setTotalDettes] = useState([]);
 
   useEffect(() => {
-    baseApi.get('dashboard').then((result) => {
+      baseApi.get('dashboard').then((result) => {
       setVentes(result.data.ventes);
       setAchats(result.data.achats);
       let ta = result.data.achatTotal;
