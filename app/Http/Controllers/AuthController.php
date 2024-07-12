@@ -45,13 +45,16 @@ class AuthController
             return response()->json($validator->errors(), 422);
         }
         $credentials = request(['telephone', 'password']);
-
-        dd(auth()->user()->abonnement);
         
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         return $this->respondWithToken($token);
+    }
+
+    public function refresh()
+    {
+        return $this->respondWithToken(Auth::refresh());
     }
 
     protected function respondWithToken($token)

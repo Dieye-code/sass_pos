@@ -16,7 +16,7 @@ class DashboardController
         $this->venteRepository = $venteRepository;
         $this->achatRepository = $achatRepository;
     }
-    public function index()
+    public function index(Request $request)
     {
         $ventes = $this->venteRepository->getLatestVente();
         $achats = $this->achatRepository->getLastAchat(null);
