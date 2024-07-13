@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { Env } from '../config/Env';
-import { useNavigate } from 'react-router-dom';
 
 const api = Env.API_URL;
 
 var config = {};
+
+
 
 const getAccessToken = () => {
   return localStorage.getItem('token');
@@ -34,30 +35,38 @@ baseApi.interceptors.response.use(
     return response
   },
   async error => {
-    
-    const navigate = useNavigate();
     const originalRequest = error.config
+
     if (
       error.response.status === 401 &&
       originalRequest.url == `auth/refresh`
     ) {
-      
-      navigate('/login')
+      localStorage.removeItem('token');
+      window.location.href = '/login'
       return Promise.reject(error)
     }
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.status === 401 && !originalRequest._retry &&  originalRequest.url != "login") {
       originalRequest._retry = true
       const refreshToken = getAccessToken()
-      const res = await baseApi
-        .get('auth/refresh');
-      if (res.status === 200) {
+      baseApi.get('auth/refresh').then(rs => {
+        if (res.status === 200) {
 
-        localStorage.setItem('token', res.data.access_token);
-        baseApi.defaults.headers.common['Authorization'] =
-          'Bearer ' + res.access_token;
-        return baseApi(originalRequest);
-      }
+          if (res.data.access_token != undefined) {
+
+            localStorage.setItem('token', res.data.access_token);
+            baseApi.defaults.headers.common['Authorization'] =
+              'Bearer ' + res.access_token;
+            return baseApi(originalRequest);
+          } else {
+            localStorage.removeItem('token');
+            window.location.href = '/login'
+          }
+
+          return Promise.reject(error)
+        }
+      })
+
     }
     return Promise.reject(error)
   }

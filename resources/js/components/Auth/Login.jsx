@@ -14,6 +14,7 @@ function Login() {
 
     const [validated, setValidated] = useState()
     const [infos, setInfos] = useState({ telephone: '', password: '' })
+    const [error, setError] = useState('');
 
     const eventChange = (e) => setInfos({ ...infos, [e.target.name]: e.target.value })
 
@@ -30,6 +31,8 @@ function Login() {
                 localStorage.setItem('name', token.nom);
                 user.setNewToken(result.data.access_token);
                 navigate('/', { replace: true });
+            }).catch(e => {
+                setError('téléphone ou code incorrecte');
             })
         }
 
@@ -44,6 +47,7 @@ function Login() {
                 <Card.Body>
                     <Card.Title>Authentification</Card.Title>
                     <Form validated={validated} onSubmit={handleSubmit} noValidate>
+                        <span className='text-danger'>{error}</span>
                         <FormGroup>
                             <Form.Label>Téléphone</Form.Label>
                             <Form.Control type='text' required name='telephone' value={infos.telephone} onChange={eventChange} />
