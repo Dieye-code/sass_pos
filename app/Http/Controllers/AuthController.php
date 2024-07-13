@@ -24,6 +24,32 @@ class AuthController
     public function register(Request $request)
     {
 
+        $validate = Validator::make($request->all(), 
+        [
+            'nom' => 'required|string',
+            'telephone' => ['required','regex:/^((76)|(77)|(78)|(70)|(75))[0-9]{7}$/','unique:users'],
+            'password' => 'required',
+        ],
+        [
+            'nom.required' => 'Le nom est obligatoire ',
+            'nom.string' => 'Le nom est invalide',
+            'telephone.required' => 'Le numéro de téléphone est obligatoire',
+            'telephone.regex' => 'Le numéro de téléphone est invalide',
+            'telephone.unique' => 'Le numéro de téléphone existe déjà',
+            'password.required' => 'Le code est obligatoire',
+        ]);
+        $errors = [];
+
+        if($validate->fails()){
+            foreach ($validate->errors()->messages() as $value) {
+
+                foreach ($value as $v) {
+                    $errors[] = $v;
+                }
+            }
+            return response()->json($errors, 400);
+        }
+
         DB::beginTransaction();
         $abonnement = $this->userRepository->storeAbonnement(['date' => Carbon::now(), 'dateLimit' => Carbon::now()->addMonths(12)]);
 

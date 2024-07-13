@@ -5,25 +5,33 @@ import { Button, Card, Form, FormGroup } from 'react-bootstrap';
 import { Env } from '../../config/Env';
 import { baseApi } from '../../services/BaseService';
 
-function Login() {
+function Register() {
 
     const { setToken } = useAuth();
     const navigate = useNavigate();
 
     const [validated, setValidated] = useState()
-    const [infos, setInfos] = useState({ telephone: '', password: '' })
+    const [infos, setInfos] = useState({ nom: '', telephone: '', password: '' })
+    const [errors, setErrors] = useState([]);
 
     const eventChange = (e) => setInfos({ ...infos, [e.target.name]: e.target.value })
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = e.currentTarget;
+        setErrors([]);
         if (form.checkValidity() === false) {
             e.stopPropagation();
         } else {
-            baseApi.post('login', infos).then((result) => {
-                localStorage.setItem('token', result.data.access_token);
-                navigate('/home', { replace: true });
+            baseApi.post('register', infos)
+            .then((result) => {
+                console.log(result.data);
+                //navigate('/login', { replace: true });
+            })
+            .catch((error) => {
+                if(error.response.status == 400){
+                    setErrors(error.response.data);
+                }
             })
         }
 
@@ -36,8 +44,15 @@ function Login() {
 
                 <Card.Img variant="top" src={Env.API_URL + 'assets/images/logo-80X80.png'} style={{ width: 80 }} />
                 <Card.Body>
-                    <Card.Title>Authentification</Card.Title>
+                    <Card.Title>Inscrire sur sama caisse</Card.Title>
                     <Form validated={validated} onSubmit={handleSubmit} noValidate>
+                        {errors.map((e) => {
+                            return <><span className='text-danger'>{e}</span><br/></>
+                        })}
+                        <FormGroup>
+                            <Form.Label>Nom</Form.Label>
+                            <Form.Control type='text' required name='nom' value={infos.nom} onChange={eventChange} />
+                        </FormGroup>
                         <FormGroup>
                             <Form.Label>Téléphone</Form.Label>
                             <Form.Control type='text' required name='telephone' value={infos.telephone} onChange={eventChange} />
@@ -46,10 +61,8 @@ function Login() {
                             <Form.Label>Code</Form.Label>
                             <Form.Control type='number' required name='password' value={infos.password} onChange={eventChange} />
                         </FormGroup>
-                        <Button variant='primary' className='mt-3' type='submit'>Login</Button>
-                        <br/>
-
-                        <span style={{fontSize: 16}}>Pas encore de compte? S'inscrire <Link to={'/register'} style={{fontWeight: 'bold'}}>ici</Link>  et commencez maintenant !</span>
+                        <Button variant='primary' className='mt-3' type='submit'>S'inscrire</Button><br/>
+                        <span style={{fontSize: 16}}>connectez-vous <Link to={'/login'} style={{fontWeight: 'bold'}}>ici</Link>  et commencez maintenant !</span>
                     </Form>
                 </Card.Body>
             </Card>
@@ -57,4 +70,4 @@ function Login() {
     )
 }
 
-export default Login
+export default Register

@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
     defaultRoutesFor('produits', ProduitController::class);
     defaultRoutesFor('achats', AchatController::class);
     defaultRoutesFor('ventes', VenteController::class);
+    Route::get('auth/refresh', [AuthController::class, 'refresh'])->name('login');
 });
 
 

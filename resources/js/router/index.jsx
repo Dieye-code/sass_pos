@@ -20,6 +20,7 @@ import Facture from '../components/Vente/Facture';
 import { useAuth } from '../components/Auth/AuthProvider';
 import Login from '../components/Auth/Login';
 import File from '../components/Auth/File';
+import Register from '../components/Auth/Register';
 
 function Router(props) {
 
@@ -30,6 +31,10 @@ function Router(props) {
             path: "/",
             element: <Main />, // Wrap the component in ProtectedRoute
             children: [
+                {
+                    path: "/",
+                    element: <Home />,
+                },
                 {
                     path: "/home",
                     element: <Home />,
@@ -42,6 +47,10 @@ function Router(props) {
                     path: "/logout",
                     element: <div>Logout</div>,
                 },
+                {
+                    path: "/*",
+                    element: <NotFound />
+                }
             ],
         },
     ];
@@ -53,6 +62,10 @@ function Router(props) {
         {
             path: "/login",
             element: <Login/>,
+        },
+        {
+            path: "/register",
+            element: <Register/>,
         },
     ];
 
