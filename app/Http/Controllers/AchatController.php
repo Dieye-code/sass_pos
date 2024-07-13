@@ -24,7 +24,7 @@ class AchatController extends BaseController
         $this->produitRepository = $produitRepository;
     }
 
-    public function last($idAbonnement = null)
+    public function last()
     {
         return response()->json($this->achatRepository->getLastAchat());
     }

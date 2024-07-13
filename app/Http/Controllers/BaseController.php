@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interfaces\BaseInterface;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,9 +27,9 @@ class BaseController extends Controller
         $this->repository = $repository;
     }
 
-    public function index($idAbonnement = null)
+    public function index()
     {
-        return response()->json($this->repository->getAll($idAbonnement), 200);
+        return response()->json($this->repository->getAll(), 200);
     }
 
     public function get($id)
@@ -71,6 +72,7 @@ class BaseController extends Controller
             DB::beginTransaction();
             // DB::transaction(function () use (&$validate) {
             $this->beforeCreating();
+            $this->validate['abonnement_id'] = Auth::user()?->abonnement_id;
             $this->model = $this->repository->create($this->validate);
             $this->afterCreating();
             // });

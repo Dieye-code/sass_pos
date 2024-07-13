@@ -26,7 +26,7 @@ class VenteController extends BaseController
 
 
 
-    public function last($idAbonnement = null)
+    public function last()
     {
         return response()->json($this->venteRepository->getLatestVente());
     }
