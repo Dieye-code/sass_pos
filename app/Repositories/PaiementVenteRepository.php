@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\PaiementVenteInterface;
 use App\Models\Paiementvente;
+use Illuminate\Support\Facades\Auth;
 
 class PaiementVenteRepository extends BaseRepository implements PaiementVenteInterface
 {
@@ -14,9 +15,9 @@ class PaiementVenteRepository extends BaseRepository implements PaiementVenteInt
     {
         //
     }
-    public function getAll($idAbonnement)
+    public function getAll()
     {
-        return Paiementvente::with('abonnement')->where('abonnement_id', $idAbonnement)->get();
+        return Paiementvente::with('abonnement')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     
     public function getByVente($idVente)

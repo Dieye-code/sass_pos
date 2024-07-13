@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\ProduitInterface;
 use App\Models\Produit;
+use Illuminate\Support\Facades\Auth;
 
 class ProduitRepository extends BaseRepository implements ProduitInterface
 {
@@ -14,9 +15,9 @@ class ProduitRepository extends BaseRepository implements ProduitInterface
     {
         //
     }
-    public function getAll($idAbonnement)
+    public function getAll()
     {
-        return Produit::with('abonnement')->where('abonnement_id', $idAbonnement)->get();
+        return Produit::with('abonnement')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function find($id)
     {

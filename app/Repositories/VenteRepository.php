@@ -6,6 +6,7 @@ use App\Interfaces\VenteInterface;
 use App\Models\Produit;
 use App\Models\Vente;
 use App\Models\VenteProduit;
+use Illuminate\Support\Facades\Auth;
 
 class VenteRepository  extends BaseRepository implements VenteInterface
 {
@@ -17,14 +18,14 @@ class VenteRepository  extends BaseRepository implements VenteInterface
         //
     }
 
-    public function getLatestVente($idAbonnement = null)
+    public function getLatestVente()
     {
-        return Vente::with('produits')->with('client')->where('abonnement_id', $idAbonnement)->orderBy('created_at', 'desc')->limit(10)->get();
+        return Vente::with('produits')->with('client')->where('abonnement_id', Auth::user()?->abonnement_id)->orderBy('created_at', 'desc')->limit(10)->get();
     }
 
-    public function getAll($idAbonnement)
+    public function getAll()
     {
-        return Vente::with('produits')->with('client')->where('abonnement_id', $idAbonnement)->get();
+        return Vente::with('produits')->with('client')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function find($id)
     {

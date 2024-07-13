@@ -5,7 +5,7 @@ namespace App\Interfaces;
 
 interface BaseInterface
 {
-    public function getAll($idAbonnement);
+    public function getAll();
     public function find($id);
     public function delete($id);
     public function create($info);

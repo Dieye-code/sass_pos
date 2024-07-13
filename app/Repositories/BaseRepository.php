@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\BaseInterface;
 use App\Models\BaseModel;
+use Illuminate\Support\Facades\Auth;
 
 class BaseRepository implements BaseInterface
 {
@@ -23,10 +24,10 @@ class BaseRepository implements BaseInterface
         $this->with = $with;
     }
 
-    public function getAll($idAbonnement)
+    public function getAll()
     {
         if ($this->with != null) {
-            return $this->model::with($this->with)->where('abonnement_id', $idAbonnement)->get();
+            return $this->model::with($this->with)->where('abonnement_id', Auth::user()?->abonnement_id)->get();
         }
         return $this->model::all();
     }

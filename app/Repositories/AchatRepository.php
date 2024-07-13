@@ -6,6 +6,7 @@ use App\Interfaces\AchatInterface;
 use App\Models\Achat;
 use App\Models\AchatProduit;
 use App\Models\Produit;
+use Illuminate\Support\Facades\Auth;
 
 class AchatRepository extends BaseRepository implements AchatInterface
 {
@@ -17,14 +18,14 @@ class AchatRepository extends BaseRepository implements AchatInterface
     }
 
 
-    public function getLastAchat($idAbonnement = null)
+    public function getLastAchat()
     {
-        return Achat::with('produits')->with('fournisseur')->where('abonnement_id', $idAbonnement)->orderBy('created_at', 'desc')->limit(10)->get();
+        return Achat::with('produits')->with('fournisseur')->where('abonnement_id', Auth::user()?->abonnement_id)->orderBy('created_at', 'desc')->limit(10)->get();
     }
 
-    public function getAll($idAbonnement)
+    public function getAll()
     {
-        return Achat::with('produits')->with('fournisseur')->where('abonnement_id', $idAbonnement)->get();
+        return Achat::with('produits')->with('fournisseur')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function find($id)
     {

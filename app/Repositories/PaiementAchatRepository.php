@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\PaiementAchatInterface;
 use App\Models\PaiementAchat;
+use Illuminate\Support\Facades\Auth;
 
 class PaiementAchatRepository extends BaseRepository implements PaiementAchatInterface
 {
@@ -14,9 +15,9 @@ class PaiementAchatRepository extends BaseRepository implements PaiementAchatInt
     {
         //
     }
-    public function getAll($idAbonnement)
+    public function getAll()
     {
-        return PaiementAchat::with('abonnement')->where('abonnement_id', $idAbonnement)->get();
+        return PaiementAchat::with('abonnement')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function getByAchat($idAchat)
     {

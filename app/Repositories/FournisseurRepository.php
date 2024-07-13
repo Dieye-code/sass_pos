@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\FournisseurInterface;
 use App\Models\Fournisseur;
+use Illuminate\Support\Facades\Auth;
 
 class FournisseurRepository extends BaseRepository implements FournisseurInterface
 {
@@ -14,9 +15,9 @@ class FournisseurRepository extends BaseRepository implements FournisseurInterfa
     {
         //
     }
-    public function getAll($idAbonnement)
+    public function getAll()
     {
-        return Fournisseur::with('abonnement')->where('abonnement_id', $idAbonnement)->get();
+        return Fournisseur::with('abonnement')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function find($id)
     {

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\UserInterface;
 use App\Models\Abonnement;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserRepository  implements UserInterface
 {
@@ -19,9 +20,9 @@ class UserRepository  implements UserInterface
 
 
 
-    public function getAll($idAbonnement)
+    public function getAll()
     {
-        return User::with('abonnement')->where('abonnement_id', $idAbonnement)->get();
+        return User::with('abonnement')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function find($id)
     {

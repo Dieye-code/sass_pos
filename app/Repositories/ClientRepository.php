@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\ClientInterface;
 use App\Models\Client;
+use Illuminate\Support\Facades\Auth;
 
 class ClientRepository extends BaseRepository implements ClientInterface
 {
@@ -16,9 +17,9 @@ class ClientRepository extends BaseRepository implements ClientInterface
     }
 
     
-    public function getAll($idAbonnement)
+    public function getAll()
     {
-        return Client::with('abonnement')->where('abonnement_id', $idAbonnement)->get();
+        return Client::with('abonnement')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function find($id)
     {
