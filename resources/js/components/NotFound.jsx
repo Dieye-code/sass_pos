@@ -7,7 +7,7 @@ function NotFound() {
 
   useEffect(() => {
     if (window.location.pathname == '/login' || window.location.pathname == '/register')
-      navigate('/home',{replace: true});
+      navigate('/',{replace: true});
   }, [])
 
   return (

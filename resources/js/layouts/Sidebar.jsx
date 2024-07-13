@@ -12,7 +12,8 @@ function Sidebar() {
                         <img src="/assets/images/logo-80x80.png" className="logo-icon" alt="logo icon" />
                     </div>
                     <div>
-                        <h4 className="logo-text">Sama Caisse</h4>
+                        <h4 className="logo-text">{localStorage.getItem("name" ?? "Sama Caisse" )}</h4>
+
                     </div>
                     <div className="toggle-icon ms-auto"><i className="bi bi-chevron-double-left"></i>
                     </div>
@@ -39,6 +40,9 @@ function Sidebar() {
                     </li>
                     <li>
                         <Link to="/rapports"><i className="bi bi-receipt-cutoff" /> Rapports</Link>
+                    </li>
+                    <li>
+                        <Link to="/logout"><i className="bi bi-lock-fill" /> Logout</Link>
                     </li>
                 </ul>
             </aside>

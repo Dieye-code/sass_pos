@@ -63,6 +63,7 @@ class AuthController
 
     public function login(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'telephone' => 'required',
             'password' => 'required',
@@ -81,6 +82,12 @@ class AuthController
     public function refresh()
     {
         return $this->respondWithToken(Auth::refresh());
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json([], 200);
     }
 
     protected function respondWithToken($token)

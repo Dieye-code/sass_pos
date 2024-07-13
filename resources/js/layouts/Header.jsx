@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Header() {
 
@@ -23,7 +23,7 @@ function Header() {
                                 <a className="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">
                                     <div className="user-setting d-flex align-items-center gap-1">
                                         <img src="/assets/images/avatars/avatar-1.png" className="user-img" />
-                                        <div className="user-name d-none d-sm-block">Jhon Deo</div>
+                                        <div className="user-name d-none d-sm-block">{localStorage.getItem("name" ?? "Sama Caisse" )}</div>
                                     </div>
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-end">
@@ -32,7 +32,7 @@ function Header() {
                                             <div className="d-flex align-items-center">
                                                 <img src="/assets/images/avatars/avatar-1.png" className="rounded-circle" width={60} height={60} />
                                                 <div className="ms-3">
-                                                    <h6 className="mb-0 dropdown-user-name">Jhon Deo</h6>
+                                                    <h6 className="mb-0 dropdown-user-name">{localStorage.getItem("name" ?? "Sama Caisse" )}</h6>
                                                     <small className="mb-0 dropdown-user-designation text-secondary">HR Manager</small>
                                                 </div>
                                             </div>
@@ -47,7 +47,7 @@ function Header() {
                                             </div>
                                         </a>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <a className="dropdown-item" href="#">
                                             <div className="d-flex align-items-center">
                                                 <div className="setting-icon"><i className="bi bi-gear-fill" /></div>
@@ -78,19 +78,17 @@ function Header() {
                                                 <div className="setting-text ms-3"><span>Downloads</span></div>
                                             </div>
                                         </a>
-                                    </li>
+                                    </li> */}
                                     <li><hr className="dropdown-divider" /></li>
-                                    <li>
-                                        <a className="dropdown-item" href="authentication-signup-with-header-footer.html">
-                                            <div className="d-flex align-items-center">
-                                                <div className="setting-icon"><i className="bi bi-lock-fill" /></div>
-                                                <div className="setting-text ms-3"><span>Logout</span></div>
-                                            </div>
-                                        </a>
+                                    <li className='dropdown-item'>
+                                        <div className="d-flex align-items-center">
+                                            <div className="setting-icon"><i className="bi bi-lock-fill" /></div>
+                                            <div className="setting-text ms-3"><Link to={'/logout'}>Logout</Link></div>
+                                        </div>
                                     </li>
                                 </ul>
                             </li>
-                            <li className="nav-item dropdown dropdown-large d-none d-sm-block">
+                            {/* <li className="nav-item dropdown dropdown-large d-none d-sm-block">
                                 <a className="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">
                                     <div className="notifications">
                                         <span className="notify-badge">8</span>
@@ -155,7 +153,7 @@ function Header() {
                                         </a>
                                     </div>
                                 </div>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </nav>

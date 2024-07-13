@@ -25,8 +25,8 @@ function Register() {
         } else {
             baseApi.post('register', infos)
             .then((result) => {
-                console.log(result.data);
-                //navigate('/login', { replace: true });
+                // console.log(result.data);
+                navigate('/login', { replace: true });
             })
             .catch((error) => {
                 if(error.response.status == 400){

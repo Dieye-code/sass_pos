@@ -35,12 +35,13 @@ Route::group(['middleware' => 'auth'], function () {
     defaultRoutesFor('produits', ProduitController::class);
     defaultRoutesFor('achats', AchatController::class);
     defaultRoutesFor('ventes', VenteController::class);
-    Route::get('auth/refresh', [AuthController::class, 'refresh'])->name('login');
+    Route::get('/auth/refresh', [AuthController::class, 'refresh'])->name('refresh');
+    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 
 
-Route::get('auth/refresh', [AuthController::class, 'refresh'])->name('login');
+// Route::get('auth/refresh', [AuthController::class, 'refresh'])->name('login');
 
 
 Route::post('register', [AuthController::class, 'register'])->name('register');

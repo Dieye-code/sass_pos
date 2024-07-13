@@ -21,6 +21,7 @@ import { useAuth } from '../components/Auth/AuthProvider';
 import Login from '../components/Auth/Login';
 import File from '../components/Auth/File';
 import Register from '../components/Auth/Register';
+import Logout from '../components/Auth/Logout';
 
 function Router(props) {
 
@@ -31,21 +32,28 @@ function Router(props) {
             path: "/",
             element: <Main />, // Wrap the component in ProtectedRoute
             children: [
-                {
-                    path: "/",
-                    element: <Home />,
-                },
-                {
-                    path: "/home",
-                    element: <Home />,
-                },
+                { path: "/", element: <Home />, },
+                { path: "/fournisseurs", element: <Fournisseurs /> },
+                { path: "/fournisseurs/:id/details", element: <DetailFournisseur /> },
+                { path: "/clients", element: <Clients /> },
+                { path: "/clients/:id/details", element: <DetailClient /> },
+                { path: "/produits", element: <Produits /> },
+                { path: "/achats", element: <Achats /> },
+                { path: "/achats/:id/details", element: <Payer /> },
+                { path: "/save-achat/:id?", element: <SaveAchat /> },
+                { path: "/ventes", element: <Ventes /> },
+                { path: "/save-vente/:id?", element: <SaveVente /> },
+                { path: "/ventes/:id/details", element: <PaiementVente /> },
+                { path: "/liste-dette", element: <Dettes /> },
+                { path: "/liste-creance", element: <Creances /> },
+                { path: "/ventes/:id/facture", element: <Facture /> },
                 {
                     path: "/profile",
                     element: <div>User Profile</div>,
                 },
                 {
                     path: "/logout",
-                    element: <div>Logout</div>,
+                    element: <Logout />,
                 },
                 {
                     path: "/*",
@@ -61,19 +69,19 @@ function Router(props) {
         },
         {
             path: "/login",
-            element: <Login/>,
+            element: <Login />,
         },
         {
             path: "/register",
-            element: <Register/>,
+            element: <Register />,
         },
     ];
 
     const router = createBrowserRouter([
         ...(!token ? routesForNotAuthenticatedOnly : []),
         ...routesForAuthenticatedOnly,
-      ]);
-      return <RouterProvider router={router} />;
+    ]);
+    return <RouterProvider router={router} />;
     // return (
     //     <div>
     //         <BrowserRouter>

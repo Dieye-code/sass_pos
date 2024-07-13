@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Env } from '../config/Env';
+import { useNavigate } from 'react-router-dom';
 
 const api = Env.API_URL;
 
@@ -33,12 +34,15 @@ baseApi.interceptors.response.use(
     return response
   },
   async error => {
+    
+    const navigate = useNavigate();
     const originalRequest = error.config
     if (
       error.response.status === 401 &&
       originalRequest.url == `auth/refresh`
     ) {
-      router.push('/login')
+      
+      navigate('/login')
       return Promise.reject(error)
     }
 

@@ -4,10 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Card, Form, FormGroup } from 'react-bootstrap';
 import { Env } from '../../config/Env';
 import { baseApi } from '../../services/BaseService';
+import { jwtDecode } from 'jwt-decode';
 
 function Login() {
 
-    const { setToken } = useAuth();
+    // const { setToken }  = useAuth();
+    const user = useAuth();
     const navigate = useNavigate();
 
     const [validated, setValidated] = useState()
@@ -21,9 +23,13 @@ function Login() {
         if (form.checkValidity() === false) {
             e.stopPropagation();
         } else {
+
             baseApi.post('login', infos).then((result) => {
                 localStorage.setItem('token', result.data.access_token);
-                navigate('/home', { replace: true });
+                const token = jwtDecode(result.data.access_token)
+                localStorage.setItem('name', token.nom);
+                user.setNewToken(result.data.access_token);
+                navigate('/', { replace: true });
             })
         }
 
@@ -47,9 +53,9 @@ function Login() {
                             <Form.Control type='number' required name='password' value={infos.password} onChange={eventChange} />
                         </FormGroup>
                         <Button variant='primary' className='mt-3' type='submit'>Login</Button>
-                        <br/>
+                        <br />
 
-                        <span style={{fontSize: 16}}>Pas encore de compte? S'inscrire <Link to={'/register'} style={{fontWeight: 'bold'}}>ici</Link>  et commencez maintenant !</span>
+                        <span style={{ fontSize: 16 }}>Pas encore de compte? S'inscrire <Link to={'/register'} style={{ fontWeight: 'bold' }}>ici</Link>  et commencez maintenant !</span>
                     </Form>
                 </Card.Body>
             </Card>
