@@ -22,6 +22,7 @@ import Login from '../components/Auth/Login';
 import File from '../components/Auth/File';
 import Register from '../components/Auth/Register';
 import Logout from '../components/Auth/Logout';
+import Rapports from '../components/Rapport/Rapports';
 
 function Router(props) {
 
@@ -48,8 +49,8 @@ function Router(props) {
                 { path: "/liste-creance", element: <Creances /> },
                 { path: "/ventes/:id/facture", element: <Facture /> },
                 {
-                    path: "/profile",
-                    element: <div>User Profile</div>,
+                    path: "/rapports",
+                    element: <Rapports />,
                 },
                 {
                     path: "/logout",

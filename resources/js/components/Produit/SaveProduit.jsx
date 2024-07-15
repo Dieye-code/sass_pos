@@ -34,7 +34,9 @@ function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quanti
             formData.append('libelle', produit.libelle);
             formData.append('prix', produit.prix);
             formData.append('quantite', produit.quantite);
-            formData.append('photo', image);
+            if(image != undefined){
+                formData.append('photo', image);
+            }
             if (produit.id === undefined) {
                 baseApi.post('produits', formData, {
                     headers: {
