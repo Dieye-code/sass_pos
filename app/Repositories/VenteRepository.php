@@ -71,7 +71,7 @@ class VenteRepository  extends BaseRepository implements VenteInterface
         return Vente::whereDate('date', Carbon::today())->with('paiements')->with('client')->get();
     }
 
-    public function getVenteByIntervale($debut, $fin){
-        return Vente::with('paiements')->with('client')->whereRaw('DATEDIFF(NOW(), date) >= '.$debut.' &&  DATEDIFF(dateIntegration, NOW()) <= 90 ')->get();
+    public function getVenteByIntervallee($debut, $fin){
+        return Vente::with('paiements')->with('client')->whereBetween('date', $debut, $fin)->get();
     }
 }

@@ -24,12 +24,6 @@ class VenteController extends BaseController
         $this->produitRepository = $produitRepository;
     }
 
-    public function index(){
-        return response()->json($this->venteRepository->getVenteDuMois());
-    }
-
-
-
     public function last()
     {
         return response()->json($this->venteRepository->getLatestVente());
@@ -86,4 +80,17 @@ class VenteController extends BaseController
         }
         return response()->json($totalCreances);
     }
+
+    public function ventDuJour(){
+        return response()->json($this->venteRepository->getVenteDuJour());
+    }
+
+    public function venteDuMois(){
+        return response()->json($this->venteRepository->getVenteDuMois());
+    }
+
+    public function venteIntervalle(Request $request){
+        return response()->json($this->venteRepository->getVenteByIntervallee($request->debut ?? null, $request->fin ?? null));
+    }
+
 }
