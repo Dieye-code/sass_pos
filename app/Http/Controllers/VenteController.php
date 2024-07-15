@@ -24,6 +24,10 @@ class VenteController extends BaseController
         $this->produitRepository = $produitRepository;
     }
 
+    public function index(){
+        return response()->json($this->venteRepository->getVenteDuMois());
+    }
+
 
 
     public function last()
@@ -38,6 +42,7 @@ class VenteController extends BaseController
             DB::beginTransaction();
             $data = $request->only(['client_id', 'date']);
             $data['etat'] = $request->paiement == 1 ?  'en attente' : 'encaissé';
+            $data['abonnement_id'] = auth()->user()->abonnement_id;
             $this->model = $this->repository->create($data);
             $total = 0;
 
@@ -55,7 +60,7 @@ class VenteController extends BaseController
             $this->model->montant_total = $total;
             $this->repository->update($this->model->id, $this->model->toArray());
             if ($request->paiement != 1) {
-                $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'vente_id' => $this->model->id]);
+                $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'vente_id' => $this->model->id, 'abonnement_id' => auth()->user()->abonnement_id]);
                 if ($total > $request->montant_paye) {
                     $this->model->etat = 'en cours';
                     $this->repository->update($this->model->id, $this->model->toArray());

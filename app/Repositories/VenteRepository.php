@@ -6,6 +6,7 @@ use App\Interfaces\VenteInterface;
 use App\Models\Produit;
 use App\Models\Vente;
 use App\Models\VenteProduit;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class VenteRepository  extends BaseRepository implements VenteInterface
@@ -60,5 +61,17 @@ class VenteRepository  extends BaseRepository implements VenteInterface
 
     public function getVenteWithPaiements(){
         return Vente::with('paiements')->with('client')->get();
+    }
+
+    public function getVenteDuMois(){
+        return Vente::whereRaw('DATEDIFF(NOW(), date) <= 30')->with('paiements')->with('client')->get();
+    }
+
+    public function getVenteDuJour(){
+        return Vente::whereDate('date', Carbon::today())->with('paiements')->with('client')->get();
+    }
+
+    public function getVenteByIntervale($debut, $fin){
+        return Vente::with('paiements')->with('client')->whereRaw('DATEDIFF(NOW(), date) >= '.$debut.' &&  DATEDIFF(dateIntegration, NOW()) <= 90 ')->get();
     }
 }

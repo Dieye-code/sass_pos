@@ -39,6 +39,7 @@ class AchatController extends BaseController
                 $data['facture'] = $facture;
             }
             $data['etat'] = $request->paiement == 1 ?  'en attente' : 'payé';
+            $data['abonnement_id'] = auth()->user()->abonnement_id;
             $this->model = $this->repository->create($data);
             $total = 0;
             foreach (json_decode($request->produits) as  $value) {
@@ -50,7 +51,7 @@ class AchatController extends BaseController
             $this->model->montant_total = $total;
             $this->repository->update($this->model->id, $this->model->toArray());
             if ($request->paiement != 1) {
-                $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'achat_id' => $this->model->id]);
+                $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'achat_id' => $this->model->id, 'abonnement_id' => auth()->user()->abonnement_id]);
             }
             if ($total > $request->montant_paye) {
                 $this->model->etat = 'en cours';

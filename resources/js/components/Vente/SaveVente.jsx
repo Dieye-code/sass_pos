@@ -204,7 +204,7 @@ function SaveVente() {
                     <FormGroup as={Col} sm="6">
                         <Form.Label>Produit</Form.Label>
 
-                        <Select options={items} onChange={changeProduitSelect} name='produit_id' />
+                        <Select options={items} onChange={changeProduitSelect} name='produit_id' required />
                         {/* <Form.Select onChange={changeProduitSelect} >
                         {produits.map((element) => {
                             return <option value={element.id}>{element.libelle}</option>

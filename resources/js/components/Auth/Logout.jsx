@@ -7,7 +7,7 @@ function Logout() {
   const navigate = useNavigate();
   const user = useAuth();
   useEffect(() => {
-    if (localStorage.getItem('token') != null) {
+    if (localStorage.getItem('token') != undefined) {
       localStorage.removeItem('token');
       // setToken;
     }
