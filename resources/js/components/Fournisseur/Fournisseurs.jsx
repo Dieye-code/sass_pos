@@ -74,7 +74,6 @@ function Fournisseurs() {
 			.then((willDelete) => {
 				if (willDelete) {
 					baseApi.delete('/fournisseurs/' + c.id).then((response) => {
-						console.log(response);
 						if (response.status === 200) {
 							swal("Lefournisseur' a été bien supprimer", {
 								icon: "success",

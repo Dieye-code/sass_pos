@@ -66,7 +66,6 @@ function Clients() {
 			.then((willDelete) => {
 				if (willDelete) {
 					baseApi.delete('/clients/' + c.id).then((response) => {
-						console.log(response);
 						if (response.status === 200) {
 							swal("Le client a été bien supprimer", {
 								icon: "success",

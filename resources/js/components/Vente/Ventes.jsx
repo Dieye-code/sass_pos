@@ -78,7 +78,6 @@ function Ventes() {
       .then((willDelete) => {
         if (willDelete) {
           baseApi.delete('/achats/' + c.id).then((response) => {
-            console.log(response);
             if (response.status === 200) {
               swal("Le produit a été bien supprimer", {
                 icon: "success",

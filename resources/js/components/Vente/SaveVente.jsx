@@ -127,7 +127,6 @@ function SaveVente() {
                 baseApi.post("ventes", tab).then(
                     (response) => {
                         if (response.status === 200) {
-                            console.log(response.data);
                             if (facture)
                                 return navigate(`/ventes/${response.data.id}/facture`);
                             else

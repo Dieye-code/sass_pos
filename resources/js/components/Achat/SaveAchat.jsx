@@ -47,7 +47,6 @@ function SaveAchat() {
     const HandleChangeFile = (e) => {
         const imageFile = e.target.files[0];
         if (!imageFile.name.match(/\.(jpg|jpeg|png)$/)) {
-            console.log(e);
             swal({
                 text: "La facture doit etre une image!",
                 icon: "info",
@@ -143,7 +142,6 @@ function SaveAchat() {
             formData.append('paiement', achat.paiement);
             formData.append('montant_paye', achat.montant_paye);
             achat.facture ? formData.append('facture', achat.facture) : '';
-            console.log(formData);
             var status;
             if (achat.id === undefined) {
                 baseApi.post("achats", formData, {
@@ -152,7 +150,6 @@ function SaveAchat() {
                     }
                 }).then(
                     (response) => {
-                        console.log(response);
                         if (response.status == 400) {
                             swal({
                                 text: "La facture doit etre une image!",
@@ -169,7 +166,6 @@ function SaveAchat() {
                 ).catch(
                     (error) => {
                         setLoad(false);
-                        console.log(error);
                     }
                 )
             } else {

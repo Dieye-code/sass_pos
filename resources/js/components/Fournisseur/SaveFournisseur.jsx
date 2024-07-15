@@ -30,19 +30,15 @@ function SaveFournisseur({ setShowModal,
       if (fournisseur.id === undefined) {
         baseApi.post("fournisseurs", fournisseur).then(
           (response) => {
-            console.log(response);
             setShowModal(false);
           }
         ).catch(
           (error) => {
-            console.log(error);
             for (const key in error.response.data.errors) {
               if (Object.hasOwnProperty.call(error.response.data.errors, key)) {
                 const element = error.response.data.errors[key];
-                console.log(element.toString());
               }
             }
-            console.log(error.response.data.errors);
 
           }
         )
@@ -50,7 +46,6 @@ function SaveFournisseur({ setShowModal,
 
         baseApi.put("fournisseurs/" + fournisseur.id, fournisseur).then(
           (response) => {
-            console.log(response);
             setShowModal(false);
           }
         ).catch(
@@ -58,10 +53,8 @@ function SaveFournisseur({ setShowModal,
             for (const key in error.response.data.errors) {
               if (Object.hasOwnProperty.call(error.response.data.errors, key)) {
                 const element = error.response.data.errors[key];
-                console.log(element.toString());
               }
             }
-            console.log(error.response.data.errors);
 
           }
         )

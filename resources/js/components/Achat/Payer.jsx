@@ -66,7 +66,6 @@ function Payer() {
             buttons: true,
             showCancelButton: false,
           });
-          console.log(error.response.data);
         }
       )
     }

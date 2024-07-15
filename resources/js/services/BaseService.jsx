@@ -49,7 +49,7 @@ baseApi.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry &&  originalRequest.url != "login") {
       originalRequest._retry = true
       const refreshToken = getAccessToken()
-      baseApi.get('auth/refresh').then(rs => {
+      baseApi.get('auth/refresh').then(res => {
         if (res.status === 200) {
 
           if (res.data.access_token != undefined) {

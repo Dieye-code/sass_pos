@@ -20,7 +20,6 @@ function PaiementVente() {
             setVente(result.data);
         })
         baseApi.get("ventes/paiements/" + id).then((result) => {
-            console.log(result.data);
             setPaiements(result.data);
             let t = 0;
             result.data.map(element => t += element.montant);
@@ -62,7 +61,6 @@ function PaiementVente() {
                         buttons: true,
                         showCancelButton: false,
                     });
-                    console.log(error.response.data);
                 }
             )
         }

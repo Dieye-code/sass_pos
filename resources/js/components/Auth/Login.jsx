@@ -43,7 +43,7 @@ function Login() {
         <>
             <Card style={{ width: '18rem' }} className='w-75 position-absolute top-50 start-50 d-flex aligns-items-center  card translate-middle'>
 
-                <Card.Img variant="top" src={Env.API_URL + 'assets/images/logo-80X80.png'} style={{ width: 80 }} />
+                <Card.Img variant="top" src={'/assets/images/logo-80x80.png'} style={{ width: 80 }} />
                 <Card.Body>
                     <Card.Title>Authentification</Card.Title>
                     <Form validated={validated} onSubmit={handleSubmit} noValidate>

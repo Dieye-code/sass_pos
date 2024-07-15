@@ -27,7 +27,6 @@ function SaveClient({ setShowModal, newClient = { nom: "", telephone: '' } }) {
       if (client.id === undefined) {
         baseApi.post("clients", client).then(
           (response) => {
-            console.log(response);
             setShowModal(false);
             initClient();
           }
@@ -48,7 +47,6 @@ function SaveClient({ setShowModal, newClient = { nom: "", telephone: '' } }) {
 
         baseApi.put("clients/" + client.id, client).then(
           (response) => {
-            console.log(response);
             setShowModal(false);
             initClient();
           }

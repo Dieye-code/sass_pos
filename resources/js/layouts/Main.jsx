@@ -12,7 +12,7 @@ function Main() {
                     <Header />
                     <Sidebar />
 
-                    <main className="page-content">
+                    <main className="page-content pt-5">
                         <Outlet />
                     </main>
                     <div className="overlay nav-toggle-icon" />
