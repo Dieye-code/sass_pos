@@ -46,6 +46,8 @@ function RapportAchats() {
     const [achats, setAchats] = useState([]);
     const [show, setShow] = useState(false);
     const [interval, setInterval] = useState({ debut: null, fin: null });
+    const [total, setTotal] = useState(0);
+    const [totalPaye, setTotalPaye] = useState(0);
 
     useEffect(() => {
         getAchat('jour');
@@ -56,6 +58,13 @@ function RapportAchats() {
         baseApi.get('achats/' + e).then(
             response => {
                 setAchats(response.data)
+                setTotal(response.data?.reduce((mt, a) => mt + a.montant_total, 0));
+                let t = 0;
+                response.data?.map(e => {
+                    t += e.paiements.reduce((mt, a) => mt + a.montant, 0);
+                })
+                setTotalPaye(t)
+
             }
         )
     }
@@ -85,6 +94,8 @@ function RapportAchats() {
             case 'intervalle':
                 setShow(true);
                 setAchats([]);
+                setTotal(0);
+                setTotalPaye(0);
                 break;
 
             default:
@@ -95,7 +106,7 @@ function RapportAchats() {
     return (
         <>
             <div key="inline-radio" className="mb-3">
-                <Form.Check inline  label="Journalier" name="filter" type='radio' id="journalier" value={"journalier"} onChange={(e) => onInputChange(e)} />
+                <Form.Check inline label="Journalier" name="filter" type='radio' id="journalier" value={"journalier"} onChange={(e) => onInputChange(e)} />
                 <Form.Check inline label="Hebdomadaire" name="filter" type='radio' id="hebdomadaire" value={"hebdomadaire"} onChange={(e) => onInputChange(e)} />
                 <Form.Check inline label="Mensuel" name="filter" type='radio' id="mensuel" value={"mensuel"} onChange={(e) => onInputChange(e)} />
                 <Form.Check inline label="intervalle" name="filter" type='radio' id="intervalle" value={"intervalle"} onChange={(e) => onInputChange(e)} />
@@ -125,6 +136,54 @@ function RapportAchats() {
 
 
             <h6>Rapport achat {filter}</h6>
+
+
+            <div className="row row-cols-1 row-cols-md-3 ">
+                <div className="col">
+                    <div className="card radius-10">
+                        <div className="card-body">
+                            <div className="d-flex align-items-center">
+                                <div>
+                                    <p className="mb-0 text-secondary">Total acheté</p>
+                                    <h4 >{total} Francs CFA</h4>
+                                </div>
+                                <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="card radius-10">
+                        <div className="card-body">
+                            <div className="d-flex align-items-center">
+                                <div>
+                                    <p className="mb-0 text-secondary">Total payé</p>
+                                    <h4 >{totalPaye} Francs CFA</h4>
+                                </div>
+                                <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="card radius-10">
+                        <div className="card-body">
+                            <div className="d-flex align-items-center">
+                                <div>
+                                    <p className="mb-0 text-secondary">Total dette</p>
+                                    <h4 >{total - totalPaye} Francs CFA</h4>
+                                </div>
+                                <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <DataTable
                 columns={columns}
                 data={achats}
