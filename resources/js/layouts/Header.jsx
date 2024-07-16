@@ -23,7 +23,7 @@ function Header() {
                                 <a className="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">
                                     <div className="user-setting d-flex align-items-center gap-1">
                                         <img src="/assets/images/avatars/avatar-1.png" className="user-img" />
-                                        <div className="user-name d-none d-sm-block">{localStorage.getItem("name" ?? "Sama Caisse" )}</div>
+                                        <div className="user-name d-none d-sm-block">{localStorage.getItem("nom" ?? "Sama Caisse" )}</div>
                                     </div>
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-end">
@@ -32,7 +32,7 @@ function Header() {
                                             <div className="d-flex align-items-center">
                                                 <img src="/assets/images/avatars/avatar-1.png" className="rounded-circle" width={60} height={60} />
                                                 <div className="ms-3">
-                                                    <h6 className="mb-0 dropdown-user-name">{localStorage.getItem("name" ?? "Sama Caisse" )}</h6>
+                                                    <h6 className="mb-0 dropdown-user-name">{localStorage.getItem("nom" ?? "Sama Caisse" )}</h6>
                                                     <small className="mb-0 dropdown-user-designation text-secondary">HR Manager</small>
                                                 </div>
                                             </div>

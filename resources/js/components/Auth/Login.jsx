@@ -19,20 +19,24 @@ function Login() {
     const eventChange = (e) => setInfos({ ...infos, [e.target.name]: e.target.value })
 
     const handleSubmit = (e) => {
+        setError("");
         e.preventDefault();
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
             e.stopPropagation();
         } else {
-
             baseApi.post('login', infos).then((result) => {
+                console.log(result);
                 localStorage.setItem('token', result.data.access_token);
+                localStorage.setItem('abonnement_nom', result.data.abonnement.nom);
+                localStorage.setItem('abonnement_adresse', result.data.abonnement.adresse);
+                localStorage.setItem('abonnement_logo', result.data.abonnement.logo);
                 const token = jwtDecode(result.data.access_token)
-                localStorage.setItem('name', token.nom);
+                localStorage.setItem('nom', token.nom);
                 user.setNewToken(result.data.access_token);
                 navigate('/', { replace: true });
             }).catch(e => {
-                setError('téléphone ou code incorrecte');
+                setError(e.response?.data?.error);
             })
         }
 
