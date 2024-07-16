@@ -28,9 +28,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/fournisseurs/{id}/paiement', [FournisseurController::class, 'paiement']);
     Route::get('/dettes', [AchatController::class, 'dettes']);
     Route::get('/creances', [VenteController::class, 'creances']);
-    Route::get('/vente-du-jour', [VenteController::class, 'ventDuJour']);
-    Route::get('/vente-du-mois', [VenteController::class, 'venteDuMois']);
-    Route::post('/ventes/vente-intervalle', [VenteController::class, 'venteIntervalle']);
+
+    Route::get('/ventes/jour', [VenteController::class, 'venteDuJour']);
+    Route::get('/vente/semaine', [VenteController::class, 'venteDeLaSemaine']);
+    Route::get('/ventes/mois', [VenteController::class, 'venteDuMois']);
+    Route::post('/ventes/intervalle', [VenteController::class, 'venteIntervalle']);
+
+    Route::get('/achats/jour', [AchatController::class, 'achatDuJour']);
+    Route::get('/achats/mois', [AchatController::class, 'achatDuMois']);
+    Route::get('/achats/semaine', [AchatController::class, 'achatDeLaSemaine']);
+    Route::post('/achats/intervalle', [AchatController::class, 'achatIntervalle']);
 
     defaultRoutesFor('users', UserController::class);
     defaultRoutesFor('fournisseurs', FournisseurController::class);

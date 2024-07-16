@@ -76,4 +76,23 @@ class AchatController extends BaseController
         }
         return response()->json( $totalDettes);
     }
+    
+
+    public function achatDuJour(){
+        return response()->json($this->achatRepository->getAchatDuJour());
+    }
+
+    public function achatDuMois(){
+        return response()->json($this->achatRepository->getAchatDuMois());
+    }
+
+    public function achatDeLaSemaine(){
+        return response()->json($this->achatRepository->getAchatDeLaSemaine());
+    }
+
+    public function achatIntervalle(Request $request){
+        return response()->json($this->achatRepository->getAchatByIntervallee($request->debut ?? null, $request->fin ?? null));
+    }
+
+    
 }

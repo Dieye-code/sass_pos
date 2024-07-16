@@ -6,6 +6,7 @@ use App\Interfaces\AchatInterface;
 use App\Models\Achat;
 use App\Models\AchatProduit;
 use App\Models\Produit;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AchatRepository extends BaseRepository implements AchatInterface
@@ -60,5 +61,21 @@ class AchatRepository extends BaseRepository implements AchatInterface
 
     public function getAchatWithPaiements(){
         return Achat::with('paiements')->with('fournisseur')->get();
+    }
+    public function getAchatDuJour()
+    {
+        return Achat::whereDate('date', Carbon::today())->with('paiements')->with('fournisseur')->get();
+    }
+    public function getAchatDuMois()
+    {
+        return Achat::whereRaw('DATEDIFF(NOW(), date) <= 30')->with('paiements')->with('fournisseur')->get();
+    }
+    public function getAchatDeLaSemaine()
+    {
+        return Achat::whereRaw('DATEDIFF(NOW(), date) <= 7')->with('paiements')->with('fournisseur')->get();
+    }
+    public function getAchatByIntervallee($debut, $fin)
+    {
+        return Achat::with('paiements')->with('fournisseur')->whereBetween('date', [$debut, $fin])->get();
     }
 }
