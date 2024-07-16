@@ -49,8 +49,8 @@ function RapportAchats() {
 
     useEffect(() => {
         getAchat('jour');
+        setShow(false);
     }, []);
-
 
     const getAchat = function (e) {
         baseApi.get('achats/' + e).then(
@@ -66,7 +66,6 @@ function RapportAchats() {
             }
         )
     }
-
 
     const onInputChange = (e) => {
         setFilter(e.target.value)
