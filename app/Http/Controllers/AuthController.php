@@ -24,23 +24,31 @@ class AuthController
     public function register(Request $request)
     {
 
-        $validate = Validator::make($request->all(), 
-        [
-            'nom' => 'required|string',
-            'telephone' => ['required','regex:/^((76)|(77)|(78)|(70)|(75))[0-9]{7}$/','unique:users'],
-            'password' => 'required',
-        ],
-        [
-            'nom.required' => 'Le nom est obligatoire ',
-            'nom.string' => 'Le nom est invalide',
-            'telephone.required' => 'Le numéro de téléphone est obligatoire',
-            'telephone.regex' => 'Le numéro de téléphone est invalide',
-            'telephone.unique' => 'Le numéro de téléphone existe déjà',
-            'password.required' => 'Le code est obligatoire',
-        ]);
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'nom' => 'required|string',
+                'nomUser' => 'required|string',
+                'adresse' => 'required|string',
+                'telephone' => ['required', 'regex:/^((76)|(77)|(78)|(70)|(75))[0-9]{7}$/', 'unique:users'],
+                'password' => 'required',
+            ],
+            [
+                'nom.required' => 'Le nom est obligatoire ',
+                'nom.string' => 'Le nom est invalide',
+                'nomUser.required' => 'Le nom de l\'utilisateur est obligatoire ',
+                'nomUser.string' => 'Le  nom de l\'utilisateur est invalide',
+                'adresse.required' => 'L\'adresse est obligatoire ',
+                'adresse.string' => 'L\'adresse est invalide',
+                'telephone.required' => 'Le numéro de téléphone est obligatoire',
+                'telephone.regex' => 'Le numéro de téléphone est invalide',
+                'telephone.unique' => 'Le numéro de téléphone existe déjà',
+                'password.required' => 'Le code est obligatoire',
+            ]
+        );
         $errors = [];
 
-        if($validate->fails()){
+        if ($validate->fails()) {
             foreach ($validate->errors()->messages() as $value) {
 
                 foreach ($value as $v) {
@@ -51,9 +59,9 @@ class AuthController
         }
 
         DB::beginTransaction();
-        $abonnement = $this->userRepository->storeAbonnement(['date' => Carbon::now(), 'dateLimit' => Carbon::now()->addMonths(12)]);
+        $abonnement = $this->userRepository->storeAbonnement(['nom' => $request->nom, 'adresse' => $request->adresse, 'date' => Carbon::now(), 'dateLimit' => Carbon::now()->addMonths(12)]);
 
-        $user = $this->userRepository->create(['nom' => $request->nom, 'telephone' => $request->telephone, 'password' => $request->password, 'role' => 'user', 'abonnement_id' => $abonnement->id]);
+        $user = $this->userRepository->create(['nom' => $request->nomUser, 'telephone' => $request->telephone, 'password' => $request->password, 'role' => 'user', 'abonnement_id' => $abonnement->id]);
         DB::commit();
 
         return $user;
@@ -72,9 +80,13 @@ class AuthController
             return response()->json($validator->errors(), 422);
         }
         $credentials = request(['telephone', 'password']);
-        
+
         if (!$token = Auth::attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Téléphone ou code incorrect'], 401);
+        }
+        if (auth()->user()->etat == 0 || auth()->user()->abonnement?->etat == 0) {
+            Auth::logout();
+            return response()->json(['error' => 'Ce compte n\'est pas actif'], 401);
         }
         return $this->respondWithToken($token);
     }
@@ -94,7 +106,8 @@ class AuthController
     {
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer'
+            'token_type' => 'bearer',
+            'abonnement' =>['nom' =>  Auth::user()->abonnement?->nom, 'adresse' =>  Auth::user()->abonnement?->adresse, 'logo' =>  Auth::user()->abonnement?->logo]
         ]);
     }
 }

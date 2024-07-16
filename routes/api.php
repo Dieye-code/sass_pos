@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/creances', [VenteController::class, 'creances']);
 
     Route::get('/ventes/jour', [VenteController::class, 'venteDuJour']);
-    Route::get('/vente/semaine', [VenteController::class, 'venteDeLaSemaine']);
+    Route::get('/ventes/semaine', [VenteController::class, 'venteDeLaSemaine']);
     Route::get('/ventes/mois', [VenteController::class, 'venteDuMois']);
     Route::post('/ventes/intervalle', [VenteController::class, 'venteIntervalle']);
 

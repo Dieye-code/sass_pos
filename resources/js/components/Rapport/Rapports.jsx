@@ -25,7 +25,7 @@ function Rapports() {
 
 
             <li className="nav-item" role="presentation">
-              <a className="nav-link" data-bs-toggle="tab" href="#achat" role="tab" aria-selected="false">
+              <a className="nav-link" data-bs-toggle="tab" href="#vente" role="tab" aria-selected="false">
                 <div className="d-flex align-items-center">
                   <div className="tab-icon"><i className='bi bi-receipt-cutoff fs-5 mx-2'></i></div>
                   <div className="tab-title">Rapport vente</div>
@@ -48,7 +48,7 @@ function Rapports() {
             <div className="tab-pane fade active show" id="achat" role="tabpanel">
               <RapportAchats />
             </div>
-            <div className="tab-pane fade" id="primaryprofile" role="tabpanel">
+            <div className="tab-pane fade" id="vente" role="tabpanel">
               <RapportVentes />
             </div>
             <div className="tab-pane fade" id="produits" role="tabpanel">

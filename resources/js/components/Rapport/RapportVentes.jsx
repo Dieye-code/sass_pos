@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, FormGroup, Row } from 'react-bootstrap'
-import { baseApi } from '../../services/BaseService';
+import { Button, Col, Form, FormGroup, Row } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
+import { baseApi } from '../../services/BaseService';
 
-function RapportAchats() {
+function RapportVentes() {
 
 
     const columns = [
@@ -18,13 +18,13 @@ function RapportAchats() {
             sortable: true,
         },
         {
-            name: 'Montant Payé',
+            name: 'Montant Encaisé',
             selector: row => row.paiements.reduce((mt, a) => mt + a.montant, 0) + " Francs CFA",
             sortable: true,
         },
         {
-            name: 'Fournisseur',
-            selector: row => row.fournisseur?.nom,
+            name: 'Client',
+            selector: row => row.client?.nom,
             sortable: true,
         },
         {
@@ -42,22 +42,22 @@ function RapportAchats() {
         rangeSeparatorText: 'sur',
     };
 
-    const [filter, setFilter] = useState('journalier');
-    const [achats, setAchats] = useState([]);
+    const [filter, setFilter] = useState('jour');
+    const [ventes, setVentes] = useState([]);
     const [show, setShow] = useState(false);
     const [interval, setInterval] = useState({ debut: null, fin: null });
     const [total, setTotal] = useState(0);
     const [totalPaye, setTotalPaye] = useState(0);
 
     useEffect(() => {
-        getAchat('jour');
+        getVente('jour');
         setShow(false);
     }, []);
 
-    const getAchat = function (e) {
-        baseApi.get('achats/' + e).then(
+    const getVente = function (e) {
+        baseApi.get('ventes/' + e).then(
             response => {
-                setAchats(response.data)
+                setVentes(response.data)
                 setTotal(response.data?.reduce((mt, a) => mt + a.montant_total, 0));
                 let t = 0;
                 response.data?.map(e => {
@@ -68,17 +68,16 @@ function RapportAchats() {
             }
         )
     }
-    const getAchatInterval = function () {
-        baseApi.post('achats/intervalle', interval).then(
+    const getVenteInterval = function () {
+        baseApi.post('ventes/intervalle', interval).then(
             response => {
-                setAchats(response.data)
+                setVentes(response.data)
                 setTotal(response.data?.reduce((mt, a) => mt + a.montant_total, 0));
                 let t = 0;
                 response.data?.map(e => {
                     t += e.paiements.reduce((mt, a) => mt + a.montant, 0);
                 })
                 setTotalPaye(t)
-
             }
         )
     }
@@ -86,21 +85,21 @@ function RapportAchats() {
     const onInputChange = (e) => {
         setFilter(e.target.value)
         switch (e.target.value) {
-            case 'journalier':
+            case 'jour':
                 setShow(false);
-                getAchat('jour');
+                getVente('jour');
                 break;
-            case 'hebdomadaire':
+            case 'semaine':
                 setShow(false);
-                getAchat('semaine');
+                getVente('semaine');
                 break;
-            case 'mensuel':
+            case 'mois':
                 setShow(false);
-                getAchat('mois');
+                getVente('mois');
                 break;
-            case 'intervalle':
+            case 'interval':
                 setShow(true);
-                setAchats([]);
+                setVentes([]);
                 setTotal(0);
                 setTotalPaye(0);
                 break;
@@ -113,10 +112,10 @@ function RapportAchats() {
     return (
         <>
             <div key="inline-radio" className="mb-3">
-                <Form.Check inline label="Journalier" name="filter" type='radio' id="journalier" value={"journalier"} onChange={(e) => onInputChange(e)} />
-                <Form.Check inline label="Hebdomadaire" name="filter" type='radio' id="hebdomadaire" value={"hebdomadaire"} onChange={(e) => onInputChange(e)} />
-                <Form.Check inline label="Mensuel" name="filter" type='radio' id="mensuel" value={"mensuel"} onChange={(e) => onInputChange(e)} />
-                <Form.Check inline label="intervalle" name="filter" type='radio' id="intervalle" value={"intervalle"} onChange={(e) => onInputChange(e)} />
+                <Form.Check inline label="Jour" name="filter" type='radio' id="jour" value={"jour"} onChange={(e) => onInputChange(e)} />
+                <Form.Check inline label="Semaine" name="filter" type='radio' id="semaine" value={"semaine"} onChange={(e) => onInputChange(e)} />
+                <Form.Check inline label="Mois" name="filter" type='radio' id="mois" value={"mois"} onChange={(e) => onInputChange(e)} />
+                <Form.Check inline label="interval" name="filter" type='radio' id="interval" value={"interval"} onChange={(e) => onInputChange(e)} />
             </div>
 
             {show ?
@@ -132,7 +131,7 @@ function RapportAchats() {
                     <FormGroup as={Col} sm="2">
                         <Form.Label></Form.Label>
                         <div className='col-auto text-end mb-2'>
-                            <Button variant="primary" onClick={() => getAchatInterval()}>Filtrer</Button>
+                            <Button variant="primary" onClick={() => getVenteInterval()}>Filtrer</Button>
                         </div>
                     </FormGroup>
                 </Row>
@@ -142,7 +141,7 @@ function RapportAchats() {
 
 
 
-            <h6>Rapport achat {filter}</h6>
+            <h6>Rapport vente {filter}</h6>
 
 
             <div className="row row-cols-1 row-cols-md-3 ">
@@ -151,7 +150,7 @@ function RapportAchats() {
                         <div className="card-body">
                             <div className="d-flex align-items-center">
                                 <div>
-                                    <p className="mb-0 text-secondary">Total acheté</p>
+                                    <p className="mb-0 text-secondary">Total vendu</p>
                                     <h4 >{total} Francs CFA</h4>
                                 </div>
                                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
@@ -165,7 +164,7 @@ function RapportAchats() {
                         <div className="card-body">
                             <div className="d-flex align-items-center">
                                 <div>
-                                    <p className="mb-0 text-secondary">Total payé</p>
+                                    <p className="mb-0 text-secondary">Total encaissé</p>
                                     <h4 >{totalPaye} Francs CFA</h4>
                                 </div>
                                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
@@ -179,7 +178,7 @@ function RapportAchats() {
                         <div className="card-body">
                             <div className="d-flex align-items-center">
                                 <div>
-                                    <p className="mb-0 text-secondary">Total dette</p>
+                                    <p className="mb-0 text-secondary">Total créance</p>
                                     <h4 >{total - totalPaye} Francs CFA</h4>
                                 </div>
                                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
@@ -193,7 +192,7 @@ function RapportAchats() {
 
             <DataTable
                 columns={columns}
-                data={achats}
+                data={ventes}
                 pagination
                 paginationComponentOptions={paginationComponentOptions}
             />
@@ -202,4 +201,4 @@ function RapportAchats() {
     )
 }
 
-export default RapportAchats
+export default RapportVentes

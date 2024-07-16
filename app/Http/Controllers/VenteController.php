@@ -81,8 +81,12 @@ class VenteController extends BaseController
         return response()->json($totalCreances);
     }
 
-    public function ventDuJour(){
+    public function venteDuJour(){
         return response()->json($this->venteRepository->getVenteDuJour());
+    }
+
+    public function venteDeLaSemaine(){
+        return response()->json($this->venteRepository->getVenteDeLaSemaine());
     }
 
     public function venteDuMois(){
