@@ -14,6 +14,7 @@ function Logout() {
     baseApi.get('logout').then(response => {
       // setToken;
       user.setNewToken(null);
+      user.setNewRole(null);
       return navigate('/login', { replace: true });
     }).catch(error => {
       return navigate('/login', { replace: true });

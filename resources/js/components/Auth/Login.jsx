@@ -26,14 +26,18 @@ function Login() {
             e.stopPropagation();
         } else {
             baseApi.post('login', infos).then((result) => {
-                console.log(result);
+                if(result.data.abonnement != undefined ){
+                    localStorage.setItem('abonnement_nom', result.data.abonnement.nom);
+                    localStorage.setItem('abonnement_adresse', result.data.abonnement.adresse);
+                    localStorage.setItem('abonnement_logo', result.data.abonnement.logo);
+                } else {
+                    localStorage.clear();
+                }
                 localStorage.setItem('token', result.data.access_token);
-                localStorage.setItem('abonnement_nom', result.data.abonnement.nom);
-                localStorage.setItem('abonnement_adresse', result.data.abonnement.adresse);
-                localStorage.setItem('abonnement_logo', result.data.abonnement.logo);
                 const token = jwtDecode(result.data.access_token)
                 localStorage.setItem('nom', token.nom);
                 user.setNewToken(result.data.access_token);
+                user.setNewRole(token.role);
                 navigate('/', { replace: true });
             }).catch(e => {
                 setError(e.response?.data?.error);
