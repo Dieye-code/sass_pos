@@ -23,6 +23,7 @@ import File from '../components/Auth/File';
 import Register from '../components/Auth/Register';
 import Logout from '../components/Auth/Logout';
 import Rapports from '../components/Rapport/Rapports';
+import Abonnements from '../components/Abonnement/Abonnements';
 
 function Router(props) {
 
@@ -51,6 +52,10 @@ function Router(props) {
                 {
                     path: "/rapports",
                     element: <Rapports />,
+                },
+                {
+                    path: "/abonnements",
+                    element: <Abonnements />,
                 },
                 {
                     path: "/logout",

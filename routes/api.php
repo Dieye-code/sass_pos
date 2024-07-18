@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AchatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
@@ -38,6 +39,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/achats/mois', [AchatController::class, 'achatDuMois']);
     Route::get('/achats/semaine', [AchatController::class, 'achatDeLaSemaine']);
     Route::post('/achats/intervalle', [AchatController::class, 'achatIntervalle']);
+
+    Route::get('/abonnements', [AbonnementController::class, 'index']);
+    Route::get('/abonnements/{id}/arrete', [AbonnementController::class, 'arrete']);
 
     defaultRoutesFor('users', UserController::class);
     defaultRoutesFor('fournisseurs', FournisseurController::class);

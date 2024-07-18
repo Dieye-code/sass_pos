@@ -84,7 +84,7 @@ class AuthController
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(['error' => 'Téléphone ou code incorrect'], 401);
         }
-        if (auth()->user()->etat == 0 || auth()->user()->abonnement?->etat == 0) {
+        if (auth()->user()->etat == 0 ||  (auth()->user()->abonnement != null && auth()->user()->abonnement?->etat == 0)) {
             Auth::logout();
             return response()->json(['error' => 'Ce compte n\'est pas actif'], 401);
         }
@@ -104,10 +104,11 @@ class AuthController
 
     protected function respondWithToken($token)
     {
-        return response()->json([
+        $data = [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'abonnement' =>['nom' =>  Auth::user()->abonnement?->nom, 'adresse' =>  Auth::user()->abonnement?->adresse, 'logo' =>  Auth::user()->abonnement?->logo]
-        ]);
+        ];
+        Auth::user()?->abonnement != null ? $data['abonnement'] =  ['nom' =>  Auth::user()->abonnement?->nom, 'adresse' =>  Auth::user()->abonnement?->adresse, 'logo' =>  Auth::user()->abonnement?->logo] : '';
+        return response()->json($data, 200);
     }
 }

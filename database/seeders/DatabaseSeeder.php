@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
+        
+        $user = User::firstOrCreate([ 'telephone' => '784758011'], ['nom' => 'Moustapha Dieye','password' => '123456789', 'role' => 'admin']);
+
+        // dump($user);
         //Abonnement::create(['date' => Carbon::now()]);
         // User::factory(10)->create();
 
