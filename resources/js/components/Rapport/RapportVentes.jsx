@@ -191,6 +191,7 @@ function RapportVentes() {
 
 
             <DataTable
+				noDataComponent="Aucune ventes trouvées"
                 columns={columns}
                 data={ventes}
                 pagination

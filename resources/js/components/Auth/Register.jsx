@@ -117,7 +117,7 @@ function Register() {
                             </FormGroup>
                             <FormGroup as={Col} md="4">
                                 <Form.Label>Code</Form.Label>
-                                <Form.Control type='number' required name='password' value={infos.password} onChange={eventChange} />
+                                <Form.Control type='password' required name='password' value={infos.password} onChange={eventChange} />
                             </FormGroup>
                         </Row>
                         <Button variant='primary' className='mt-3' type='submit'>S'inscrire</Button><br />

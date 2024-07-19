@@ -51,7 +51,7 @@ function Login() {
         <>
             <Card style={{ width: '18rem' }} className='w-75 position-absolute top-50 start-50 d-flex aligns-items-center  card translate-middle'>
 
-                <Card.Img variant="top" src={'/assets/images/logo-80x80.png'} style={{ width: 80 }} />
+                <Card.Img variant="top"  src={'/images/logo.jpg'} style={{ width: 200, marginLeft: 'auto', marginRight: 'auto' }}  />
                 <Card.Body>
                     <Card.Title>Authentification</Card.Title>
                     <Form validated={validated} onSubmit={handleSubmit} noValidate>
@@ -62,7 +62,7 @@ function Login() {
                         </FormGroup>
                         <FormGroup>
                             <Form.Label>Code</Form.Label>
-                            <Form.Control type='number' required name='password' value={infos.password} onChange={eventChange} />
+                            <Form.Control type='password' required name='password' value={infos.password} onChange={eventChange} />
                         </FormGroup>
                         <Button variant='primary' className='mt-3' type='submit'>Login</Button>
                         <br />
