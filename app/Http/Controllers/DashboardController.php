@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\AbonnementInterface;
 use App\Interfaces\AchatInterface;
 use App\Interfaces\VenteInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController
 {
 
     private  $achatRepository;
     private $venteRepository;
-    public function __construct(AchatInterface $achatRepository, VenteInterface $venteRepository)
+    private $abonnementRepository;
+    public function __construct(AchatInterface $achatRepository, VenteInterface $venteRepository, AbonnementInterface $abonnementRepository)
     {
         $this->venteRepository = $venteRepository;
         $this->achatRepository = $achatRepository;
+        $this->abonnementRepository = $abonnementRepository;
     }
     public function index(Request $request)
     {
@@ -40,4 +44,17 @@ class DashboardController
         }
         return response()->json(['achats' => $achats, 'ventes' => $ventes, 'achatTotal' => $totalAchat, 'venteTotal' => $totalVente, 'totalDettes' => $totalDettes, 'totalCreances' => $totalCreances]);
     }
+
+    public function admin()
+    {
+
+        if(Auth::user()->role != "admin")
+            return abort(403, 'Vous n\'avez pas accées à cette ressource');
+
+        $abonnementActifs = $this->abonnementRepository->getAbonnementActifs();
+        $abonnementInactifs = $this->abonnementRepository->getAbonnementInactifs();
+        return response()->json(['abonnementActifs' => $abonnementActifs, 'abonnementInactifs' => $abonnementInactifs]);
+    }
+
+
 }

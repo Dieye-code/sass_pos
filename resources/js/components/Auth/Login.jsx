@@ -26,7 +26,7 @@ function Login() {
             e.stopPropagation();
         } else {
             baseApi.post('login', infos).then((result) => {
-                if(result.data.abonnement != undefined ){
+                if (result.data.abonnement != undefined) {
                     localStorage.setItem('abonnement_nom', result.data.abonnement.nom);
                     localStorage.setItem('abonnement_adresse', result.data.abonnement.adresse);
                     localStorage.setItem('abonnement_logo', result.data.abonnement.logo);
@@ -38,6 +38,8 @@ function Login() {
                 localStorage.setItem('nom', token.nom);
                 user.setNewToken(result.data.access_token);
                 user.setNewRole(token.role);
+                if (token.role == "admin")
+                    navigate('/dashboard');
                 navigate('/', { replace: true });
             }).catch(e => {
                 setError(e.response?.data?.error);
@@ -51,7 +53,7 @@ function Login() {
         <>
             <Card style={{ width: '18rem' }} className='w-75 position-absolute top-50 start-50 d-flex aligns-items-center  card translate-middle'>
 
-                <Card.Img variant="top"  src={'/images/logo.jpg'} style={{ width: 200, marginLeft: 'auto', marginRight: 'auto' }}  />
+                <Card.Img variant="top" src={'/images/logo.jpg'} style={{ width: 200, marginLeft: 'auto', marginRight: 'auto' }} />
                 <Card.Body>
                     <Card.Title>Authentification</Card.Title>
                     <Form validated={validated} onSubmit={handleSubmit} noValidate>

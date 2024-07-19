@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Row, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
 import { baseApi } from '../services/BaseService';
 import { jwtDecode } from 'jwt-decode';
@@ -12,6 +12,7 @@ function Home() {
   const matchess = useMediaQuery('(min-width:768px)');
 
   const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+  const navigate = useNavigate();
 
   const [ventes, setVentes] = useState([]);
   const [achats, setAchats] = useState([]);
@@ -21,6 +22,11 @@ function Home() {
   const [totalDettes, setTotalDettes] = useState([]);
 
   useEffect(() => {
+
+    if (decoded.role == 'admin') {
+      navigate('/dashboard');
+      return;
+    }
     baseApi.get('dashboard').then((result) => {
       setVentes(result.data.ventes);
       setAchats(result.data.achats);

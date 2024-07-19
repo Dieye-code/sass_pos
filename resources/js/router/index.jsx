@@ -24,6 +24,7 @@ import Register from '../components/Auth/Register';
 import Logout from '../components/Auth/Logout';
 import Rapports from '../components/Rapport/Rapports';
 import Abonnements from '../components/Abonnement/Abonnements';
+import Dashboard from '../components/Dashboard';
 
 function Router(props) {
 
@@ -35,6 +36,7 @@ function Router(props) {
             element: <Main />, // Wrap the component in ProtectedRoute
             children: [
                 { path: "/", element: <Home />, },
+                { path: "/dashboard", element: <Dashboard />, },
                 { path: "/fournisseurs", element: <Fournisseurs /> },
                 { path: "/fournisseurs/:id/details", element: <DetailFournisseur /> },
                 { path: "/clients", element: <Clients /> },

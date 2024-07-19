@@ -36,55 +36,13 @@ class AbonnementRepository  implements AbonnementInterface
         return $abonnement;
     }
 
-    public function find($id)
-    {
-        return Achat::where('id', $id)->with('fournisseur')->with('produits')->first();
-    }
-    public function delete($id)
-    {
-        return Achat::find($id)?->delete();
-    }
-    public function create($info)
-    {
-        return Achat::create($info);
-    }
-    public function update($id, $info)
-    {
-        return Achat::find($id)?->update($info);
-    }
-    public function saveAchatProduit($info)
-    {
-        $p = Produit::where('id', $info['produit_id'])->first();
-        if ($p != null) {
-            $p->quantite = $p->quantite + $info['quantite'];
-            $p?->save();
-        }
-        return AchatProduit::create($info);
-    }
 
-    public function getAchatByFournisseur($idFournisseur)
+    public function getAbonnementActifs()
     {
-        return Achat::with('produits')->with('paiements')->where('fournisseur_id', $idFournisseur)->get();
+        return Abonnement::where('etat', 1)->get();
     }
-
-    public function getAchatWithPaiements()
+    public function getAbonnementInactifs()
     {
-        return Achat::with('paiements')->with('fournisseur')->get();
-    }
-    public function getAchatDuJour()
-    {
-        return Achat::whereDate('date', Carbon::today())->with('paiements')->with('fournisseur')->get();
-    }
-    public function getAchatDuMois()
-    {
-        return Achat::whereRaw('DATEDIFF(NOW(), date) <= 30')->with('paiements')->with('fournisseur')->get();
-    }
-    public function getAchatDeLaSemaine()
-    {
-        return Achat::whereRaw('DATEDIFF(NOW(), date) <= 7')->with('paiements')->with('fournisseur')->get();
-    }
-    public function getAchatByIntervallee($debut, $fin)
-    {
-        return Achat::with('paiements')->with('fournisseur')->whereBetween('date', [$debut, $fin])->get();
+        return Abonnement::where('etat', 0)->get();
     }
 }
