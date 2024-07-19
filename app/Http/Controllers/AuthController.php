@@ -30,6 +30,7 @@ class AuthController
                 'nom' => 'required|string',
                 'nomUser' => 'required|string',
                 'adresse' => 'required|string',
+                'telephoneAbonnement' => ['required', 'regex:/^((76)|(77)|(78)|(70)|(75)|(88)|(33))[0-9]{7}$/'],
                 'telephone' => ['required', 'regex:/^((76)|(77)|(78)|(70)|(75))[0-9]{7}$/', 'unique:users'],
                 'password' => 'required',
             ],
@@ -40,9 +41,11 @@ class AuthController
                 'nomUser.string' => 'Le  nom de l\'utilisateur est invalide',
                 'adresse.required' => 'L\'adresse est obligatoire ',
                 'adresse.string' => 'L\'adresse est invalide',
-                'telephone.required' => 'Le numéro de téléphone est obligatoire',
-                'telephone.regex' => 'Le numéro de téléphone est invalide',
-                'telephone.unique' => 'Le numéro de téléphone existe déjà',
+                'telephoneAbonnement.required' => 'Le numéro de téléphone est obligatoire',
+                'telephoneAbonnement.regex' => 'Le numéro de téléphone est invalide',
+                'telephone.required' => 'Le numéro de téléphone de l\'utilisateur est obligatoire',
+                'telephone.regex' => 'Le numéro de téléphone de l\'utilisateur est invalide',
+                'telephone.unique' => 'Le numéro de téléphone de l\'utilisateur existe déjà',
                 'password.required' => 'Le code est obligatoire',
             ]
         );
@@ -58,8 +61,13 @@ class AuthController
             return response()->json($errors, 400);
         }
 
+        $logo = null;
+        if (key_exists('logo', $request->file())) {
+            $logo = storefile($request->file('logo'));
+        }
+
         DB::beginTransaction();
-        $abonnement = $this->userRepository->storeAbonnement(['nom' => $request->nom, 'adresse' => $request->adresse, 'date' => Carbon::now(), 'dateLimit' => Carbon::now()->addMonths(12)]);
+        $abonnement = $this->userRepository->storeAbonnement(['nom' => $request->nom, 'adresse' => $request->adresse, 'date' => Carbon::now(), 'dateLimit' => Carbon::now()->addMonths(12), 'logo' => $logo, 'telephone' => $request->telephoneAbonnement]);
 
         $user = $this->userRepository->create(['nom' => $request->nomUser, 'telephone' => $request->telephone, 'password' => $request->password, 'role' => 'user', 'abonnement_id' => $abonnement->id]);
         DB::commit();
