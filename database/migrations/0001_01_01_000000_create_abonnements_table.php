@@ -16,6 +16,7 @@ return new class extends Migration
             $table->boolean('etat')->default(true);
             $table->string('nom', 150)->nullable();
             $table->string('adresse', 150)->nullable();
+            $table->string('telephone', 150)->nullable();
             $table->string('logo', 150)->nullable();
             $table->date('date')->nullable();
             $table->date('dateLimit')->nullable();
