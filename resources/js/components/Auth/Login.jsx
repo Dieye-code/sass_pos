@@ -30,6 +30,7 @@ function Login() {
                     localStorage.setItem('abonnement_nom', result.data.abonnement.nom);
                     localStorage.setItem('abonnement_adresse', result.data.abonnement.adresse);
                     localStorage.setItem('abonnement_logo', result.data.abonnement.logo);
+                    localStorage.setItem('abonnement_telephone', result.data.abonnement.telephone);
                 } else {
                     localStorage.clear();
                 }

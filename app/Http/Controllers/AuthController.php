@@ -116,7 +116,7 @@ class AuthController
             'access_token' => $token,
             'token_type' => 'bearer',
         ];
-        Auth::user()?->abonnement != null ? $data['abonnement'] =  ['nom' =>  Auth::user()->abonnement?->nom, 'adresse' =>  Auth::user()->abonnement?->adresse, 'logo' =>  Auth::user()->abonnement?->logo] : '';
+        Auth::user()?->abonnement != null ? $data['abonnement'] =  ['nom' =>  Auth::user()->abonnement?->nom, 'adresse' =>  Auth::user()->abonnement?->adresse, 'logo' =>  Auth::user()->abonnement?->logo, 'telephone' => Auth::user()->abonnement?->telephone] : '';
         return response()->json($data, 200);
     }
 }

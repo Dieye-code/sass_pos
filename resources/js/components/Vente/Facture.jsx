@@ -6,13 +6,18 @@ import { baseApi } from '../../services/BaseService';
 
 function Facture() {
 
-    const {id} = useParams();
+    const { id } = useParams();
 
 
     const [facture, setFacture] = useState()
+    const [logo, setLogo] = useState("assets/images/logo-80x80.png");
 
     useEffect(() => {
-        baseApi.get('ventes/'+id).then((resulte) => {
+
+        if (localStorage.getItem("abonnement_logo") != undefined && localStorage.getItem("abonnement_logo") != null && localStorage.getItem("abonnement_logo") != "")
+            setLogo("storage/" + localStorage.getItem("abonnement_logo"));
+
+        baseApi.get('ventes/' + id).then((resulte) => {
             setFacture(resulte.data)
         })
     }, [])
@@ -23,7 +28,12 @@ function Facture() {
             <Document>
                 <Page size="A5" style={styles.page}>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 }}>
-                        <Image src={Env.API_URL + "assets/images/logo-80x80.png"} style={{ height: 30, width: 30, borderRadius: 15 }} />
+                        <View>
+                            <Image src={Env.API_URL + logo} style={{ height: 50, width: 50, borderRadius: 15 }} />
+                            <Text >{localStorage.getItem('abonnement_nom')}</Text>
+                            <Text style={{fontStyle: 'italic', fontWeight: 'light', fontSize: 13}} >{localStorage.getItem('abonnement_adresse')}</Text>
+                            <Text style={{fontStyle: 'italic', fontWeight: 'light', fontSize: 13}} >{localStorage.getItem('abonnement_telephone')}</Text>
+                        </View>
                         <Text style={{ color: "#212E5E", fontSize: 20, fontWeight: 'bold' }}>FACTURE</Text></View>
                     <View >
                         <Text>client: <Text style={{ fontWeight: 'bold' }}>{facture?.client?.nom}</Text></Text>
@@ -59,8 +69,8 @@ function Facture() {
                         <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{facture?.paiements?.reduce((mt, m) => mt + m.montant, 0)} F</Text>
                     </View>
                     <View style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={{ fontSize: 18 }}>Montant restant</Text>
-                        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{facture?.montant_total - facture?.paiements?.reduce((mt, m) => mt + m.montant, 0)} F</Text>
+                        <Text style={{ fontSize: 18 }}>{facture?.montant_total - facture?.paiements?.reduce((mt, m) => mt + m.montant, 0) > 0 ? 'Montant restant' : ''}</Text>
+                        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{facture?.montant_total - facture?.paiements?.reduce((mt, m) => mt + m.montant, 0) > 0 ? facture?.montant_total - facture?.paiements?.reduce((mt, m) => mt + m.montant, 0)+"F" : ''}</Text>
                     </View>
 
                 </Page>
