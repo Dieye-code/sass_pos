@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, Form, FormGroup, Image, Modal, Row, Table } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { baseApi } from '../../services/BaseService';
-import { Env } from '../../config/Env';
+import { Env, formatDate } from '../../config/Env';
 
 function PaiementVente() {
 
@@ -111,7 +111,7 @@ function PaiementVente() {
                 Client: <b>{vente?.client?.nom}</b> <br />
                 Téléphone: <i>{vente?.client?.telephone}</i> <br />
                 Etat: <span className={vente?.etat == 'en attente' ? 'text-danger' : vente?.etat == 'en cours' ? 'text-warning' : 'text-success'}>{vente?.etat}</span> <br />
-                Date: {vente?.date}<br />
+                Date: {formatDate(vente?.date)}<br />
             </div>
 
             <Row>
@@ -161,7 +161,7 @@ function PaiementVente() {
                             {paiements?.map(element => {
                                 return (<tr>
                                     <td>{element.montant + " Francs CFA"}</td>
-                                    <td>{element.date}</td>
+                                    <td>{formatDate(element.date)}</td>
                                     <td>{element.mode_paiement}</td>
                                 </tr>);
                             })}

@@ -5,8 +5,13 @@ import React, { Component } from 'react'
 // }
 
 
-export const URL = 'DEV'
+export const URL = 'PROD'
+
+export const formatDate = (date) => {
+     let d = new Date(date);
+     return d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+}
 
 export const Env = {
-     API_URL : URL == 'DEV' ? 'http://localhost:8000/' : 'https://shop.samacaisse.cloud/',
+     API_URL: URL == 'DEV' ? 'http://localhost:8000/' : 'https://shop.samacaisse.cloud/',
 }

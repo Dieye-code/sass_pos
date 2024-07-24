@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
 import { baseApi } from '../services/BaseService';
 import { jwtDecode } from 'jwt-decode';
+import { formatDate } from '../config/Env';
 
 function Home() {
 
@@ -130,7 +131,7 @@ function Home() {
                   {ventes.map(e => {
                     return (
                       <tr>
-                        <td>{e.date}</td>
+                        <td>{formatDate(e.date)}</td>
                         <td>
                           <span className='text-primary btn' >
                             <Link to={'/clients/' + e.client?.id + '/details'} >{e.client?.nom}</Link>
@@ -167,7 +168,7 @@ function Home() {
                   {achats.map(e => {
                     return (
                       <tr>
-                        <td>{e.date}</td>
+                        <td>{formatDate(e.date)}</td>
                         <td>
                           <span className='text-primary btn' >
                             <Link to={'/fournisseurs/' + e.fournisseur?.id + '/details'} >{e.fournisseur?.nom}</Link>

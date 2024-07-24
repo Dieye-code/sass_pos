@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { baseApi } from '../../services/BaseService';
 import DataTable from 'react-data-table-component';
+import { formatDate } from '../../config/Env';
 
 function Abonnements() {
 
@@ -18,12 +19,12 @@ function Abonnements() {
         },
         {
             name: 'Date abonnement',
-            selector: row => row.date,
+            selector: row => formatDate(row.date),
             sortable: true,
         },
         {
             name: 'Date fin abonnement',
-            selector: row => row.date,
+            selector: row => formatDate(row.date),
             sortable: true,
         },
         {

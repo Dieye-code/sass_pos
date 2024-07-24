@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { baseApi } from '../../services/BaseService';
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../../config/Env';
 
 function Dettes() {
 
     const columns = [
         {
             name: 'Date',
-            selector: row => row.achat?.date,
+            selector: row => formatDate(row.achat?.date),
             sortable: true,
         },
         {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { baseApi } from '../../services/BaseService';
 import { useParams } from 'react-router-dom';
 import { Col, Form, FormGroup, Image, Modal, Row, Table } from 'react-bootstrap';
-import { Env } from '../../config/Env';
+import { Env, formatDate } from '../../config/Env';
 
 function Payer() {
 
@@ -128,7 +128,7 @@ function Payer() {
         adresse: <i>{achat?.fournisseur?.adresse}</i> <br />
         Téléphone: <i>{achat?.fournisseur?.telephone}</i> <br />
         Etat: <span className={achat?.etat == 'en attente' ? 'text-danger' : achat?.etat == 'en cours' ? 'text-warning' : 'text-success'}>{achat?.etat}</span> <br />
-        Date: {achat?.date} <br/>
+        Date: {formatDate(achat?.date)} <br/>
         {achat?.facture ? <span className='btn btn-outline-primary' onClick={handleShow1}>Bon de réception</span> : ''}
       </div>
 
@@ -179,7 +179,7 @@ function Payer() {
               {paiements.map(element => {
                 return (<tr>
                   <td>{element.montant + " Francs CFA"}</td>
-                  <td>{element.date}</td>
+                  <td>{formatDate(element.date)}</td>
                   <td>{element.mode_paiement}</td>
                 </tr>);
               })}

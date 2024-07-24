@@ -3,14 +3,14 @@ import { Link, useParams } from 'react-router-dom'
 import { baseApi } from '../../services/BaseService';
 import DataTable from 'react-data-table-component';
 import { Col, Form, FormGroup, Image, Modal, Row } from 'react-bootstrap';
-import { Env } from '../../config/Env';
+import { Env, formatDate } from '../../config/Env';
 
 function DetailFournisseur() {
 
     const columns = [
         {
             name: 'Date',
-            selector: row => row.date,
+            selector: row => formatDate(row.date),
             sortable: true,
         },
         {

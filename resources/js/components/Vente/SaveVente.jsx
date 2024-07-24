@@ -99,10 +99,22 @@ function SaveVente() {
     const handleSubmit = (event) => {
         setLoad(true);
         const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
 
         if (produitVentes.length == 0) {
             swal({
                 text: "Vous devez selectionner les produits à vendre!",
+                icon: "info",
+                buttons: true,
+                showCancelButton: false,
+            });
+            setLoad(false);
+            return;
+        }
+        if (vente.paiement == 0) {
+            swal({
+                text: "Vous devez selectionner le moyen de paiement!",
                 icon: "info",
                 buttons: true,
                 showCancelButton: false,
@@ -121,8 +133,6 @@ function SaveVente() {
                 paiement: vente.paiement,
                 montant_paye: vente.montant_paye
             }
-            event.preventDefault();
-            event.stopPropagation();
             if (vente.id === undefined) {
                 baseApi.post("ventes", tab).then(
                     (response) => {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, FormGroup, Row } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { baseApi } from '../../services/BaseService';
+import { formatDate } from '../../config/Env';
 
 function RapportVentes() {
 
@@ -9,7 +10,7 @@ function RapportVentes() {
     const columns = [
         {
             name: 'Date',
-            selector: row => row.date,
+            selector: row => formatDate(row.date),
             sortable: true,
         },
         {

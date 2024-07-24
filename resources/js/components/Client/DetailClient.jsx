@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { baseApi } from '../../services/BaseService';
 import { Col, Form, FormGroup, Image, Modal, Row } from 'react-bootstrap';
-import { Env } from '../../config/Env';
+import { Env, formatDate } from '../../config/Env';
 import DataTable from 'react-data-table-component';
 
 function DetailClient() {
@@ -11,7 +11,7 @@ function DetailClient() {
   const columns = [
     {
       name: 'Date',
-      selector: row => row.date,
+      selector: row => formatDate(row.date),
       sortable: true,
     },
     {

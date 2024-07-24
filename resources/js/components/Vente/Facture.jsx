@@ -1,6 +1,6 @@
 import { Document, Image, Page, PDFViewer, Text, View } from '@react-pdf/renderer'
 import React, { useEffect, useState } from 'react'
-import { Env } from '../../config/Env';
+import { Env, formatDate } from '../../config/Env';
 import { useParams } from 'react-router-dom';
 import { baseApi } from '../../services/BaseService';
 
@@ -31,10 +31,14 @@ function Facture() {
                         <View>
                             <Image src={Env.API_URL + logo} style={{ height: 50, width: 50, borderRadius: 15 }} />
                             <Text >{localStorage.getItem('abonnement_nom')}</Text>
-                            <Text style={{fontStyle: 'italic', fontWeight: 'light', fontSize: 13}} >{localStorage.getItem('abonnement_adresse')}</Text>
-                            <Text style={{fontStyle: 'italic', fontWeight: 'light', fontSize: 13}} >{localStorage.getItem('abonnement_telephone')}</Text>
+                            <Text style={{ fontStyle: 'italic', fontWeight: 'light', fontSize: 13 }} >{localStorage.getItem('abonnement_adresse')}</Text>
+                            <Text style={{ fontStyle: 'italic', fontWeight: 'light', fontSize: 13 }} >{localStorage.getItem('abonnement_telephone')}</Text>
                         </View>
-                        <Text style={{ color: "#212E5E", fontSize: 20, fontWeight: 'bold' }}>FACTURE</Text></View>
+                        <View>
+                            <Text style={{ color: "#212E5E", fontSize: 14, fontWeight: 'bold' }}>FACTURE N° :<Text style={{ fontSize: 12 }}>{facture?.numero}</Text></Text>
+                            <Text style={{alignSelf: 'flex-end'}} >{ formatDate( facture?.date)}</Text>
+                        </View>
+                    </View>
                     <View >
                         <Text>client: <Text style={{ fontWeight: 'bold' }}>{facture?.client?.nom}</Text></Text>
                     </View>
@@ -70,7 +74,7 @@ function Facture() {
                     </View>
                     <View style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row', marginTop: 10 }}>
                         <Text style={{ fontSize: 18 }}>{facture?.montant_total - facture?.paiements?.reduce((mt, m) => mt + m.montant, 0) > 0 ? 'Montant restant' : ''}</Text>
-                        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{facture?.montant_total - facture?.paiements?.reduce((mt, m) => mt + m.montant, 0) > 0 ? facture?.montant_total - facture?.paiements?.reduce((mt, m) => mt + m.montant, 0)+"F" : ''}</Text>
+                        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{facture?.montant_total - facture?.paiements?.reduce((mt, m) => mt + m.montant, 0) > 0 ? facture?.montant_total - facture?.paiements?.reduce((mt, m) => mt + m.montant, 0) + "F" : ''}</Text>
                     </View>
 
                 </Page>

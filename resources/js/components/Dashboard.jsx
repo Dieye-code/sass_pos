@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { baseApi } from '../services/BaseService';
 import { Col, Row, Table } from 'react-bootstrap';
 import { useMediaQuery } from '@mui/material';
+import { formatDate } from '../config/Env';
 
 function Dashboard() {
 
@@ -107,7 +108,7 @@ function Dashboard() {
                                         <td>{e.nom}</td>
                                         <td>{e.telephone}</td>
                                         <td>{e.adresse}</td>
-                                        <td>{e.dateLimit}</td>
+                                        <td>{formatDate(e.dateLimit)}</td>
                                         {/* <td>
                                                     <span className='text-primary btn' >
                                                         <Link to={'/clients/' + e.client?.id + '/details'} >{e.client?.nom}</Link>
@@ -147,7 +148,7 @@ function Dashboard() {
                                         <td>{e.nom}</td>
                                         <td>{e.telephone}</td>
                                         <td>{e.adresse}</td>
-                                        <td>{e.dateLimit}</td>
+                                        <td>{formatDate(e.dateLimit)}</td>
                                         {/* <td>
                                                     <span className='text-primary btn' >
                                                         <Link to={'/fournisseurs/' + e.fournisseur?.id + '/details'} >{e.fournisseur?.nom}</Link>

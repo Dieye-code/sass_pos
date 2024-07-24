@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
 import {baseApi} from '../../services/BaseService'
+import { formatDate } from '../../config/Env';
 
 function Creances() {
 
     const columns = [
         {
             name: 'Date',
-            selector: row => row.vente?.date,
+            selector: row => formatDate(row.vente?.date),
             sortable: true,
         },
         {

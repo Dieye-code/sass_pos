@@ -3,6 +3,7 @@ import { baseApi } from '../../services/BaseService';
 import { Button } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../../config/Env';
 
 function Achats() {
 
@@ -10,7 +11,7 @@ function Achats() {
   const columns = [
     {
       name: 'Date',
-      selector: row => row.date,
+      selector: row => formatDate(row.date),
       sortable: true,
     },
     {

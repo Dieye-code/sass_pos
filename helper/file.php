@@ -49,6 +49,8 @@ function defaultRoutesFor(string $route, string $controller = null,$name = '')
     Route::post("/$route", [$controller, "create"])->name('user.create');
     Route::put("/$route/{id}", [$controller, "update"])->where('id', "[0-9a-z]+")->name('user.update');
     Route::delete("/$route/{id}", [$controller, "delete"])->where('id', "[0-9a-z]+")->name('user.delete');
+
+    
 }
 
 
@@ -56,7 +58,7 @@ function storefile($file)
 {
     $directory = 'uploads/' . (new DateTime())->format('Y-m-d');
 
-    $filename = substr(bin2hex(random_bytes(32)), 0, 15) . '.' . $file->getClientOriginalExtension();
+    $filename = substr(bin2hex(random_bytes(32)), 0, 15) . '.' . $file->extension();
 
     $path = $file->storeAs(
         $directory,

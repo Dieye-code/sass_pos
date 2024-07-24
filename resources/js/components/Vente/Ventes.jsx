@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { baseApi } from '../../services/BaseService';
 import Facture from './Facture';
 import { BlobProvider, PDFViewer } from '@react-pdf/renderer';
+import { formatDate } from '../../config/Env';
 
 function Ventes() {
 
@@ -11,7 +12,7 @@ function Ventes() {
   const columns = [
     {
       name: 'Date',
-      selector: row => row.date,
+      selector: row => formatDate(row.date),
       sortable: true,
     },
     {
