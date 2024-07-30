@@ -122,6 +122,16 @@ function SaveVente() {
             setLoad(false);
             return;
         }
+        if (total < vente.montant_paye) {
+            swal({
+                text: "Le montant payé doit etre inferieur au montant total",
+                icon: "info",
+                buttons: true,
+                showCancelButton: false,
+            });
+            setLoad(false);
+            return;
+        }
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
@@ -287,6 +297,11 @@ function SaveVente() {
                             <Form.Control name='montant_paye' value={vente.montant_paye} onChange={e => onInputChange(e)} />
                         </FormGroup>
                         : <></>}
+                </div>
+
+                
+                <div>
+                    <b>Montant restant: </b> {total - vente.montant_paye} Francs CFA
                 </div>
 
 

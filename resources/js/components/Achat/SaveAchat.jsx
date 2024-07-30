@@ -131,6 +131,17 @@ function SaveAchat() {
             setLoad(false);
             return;
         }
+
+        if (total < achat.montant_paye) {
+            swal({
+                text: "Le montant payé doit etre inferieur au montant total à payer",
+                icon: "info",
+                buttons: true,
+                showCancelButton: false,
+            });
+            setLoad(false);
+            return;
+        }
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
@@ -268,6 +279,7 @@ function SaveAchat() {
                         <th>Libelle</th>
                         <th>Prix d'achat</th>
                         <th>Quantité</th>
+                        <th>Total</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -277,6 +289,7 @@ function SaveAchat() {
                                     <td>{element.libelle}</td>
                                     <td>{element.montant_achat} Francs CFA</td>
                                     <td>{element.quantite}</td>
+                                    <td>{element.montant_achat * element.quantite} Francs CFA</td>
                                     <td>
                                         <span className='text-danger btn' onClick={() => {
                                             removeProduit(element)
@@ -318,6 +331,12 @@ function SaveAchat() {
                         </FormGroup>
                         : <></>}
                 </div>
+
+
+                <div>
+                    <b>Montant reastant: </b> {total - achat.montant_paye} Francs CFA
+                </div>
+
 
                 <div>
                     <Button className='mt-3' type="submit" disabled={load}>
