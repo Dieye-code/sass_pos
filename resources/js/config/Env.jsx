@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 // }
 
 
-export const URL = 'PROD'
+export const URL = 'DEV'
 
 export const formatDate = (date) => {
      let d = new Date(date);

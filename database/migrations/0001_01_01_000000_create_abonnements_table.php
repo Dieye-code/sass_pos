@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('abonnements', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->boolean('etat')->default(true);
+            $table->boolean('etat')->default(false);
             $table->string('nom', 150)->nullable();
             $table->string('adresse', 150)->nullable();
             $table->string('telephone', 150)->nullable();

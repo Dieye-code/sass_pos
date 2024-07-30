@@ -23,7 +23,7 @@ function Header() {
                                 <a className="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">
                                     <div className="user-setting d-flex align-items-center gap-1">
                                         <img src="/assets/images/avatars/avatar-1.png" className="user-img" />
-                                        <div className="user-name d-none d-sm-block">{localStorage.getItem("nom" ?? "Sama Caisse" )}</div>
+                                        <div className="user-name d-none d-sm-block">{localStorage.getItem("nom" ?? "Sama Caisse")}</div>
                                     </div>
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-end">
@@ -32,13 +32,21 @@ function Header() {
                                             <div className="d-flex align-items-center">
                                                 <img src="/assets/images/avatars/avatar-1.png" className="rounded-circle" width={60} height={60} />
                                                 <div className="ms-3">
-                                                    <h6 className="mb-0 dropdown-user-name">{localStorage.getItem("nom" ?? "Sama Caisse" )}</h6>
+                                                    <h6 className="mb-0 dropdown-user-name">{localStorage.getItem("nom" ?? "Sama Caisse")}</h6>
                                                     <small className="mb-0 dropdown-user-designation text-secondary">HR Manager</small>
                                                 </div>
                                             </div>
                                         </a>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
+                                    {/* <li>
+                                        <Link to={'/change-code'} className='dropdown-item' >
+                                            <div className="d-flex align-items-center">
+                                                <div className="setting-icon"><i className="bi bi-lock-fill" /></div>
+                                                <div className="setting-text ms-3"><span>changer le mot de passe</span></div>
+                                            </div>
+                                        </Link>
+                                    </li> */}
                                     <li>
                                         <a className="dropdown-item" href="pages-user-profile.html">
                                             <div className="d-flex align-items-center">
@@ -82,7 +90,7 @@ function Header() {
                                     <li><hr className="dropdown-divider" /></li>
                                     <li className='dropdown-item'>
                                         <div className="d-flex align-items-center">
-                                            <div className="setting-icon"><i className="bi bi-lock-fill" /></div>
+                                            <div className="setting-icon"><i className="bi bi-box-arrow-right" /></div>
                                             <div className="setting-text ms-3"><Link to={'/logout'}>Logout</Link></div>
                                         </div>
                                     </li>

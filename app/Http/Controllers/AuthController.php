@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController
@@ -108,6 +109,38 @@ class AuthController
     {
         Auth::logout();
         return response()->json([], 200);
+    }
+
+    public function changePassword(Request $request)
+    {
+        dd(Hash::make("Aqzsedr@75!"));
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'oldPassword' => 'required',
+                'password' => 'required',
+            ],
+            [
+                'oldPassword.required' => 'L\'ancien code est obligatoire',
+                'password.required' => 'Le nouveau code est obligatoire',
+            ]
+        );
+        $errors = [];
+
+        if ($validate->fails()) {
+            foreach ($validate->errors()->messages() as $value) {
+
+                foreach ($value as $v) {
+                    $errors[] = $v;
+                }
+            }
+            return response()->json($errors, 400);
+        }
+        $user = $this->userRepository->find(Auth::user()?->id);
+        if($user == null){
+            return response()->json(['errors' => 'L\'utilisateur n\'existe pas', 404]);
+        }
+        dd(Hash::check($request->oldPassword, $user->password));
     }
 
     protected function respondWithToken($token)

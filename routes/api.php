@@ -48,6 +48,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/abonnements', [AbonnementController::class, 'index']);
     Route::get('/abonnements/{id}/arrete', [AbonnementController::class, 'arrete']);
 
+
+    Route::post('/user/change-password', [AuthController::class, 'changePassword']);
+
     defaultRoutesFor('users', UserController::class);
     defaultRoutesFor('fournisseurs', FournisseurController::class);
     defaultRoutesFor('clients', ClientController::class);

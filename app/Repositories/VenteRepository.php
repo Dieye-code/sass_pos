@@ -60,7 +60,7 @@ class VenteRepository  extends BaseRepository implements VenteInterface
     }
 
     public function getVenteWithPaiements(){
-        return Vente::with('paiements')->with('client')->get();
+        return Vente::with('paiements')->where('abonnement_id', Auth::user()?->abonnement_id)->with('client')->get();
     }
 
     public function getVenteDuMois(){

@@ -17,15 +17,7 @@ class DatabaseSeeder extends Seeder
     {
 
         
-        $user = User::firstOrCreate([ 'telephone' => '764191506'], ['nom' => 'Admin','password' => 'Aqzsedr123!', 'role' => 'admin']);
+        $user = User::firstOrCreate([ 'telephone' => '764191506'], ['nom' => 'Admin','password' => 'Aqzsedr@75!', 'role' => 'admin']);
 
-        // dump($user);
-        //Abonnement::create(['date' => Carbon::now()]);
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

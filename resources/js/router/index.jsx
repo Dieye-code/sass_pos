@@ -25,6 +25,7 @@ import Logout from '../components/Auth/Logout';
 import Rapports from '../components/Rapport/Rapports';
 import Abonnements from '../components/Abonnement/Abonnements';
 import Dashboard from '../components/Dashboard';
+import ChangePassword from '../components/Auth/ChangePassword';
 
 function Router(props) {
 
@@ -59,6 +60,10 @@ function Router(props) {
                     path: "/abonnements",
                     element: <Abonnements />,
                 },
+                // {
+                //     path: "/change-code",
+                //     element: <ChangePassword />,
+                // },
                 {
                     path: "/logout",
                     element: <Logout />,
