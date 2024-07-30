@@ -43,6 +43,7 @@ function Abonnements() {
                 } else {
                     return <>
                         <span className='text-danger'>arreté</span>
+                        <span className='text-success btn' onClick={() => reactive(row.id)}><i className='bi bi-file-check-fill'></i> </span>
                         {/* <Link to={`/achats/${row.id}/details`} >
                                 <span className='text-primary btn'><i className='bi bi-person-x'></i> </span>
                             </Link> */}
@@ -73,6 +74,42 @@ function Abonnements() {
                     baseApi.get('abonnements/' + id + '/arrete').then((response) => {
                         if (response.status === 200) {
                             swal("Le produit a été bien arrêté", {
+                                icon: "success",
+                            }).then(() => {
+
+                                baseApi.get("abonnements").then((data) => {
+                                    setAbonnements(data.data)
+                                })
+                            });
+                        } else {
+                            swal("Erreur lors du traitement de l'opération", {
+                                icon: "error",
+                            });
+                        }
+                    }).catch((error) => {
+
+                        swal("Erreur au niveau du serveur", {
+                            icon: "error",
+                        });
+                    })
+                }
+            });
+
+    }
+    const reactive = function (id) {
+        console.log(id);
+
+        swal({
+            title: "Voulez-vous réactivé l'abonnement de ce boutique?",
+            icon: "info",
+            buttons: true,
+            dangerMode: false,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    baseApi.get('abonnements/' + id + '/active').then((response) => {
+                        if (response.status === 200) {
+                            swal("Le boutique a été bien réactivé", {
                                 icon: "success",
                             }).then(() => {
 

@@ -36,6 +36,16 @@ class AbonnementRepository  implements AbonnementInterface
         return $abonnement;
     }
 
+    public function active($id)
+    {
+        $abonnement = Abonnement::find($id);
+        if ($abonnement) {
+            $abonnement->etat = 1;
+            $abonnement->save();
+        }
+        return $abonnement;
+    }
+
 
     public function getAbonnementActifs()
     {
