@@ -8,10 +8,10 @@ import { formatDate } from '../config/Env';
 
 function Dashboard() {
 
-    
 
-  const matches = useMediaQuery('(min-width:768px)');
-  const matchess = useMediaQuery('(min-width:768px)');
+
+    const matches = useMediaQuery('(min-width:768px)');
+    const matchess = useMediaQuery('(min-width:768px)');
 
 
     const navigate = useNavigate();
@@ -19,8 +19,9 @@ function Dashboard() {
 
     const [abonnementActifs, setAbonnementActifs] = useState([]);
     const [abonnementInactifs, setAbonnementInactifs] = useState([]);
-    const [totalAbonnementActif, setTotalAbonnementActif] = useState([]);
-    const [totalAbonnementInactif, setTotalAbonnementInactif] = useState([]);
+    const [totalAbonnementActif, setTotalAbonnementActif] = useState(0);
+    const [totalAbonnementInactif, setTotalAbonnementInactif] = useState(0);
+    const [totalNewAbonnement, setTotalNewAbonnement] = useState(0);
 
 
     useEffect(() => {
@@ -33,6 +34,7 @@ function Dashboard() {
             setAbonnementInactifs(result.data.abonnementInactifs);
             setTotalAbonnementActif(result.data.abonnementActifs.length);
             setTotalAbonnementInactif(result.data.abonnementInactifs.length);
+            setTotalNewAbonnement(result.data.newAbonnements.length);
         })
     }, [])
 
@@ -40,7 +42,7 @@ function Dashboard() {
     return (
 
         <>
-            <div className="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+            <div className="row row-cols-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4">
                 <div className="col">
                     <div className="card radius-10">
                         <div className="card-body">
@@ -78,11 +80,27 @@ function Dashboard() {
                                     <h4 className="my-1">{totalAbonnementInactif}</h4>
                                 </div>
                                 <div className='ms-auto'>
-                                        <div className="widget-icon-large bg-gradient-danger text-white ms-auto">
-                                            <i className="bi bi-file-x-fill"></i>
-                                        </div>
+                                    <div className="widget-icon-large bg-gradient-danger text-white ms-auto">
+                                        <i className="bi bi-file-x-fill"></i>
+                                    </div>
 
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="card radius-10">
+                        <div className="card-body">
+                            <div className="d-flex align-items-center">
+                                <div>
+                                    <p className="mb-0 text-secondary">Nouveaux abonnements</p>
+                                    <h4 >{totalNewAbonnement} </h4>
+                                </div>
+                                <Link to={'/new-abonnement'}>
+                                    <div className="widget-icon-large bg-gradient-success text-white ms-auto"><i className="bi bi-file-fill"></i>
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>

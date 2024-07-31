@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/abonnements', [AbonnementController::class, 'index']);
     Route::get('/abonnements/{id}/arrete', [AbonnementController::class, 'arrete']);
     Route::get('/abonnements/{id}/active', [AbonnementController::class, 'active']);
+    Route::get('/new-abonnements', [AbonnementController::class, 'new']);
+    Route::get('/abonnements/{id}/active-new', [AbonnementController::class, 'newActive']);
 
 
     Route::post('/user/change-password', [AuthController::class, 'changePassword']);

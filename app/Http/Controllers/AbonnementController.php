@@ -34,4 +34,14 @@ class AbonnementController extends Controller
         $abonnement = $this->abonnementRepository->active($id);
         return responseFind($abonnement);
     }
+
+    public function newActive($id){
+        $abonnement = $this->abonnementRepository->newActive($id);
+        return responseFind($abonnement);
+    }
+
+    public function new()
+    {
+        return response()->json($this->abonnementRepository->getNewAbonnements());
+    }
 }

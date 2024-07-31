@@ -68,9 +68,9 @@ class AuthController
         }
 
         DB::beginTransaction();
-        $abonnement = $this->userRepository->storeAbonnement(['nom' => $request->nom, 'adresse' => $request->adresse, 'date' => Carbon::now(), 'dateLimit' => Carbon::now()->addMonths(12), 'logo' => $logo, 'telephone' => $request->telephoneAbonnement]);
+        $abonnement = $this->userRepository->storeAbonnement(['nom' => $request->nom, 'adresse' => $request->adresse, 'date' => Carbon::now(), 'dateLimit' => Carbon::now()->addMonths(12), 'logo' => $logo, 'telephone' => $request->telephoneAbonnement, 'etat' => false, 'is_new' => true]);
 
-        $user = $this->userRepository->create(['nom' => $request->nomUser, 'telephone' => $request->telephone, 'password' => $request->password, 'role' => 'user', 'abonnement_id' => $abonnement->id]);
+        $user = $this->userRepository->create(['nom' => $request->nomUser, 'telephone' => $request->telephone, 'password' => $request->password, 'role' => 'user', 'abonnement_id' => $abonnement->id, 'etat' => false]);
         DB::commit();
 
         return $user;

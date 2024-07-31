@@ -53,7 +53,8 @@ class DashboardController
 
         $abonnementActifs = $this->abonnementRepository->getAbonnementActifs();
         $abonnementInactifs = $this->abonnementRepository->getAbonnementInactifs();
-        return response()->json(['abonnementActifs' => $abonnementActifs, 'abonnementInactifs' => $abonnementInactifs]);
+        $newAbonnements = $this->abonnementRepository->getNewAbonnements();
+        return response()->json(['abonnementActifs' => $abonnementActifs, 'abonnementInactifs' => $abonnementInactifs, 'newAbonnements' => $newAbonnements]);
     }
 
 

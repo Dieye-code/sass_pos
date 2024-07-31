@@ -252,6 +252,7 @@ function SaveVente() {
                         <th>Libelle</th>
                         <th>Prix de vente</th>
                         <th>Quantité</th>
+                        <th>Total</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -261,6 +262,7 @@ function SaveVente() {
                                     <td>{element.libelle}</td>
                                     <td>{element.montant_vente} Francs CFA</td>
                                     <td>{element.quantite}</td>
+                                    <td>{element.montant_vente * element.quantite} Francs CFA</td>
                                     <td>
                                         <span className='text-danger btn' onClick={() => {
                                             removeProduit(element)
