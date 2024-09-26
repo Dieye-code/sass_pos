@@ -15,9 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        
-        $user = User::firstOrCreate([ 'telephone' => '764191506'], ['nom' => 'Admin','password' => 'Aqzsedr@75!', 'role' => 'admin']);
-
+        $user = User::firstOrCreate(['telephone' => '764191506'], ['nom' => 'Admin', 'password' => 'Aqzsedr@75!', 'role' => 'admin', 'etat' => 1]);
     }
 }
