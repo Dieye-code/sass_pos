@@ -10,8 +10,6 @@ function Sidebar() {
     const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
     return (
         <div>
-
-
             <aside className="sidebar-wrapper" data-simplebar="true">
                 <div className="sidebar-header">
                     <div>
@@ -31,38 +29,38 @@ function Sidebar() {
 
                     {decoded.role == 'admin' ?
                         <li>
-                            <Link to="/abonnements"><i className="bi bi-people-fill" /> Abonnements</Link>
+                            <Link to="/abonnements"><i className="bi bi-people-fill ml-sb" /> Abonnements</Link>
                         </li>
                         :
                         <>
                             <li>
-                                <Link to="/"><i className="bi bi-house-fill" /> Home</Link>
+                                <Link to="/"><i className="bi bi-house-fill ml-sb" /> Home</Link>
                             </li>
                             <li>
-                                <Link to="/fournisseurs"><i className="bi bi-people-fill" /> Fournisseurs</Link>
+                                <Link to="/fournisseurs"><i className="bi bi-people-fill ml-sb" /> Fournisseurs</Link>
                             </li>
                             <li>
-                                <Link to="/clients"><i className="bi bi-people-fill" /> Clients</Link>
+                                <Link to="/clients"><i className="bi bi-people-fill ml-sb" /> Clients</Link>
                             </li>
                             <li>
-                                <Link to="/produits"><i className="bi bi-diagram-3-fill" /> Produits</Link>
+                                <Link to="/produits"><i className="bi bi-diagram-3-fill ml-sb" /> Produits</Link>
                             </li>
                             <li>
-                                <Link to="/achats"><i className="bi bi-minecart-loaded" /> Achats</Link>
+                                <Link to="/achats"><i className="bi bi-minecart-loaded ml-sb" /> Achats</Link>
                             </li>
                             <li>
-                                <Link to="/ventes"><i className="bi bi-cart-check-fill" /> Ventes</Link>
+                                <Link to="/ventes"><i className="bi bi-cart-check-fill ml-sb" /> Ventes</Link>
                             </li>
                             <li>
-                                <Link to="/depenses"><i className="bi bi-cash-coin" /> Depenses</Link>
+                                <Link to="/depenses"><i className="bi bi-cash-coin ml-sb" /> <span className='ml-1' >Depenses</span></Link>
                             </li>
                             <li>
-                                <Link to="/rapports"><i className="bi bi-receipt-cutoff" /> Rapports</Link>
+                                <Link to="/rapports"><i className="bi bi-receipt-cutoff ml-sb" /> Rapports</Link>
                             </li>
                         </>
                     }
                     <li>
-                        <Link to="/logout"><i className="bi bi-lock-fill" /> Logout</Link>
+                        <Link to="/logout"><i className="bi bi-lock-fill ml-sb" /> Logout</Link>
                     </li>
 
 

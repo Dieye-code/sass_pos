@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html  class="semi-dark" lang="fr">
+<html class="semi-dark" lang="fr">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    
+
     <link rel="icon" href="/assets/images/logo-80x80.png" type="image/png" />
     <!--plugins-->
     <link href="/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
@@ -18,20 +18,25 @@
     <link href="/assets/css/icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  
+
     <!-- loader-->
-      <link href="/assets/css/pace.min.css" rel="stylesheet" />
-      <link href="/assets/css/semi-dark.css" rel="stylesheet" />
-    
+    <link href="/assets/css/pace.min.css" rel="stylesheet" />
+    <link href="/assets/css/semi-dark.css" rel="stylesheet" />
+
     <title>Sama caisse</title>
 
     @viteReactRefresh
     @vite('resources/js/app.jsx')
+    <style>
+        .ml-sb {
+            margin-right: 0.5rem;
+        }
+    </style>
 </head>
 
 <body>
     <div id="root"></div>
-    
+
     <!-- Bootstrap bundle JS -->
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <!--plugins-->
