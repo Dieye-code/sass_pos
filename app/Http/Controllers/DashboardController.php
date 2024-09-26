@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\AbonnementInterface;
 use App\Interfaces\AchatInterface;
+use App\Interfaces\DepenseInterface;
 use App\Interfaces\VenteInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +15,13 @@ class DashboardController
     private  $achatRepository;
     private $venteRepository;
     private $abonnementRepository;
-    public function __construct(AchatInterface $achatRepository, VenteInterface $venteRepository, AbonnementInterface $abonnementRepository)
+    private $depenseRepository;
+    public function __construct(AchatInterface $achatRepository, VenteInterface $venteRepository, AbonnementInterface $abonnementRepository, DepenseInterface $depenseRepository)
     {
         $this->venteRepository = $venteRepository;
         $this->achatRepository = $achatRepository;
         $this->abonnementRepository = $abonnementRepository;
+        $this->depenseRepository = $depenseRepository;
     }
     public function index(Request $request)
     {
@@ -26,6 +29,8 @@ class DashboardController
         $achats = $this->achatRepository->getLastAchat(null);
         $totalVente = $this->venteRepository->getAll(null)->sum('montant_total');
         $totalAchat = $this->achatRepository->getAll(null)->sum('montant_total');
+        $depenses = $this->depenseRepository->getAll()->sum('montant');
+        
         $totalDettes = [];
         $totalCreances = [];
         $v = $this->achatRepository->getAchatWithPaiements();
@@ -42,7 +47,7 @@ class DashboardController
                 $totalCreances[] = ['vente' => $value, 'dette' => $value->montant_total - $totalPaiement];
             }
         }
-        return response()->json(['achats' => $achats, 'ventes' => $ventes, 'achatTotal' => $totalAchat, 'venteTotal' => $totalVente, 'totalDettes' => $totalDettes, 'totalCreances' => $totalCreances]);
+        return response()->json(['achats' => $achats, 'ventes' => $ventes, 'achatTotal' => $totalAchat, 'venteTotal' => $totalVente, 'totalDettes' => $totalDettes, 'totalCreances' => $totalCreances, 'depenses' => $depenses]);
     }
 
     public function admin()

@@ -21,6 +21,7 @@ function Home() {
   const [totalAchats, setTotalAchats] = useState(0);
   const [totalCreances, setTotalCreances] = useState([]);
   const [totalDettes, setTotalDettes] = useState([]);
+  const [depenses, setDepenses] = useState([]);
 
   useEffect(() => {
 
@@ -37,12 +38,13 @@ function Home() {
       setTotalDettes(result?.data?.totalDettes);
       setTotalAchats(ta);
       setTotalVentes(tv);
+      setDepenses(result.data?.depenses);
     })
   }, [])
 
   return (
     <>
-      <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-xl-4">
+      <div className="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
         <div className="col">
           <div className="card radius-10">
             <div className="card-body">
@@ -98,6 +100,25 @@ function Home() {
                 <div>
                   <p className="mb-0 text-secondary">total creance</p>
                   <h4 className="my-1">{Intl.NumberFormat().format(totalCreances.reduce((mt, a) => mt + a.dette, 0))}  Francs CFA</h4>
+                </div>
+                <div className='ms-auto'>
+                  <Link to={'/liste-creance'} >
+                    <div className="widget-icon-large bg-gradient-danger text-white ms-auto">
+                      <i className="bi bi-currency-exchange"></i>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col">
+          <div className="card radius-10">
+            <div className="card-body">
+              <div className="d-flex align-items-center">
+                <div>
+                  <p className="mb-0 text-secondary">total dépenses</p>
+                  <h4 className="my-1">{Intl.NumberFormat().format(depenses)}  Francs CFA</h4>
                 </div>
                 <div className='ms-auto'>
                   <Link to={'/liste-creance'} >
