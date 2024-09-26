@@ -5,6 +5,7 @@ use App\Http\Controllers\AchatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\PaiementAchatController;
 use App\Http\Controllers\PaiementVenteController;
@@ -55,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/user/change-password', [AuthController::class, 'changePassword']);
 
     defaultRoutesFor('users', UserController::class);
+    defaultRoutesFor('depenses', DepenseController::class);
     defaultRoutesFor('fournisseurs', FournisseurController::class);
     defaultRoutesFor('clients', ClientController::class);
     defaultRoutesFor('produits', ProduitController::class);

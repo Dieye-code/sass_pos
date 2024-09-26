@@ -54,6 +54,9 @@ function Sidebar() {
                                 <Link to="/ventes"><i className="bi bi-cart-check-fill" /> Ventes</Link>
                             </li>
                             <li>
+                                <Link to="/depenses"><i className="bi bi-cash-coin" /> Depenses</Link>
+                            </li>
+                            <li>
                                 <Link to="/rapports"><i className="bi bi-receipt-cutoff" /> Rapports</Link>
                             </li>
                         </>

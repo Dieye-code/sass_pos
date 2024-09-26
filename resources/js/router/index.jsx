@@ -27,6 +27,7 @@ import Abonnements from '../components/Abonnement/Abonnements';
 import Dashboard from '../components/Dashboard';
 import ChangePassword from '../components/Auth/ChangePassword';
 import NewAbonnement from '../components/Abonnement/NewAbonnement';
+import Depenses from '../components/Depense/Depenses';
 
 function Router(props) {
 
@@ -49,6 +50,7 @@ function Router(props) {
                 { path: "/save-achat/:id?", element: <SaveAchat /> },
                 { path: "/ventes", element: <Ventes /> },
                 { path: "/save-vente/:id?", element: <SaveVente /> },
+                { path: "/depenses", element: <Depenses /> },
                 { path: "/ventes/:id/details", element: <PaiementVente /> },
                 { path: "/liste-dette", element: <Dettes /> },
                 { path: "/liste-creance", element: <Creances /> },
