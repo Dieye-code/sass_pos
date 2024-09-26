@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Interfaces\AbonnementInterface;
 use App\Interfaces\AchatInterface;
 use App\Interfaces\ClientInterface;
+use App\Interfaces\DepenseInterface;
 use App\Interfaces\FournisseurInterface;
 use App\Interfaces\PaiementAchatInterface;
 use App\Interfaces\PaiementVenteInterface;
@@ -14,6 +15,7 @@ use App\Interfaces\VenteInterface;
 use App\Repositories\AbonnementRepository;
 use App\Repositories\AchatRepository;
 use App\Repositories\ClientRepository;
+use App\Repositories\DepenseRepository;
 use App\Repositories\FournisseurRepository;
 use App\Repositories\PaiementAchatRepository;
 use App\Repositories\PaiementVenteRepository;
@@ -38,6 +40,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(PaiementVenteInterface::class, PaiementVenteRepository::class);
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(AbonnementInterface::class, AbonnementRepository::class);
+        $this->app->bind(DepenseInterface::class, DepenseRepository::class);
     }
 
     /**
