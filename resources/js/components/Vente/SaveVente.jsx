@@ -260,9 +260,9 @@ function SaveVente() {
                             return (
                                 <tr>
                                     <td>{element.libelle}</td>
-                                    <td>{element.montant_vente} Francs CFA</td>
+                                    <td>{Intl.NumberFormat().format(element.montant_vente)} Francs CFA</td>
                                     <td>{element.quantite}</td>
-                                    <td>{element.montant_vente * element.quantite} Francs CFA</td>
+                                    <td>{Intl.NumberFormat().format(element.montant_vente * element.quantite)} Francs CFA</td>
                                     <td>
                                         <span className='text-danger btn' onClick={() => {
                                             removeProduit(element)
@@ -303,7 +303,7 @@ function SaveVente() {
 
                 
                 <div>
-                    <b>Montant restant: </b> {total - vente.montant_paye} Francs CFA
+                    <b>Montant restant: </b> {Intl.NumberFormat().format(total - vente.montant_paye)} Francs CFA
                 </div>
 
 

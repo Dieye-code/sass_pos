@@ -16,7 +16,7 @@ function Achats() {
     },
     {
       name: 'Montant Total',
-      selector: row => row.montant_total + " Francs CFA",
+      selector: row => Intl.NumberFormat().format(row.montant_total) + " Francs CFA",
       sortable: true,
     },
     {

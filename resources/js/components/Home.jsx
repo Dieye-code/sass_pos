@@ -49,7 +49,7 @@ function Home() {
               <div className="d-flex align-items-center">
                 <div>
                   <p className="mb-0 text-secondary">Total Achat</p>
-                  <h4 >{totalAchats} Francs CFA</h4>
+                  <h4 >{Intl.NumberFormat().format(totalAchats)} Francs CFA</h4>
                 </div>
                 <div className="widget-icon-large bg-gradient-success text-white ms-auto"><i className="bi bi-currency-exchange"></i>
                 </div>
@@ -63,7 +63,7 @@ function Home() {
               <div className="d-flex align-items-center">
                 <div>
                   <p className="mb-0 text-secondary">totale vente</p>
-                  <h4 className="my-1">{totalVentes}  Francs CFA</h4>
+                  <h4 className="my-1">{Intl.NumberFormat().format(totalVentes)}  Francs CFA</h4>
                 </div>
                 <div className="widget-icon-large bg-gradient-success text-white ms-auto"><i className="bi bi-currency-exchange"></i>
                 </div>
@@ -77,7 +77,7 @@ function Home() {
               <div className="d-flex align-items-center">
                 <div>
                   <p className="mb-0 text-secondary">total dette</p>
-                  <h4 className="my-1">{totalDettes.reduce((mt, a) => mt + a.dette, 0)}  Francs CFA</h4>
+                  <h4 className="my-1">{Intl.NumberFormat().format(totalDettes.reduce((mt, a) => mt + a.dette, 0))}  Francs CFA</h4>
                 </div>
                 <div className='ms-auto'>
                   <Link to={'/liste-dette'} >
@@ -97,7 +97,7 @@ function Home() {
               <div className="d-flex align-items-center">
                 <div>
                   <p className="mb-0 text-secondary">total creance</p>
-                  <h4 className="my-1">{totalCreances.reduce((mt, a) => mt + a.dette, 0)}  Francs CFA</h4>
+                  <h4 className="my-1">{Intl.NumberFormat().format(totalCreances.reduce((mt, a) => mt + a.dette, 0))}  Francs CFA</h4>
                 </div>
                 <div className='ms-auto'>
                   <Link to={'/liste-creance'} >
@@ -137,7 +137,7 @@ function Home() {
                             <Link to={'/clients/' + e.client?.id + '/details'} >{e.client?.nom}</Link>
                           </span>
                         </td>
-                        <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success'}>{e.montant_total} Francs CFA</td>
+                        <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success'}>{Intl.NumberFormat().format(e.montant_total)} Francs CFA</td>
 
                         <td>
                           <Link to={`/ventes/${e.id}/details`} >
@@ -175,7 +175,7 @@ function Home() {
                           </span>
                         </td>
                         <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success'}>
-                          {e.montant_total} Francs CFA
+                          {Intl.NumberFormat().format(e.montant_total)} Francs CFA
                         </td>
                         <td>
                           <Link to={`/achats/${e.id}/details`} >

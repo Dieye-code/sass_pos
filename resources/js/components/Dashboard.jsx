@@ -127,21 +127,6 @@ function Dashboard() {
                                         <td>{e.telephone}</td>
                                         <td>{e.adresse}</td>
                                         <td>{formatDate(e.dateLimit)}</td>
-                                        {/* <td>
-                                                    <span className='text-primary btn' >
-                                                        <Link to={'/clients/' + e.client?.id + '/details'} >{e.client?.nom}</Link>
-                                                    </span>
-                                                </td>
-                                                <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success'}>{e.montant_total} Francs CFA</td>
-
-                                                <td>
-                                                    <Link to={`/ventes/${e.id}/details`} >
-                                                        <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
-                                                    </Link>
-                                                    <Link to={`/ventes/${e.id}/facture`} >
-                                                        <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span>
-                                                    </Link>
-                                                </td> */}
                                     </tr>
                                 )
                             })}
@@ -167,20 +152,6 @@ function Dashboard() {
                                         <td>{e.telephone}</td>
                                         <td>{e.adresse}</td>
                                         <td>{formatDate(e.dateLimit)}</td>
-                                        {/* <td>
-                                                    <span className='text-primary btn' >
-                                                        <Link to={'/fournisseurs/' + e.fournisseur?.id + '/details'} >{e.fournisseur?.nom}</Link>
-                                                    </span>
-                                                </td>
-                                                <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success'}>
-                                                    {e.montant_total} Francs CFA
-                                                </td>
-                                                <td>
-                                                    <Link to={`/achats/${e.id}/details`} >
-                                                        <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
-                                                    </Link>
-                                                    {/* <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span> *
-                                                </td> */}
                                     </tr>
                                 )
                             })}

@@ -229,7 +229,6 @@ function SaveAchat() {
 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row>
-
                     <FormGroup as={Col} sm="4" >
                         <Form.Label>Date</Form.Label>
                         <Form.Control required name='date' onChange={(e) => onInputChange(e)} type='date' ></Form.Control>
@@ -245,12 +244,10 @@ function SaveAchat() {
                         </Form.Select>
                         <span className="btn btn-primary fs-6 mt-3" onClick={handleShow}>Nouveau Fournisseur</span>
                     </FormGroup>
-
                     <FormGroup as={Col} sm="4" >
                         <Form.Label>Bon de réception</Form.Label>
                         <Form.Control name='facture' onChange={(e) => HandleChangeFile(e)} type='file' accept="image/png, image/jpg, image/jpeg" ></Form.Control>
                     </FormGroup>
-
                 </Row>
                 <Row className='mt-2'>
                     <FormGroup as={Col} sm="6">
@@ -273,7 +270,6 @@ function SaveAchat() {
                         </div>
                     </FormGroup>
                 </Row>
-
                 <Table className='m-5'>
                     <thead>
                         <th>Libelle</th>
@@ -287,9 +283,9 @@ function SaveAchat() {
                             return (
                                 <tr>
                                     <td>{element.libelle}</td>
-                                    <td>{element.montant_achat} Francs CFA</td>
+                                    <td>{Intl.NumberFormat().format(element.montant_achat)} Francs CFA</td>
                                     <td>{element.quantite}</td>
-                                    <td>{element.montant_achat * element.quantite} Francs CFA</td>
+                                    <td>{Intl.NumberFormat().format(element.montant_achat * element.quantite)} Francs CFA</td>
                                     <td>
                                         <span className='text-danger btn' onClick={() => {
                                             removeProduit(element)
@@ -301,7 +297,7 @@ function SaveAchat() {
                     </tbody>
                 </Table>
                 <div>
-                    <b>Total à payer:</b> {total} Francs CFA
+                    <b>Total à payer:</b> {Intl.NumberFormat().format(total)} Francs CFA
                 </div>
                 <div>
                     <Form.Check className='text-center' inline name="paiement" value={1} type='radio' id='credit' onChange={(e) => onInputChange(e)}
@@ -331,13 +327,9 @@ function SaveAchat() {
                         </FormGroup>
                         : <></>}
                 </div>
-
-
                 <div>
-                    <b>Montant reastant: </b> {total - achat.montant_paye} Francs CFA
+                    <b>Montant reastant: </b> {Intl.NumberFormat().format(total - achat.montant_paye)} Francs CFA
                 </div>
-
-
                 <div>
                     <Button className='mt-3' type="submit" disabled={load}>
                         {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
@@ -346,7 +338,6 @@ function SaveAchat() {
                         {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer et Imprimer</span>}
                     </Button>
                 </div>
-
             </Form>
         </>
     )

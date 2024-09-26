@@ -10,20 +10,12 @@ function Produits() {
 	const columns = [
 		{
 			name: 'Libelle',
-			cell: row => {
-				if (row.photo != null)
-					return (<>
-						<Image src={Env.API_URL + "storage/" + row.photo} width={30} height={30} roundedCircle className='mr-2' />
-						<span className='m-2'>{row.libelle}</span>
-					</>)
-				else
-					return (row.libelle)
-			},
+			cell: row => row.libelle,
 			sortable: true,
 		},
 		{
 			name: 'Prix',
-			selector: row => row.prix + " Francs CFA",
+			selector: row => Intl.NumberFormat().format(row.prix) + " Francs CFA",
 			sortable: true,
 		},
 		{

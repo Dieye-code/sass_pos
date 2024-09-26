@@ -34,9 +34,6 @@ function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quanti
             formData.append('libelle', produit.libelle);
             formData.append('prix', produit.prix);
             formData.append('quantite', produit.quantite);
-            if(image != undefined){
-                formData.append('photo', image);
-            }
             if (produit.id === undefined) {
                 baseApi.post('produits', formData, {
                     headers: {
@@ -77,13 +74,6 @@ function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quanti
                         <Form.Label>Quantite</Form.Label>
                         <Form.Control required name='quantite' value={produit.quantite} onChange={(e) => onInputChange(e)} type='number' ></Form.Control>
                     </FormGroup>
-
-                    {produit.id === undefined ? (
-                        <Form.Group >
-                            <Form.Label>Photo</Form.Label>
-                            <Form.Control type='file' name='photo' onChange={(e) => HandleChangeFile(e)} />
-                        </Form.Group>) : ''
-                    }
 
                 </Row>
 

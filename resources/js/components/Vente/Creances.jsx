@@ -14,12 +14,12 @@ function Creances() {
         },
         {
             name: 'Montant vente',
-            selector: row => row.vente?.montant_total + " Francs CFA",
+            selector: row => Intl.NumberFormat().format(row.vente?.montant_total) + " Francs CFA",
             sortable: true,
         },
         {
             name: 'Montant creance',
-            selector: row => row.creance + " Francs CFA",
+            selector: row => Intl.NumberFormat().format(row.creance) + " Francs CFA",
             sortable: true,
         },
         {

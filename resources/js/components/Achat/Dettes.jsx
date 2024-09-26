@@ -14,12 +14,12 @@ function Dettes() {
         },
         {
             name: 'Montant achat',
-            selector: row => row.achat?.montant_total + " Francs CFA",
+            selector: row => Intl.NumberFormat().format(row.achat?.montant_total) + " Francs CFA",
             sortable: true,
         },
         {
             name: 'Montant dette',
-            selector: row => row.dette + " Francs CFA",
+            selector: row => Intl.NumberFormat().format(row.dette) + " Francs CFA",
             sortable: true,
         },
         {
@@ -84,7 +84,7 @@ function Dettes() {
                             <div className="d-flex align-items-center">
                                 <div>
                                     <p className="mb-0 text-secondary">Total dette</p>
-                                    <h4 >{dettes.reduce((mt, a) => mt + a.dette, 0)} Francs CFA</h4>
+                                    <h4 >{Intl.NumberFormat().format(dettes.reduce((mt, a) => mt + a.dette, 0))} Francs CFA</h4>
                                 </div>
                                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
                                 </div>

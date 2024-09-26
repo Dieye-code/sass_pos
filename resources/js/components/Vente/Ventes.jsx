@@ -17,7 +17,7 @@ function Ventes() {
     },
     {
       name: 'Montant Total',
-      selector: row => row.montant_total + " Francs CFA",
+      selector: row => Intl.NumberFormat().format(row.montant_total) + " Francs CFA",
       sortable: true,
     },
     {
@@ -116,15 +116,6 @@ function Ventes() {
         pagination
         paginationComponentOptions={paginationComponentOptions}
       />
-
-      {/* <BlobProvider document={<Facture />}>
-      {({ url, blob }) => (
-
-         <a href={url} target="_blank" >
-               <span>Print</span>
-         </a>
-      )}
-     </BlobProvider> */}
     </>
   )
 }

@@ -149,15 +149,15 @@ function Payer() {
               {achat?.produits?.map(element => {
                 return (<tr>
                   <td>{element.libelle}</td>
-                  <td>{element.pivot?.montant_achat + " Francs CFA"}</td>
+                  <td>{Intl.NumberFormat().format(element.pivot?.montant_achat) + " Francs CFA"}</td>
                   <td>{element.pivot?.quantite}</td>
-                  <td>{element.pivot?.montant_achat * element.pivot?.quantite + " Francs CFA"}</td>
+                  <td>{Intl.NumberFormat().format(element.pivot?.montant_achat * element.pivot?.quantite) + " Francs CFA"}</td>
 
                 </tr>);
               })}
             </tbody>
           </Table>
-          <b>Total: </b> {achat?.montant_total} Francs CFA
+          <b>Total: </b> {Intl.NumberFormat().format(achat?.montant_total)} Francs CFA
         </Col>
         <Col md='6'>
           <h5>Paiements</h5>
@@ -178,7 +178,7 @@ function Payer() {
 
               {paiements.map(element => {
                 return (<tr>
-                  <td>{element.montant + " Francs CFA"}</td>
+                  <td>{Intl.NumberFormat().format(element.montant) + " Francs CFA"}</td>
                   <td>{formatDate(element.date)}</td>
                   <td>{element.mode_paiement}</td>
                 </tr>);

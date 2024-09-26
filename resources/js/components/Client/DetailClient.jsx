@@ -16,7 +16,7 @@ function DetailClient() {
     },
     {
       name: 'Montant Total',
-      selector: row => row.montant_total + " Francs CFA",
+      selector: row => Intl.NumberFormat().format(row.montant_total) + " Francs CFA",
       sortable: true,
     },
     {
@@ -24,17 +24,16 @@ function DetailClient() {
       selector: row => {
         return <><span className={row.etat == 'en attente' ? 'text-danger' : row.etat == 'en cours' ? 'text-primary' : 'text-success'}>{row.etat}</span></>
       },
-      grow: 1.5,
       sortable: true,
     },
     {
       name: 'Montant Encaissé',
       selector: row => {
         if (row.etat == 'en attente' || row.etat == 'encaissé') {
-          return row.etat == 'en attente' ? <>0 Francs CFA</> : <>{row.montant_total} Francs CFA</>;
+          return row.etat == 'en attente' ? <>0 Francs CFA</> : <>{Intl.NumberFormat().format(row.montant_total)} Francs CFA</>;
         } else {
           const t = row.paiements.reduce((mt, a) => mt + a.montant, 0)
-          return <>{t} Francs CFA</>;
+          return <>{Intl.NumberFormat().format(t)} Francs CFA</>;
         }
       },
       grow: 1.5,
@@ -44,10 +43,10 @@ function DetailClient() {
       name: 'Montant Restant',
       selector: row => {
         if (row.etat == 'en attente' || row.etat == 'encaissé') {
-          return row.etat == 'en attente' ? <>{row.montant_total} Francs CFA</> : <>0 Francs CFA</>;
+          return row.etat == 'en attente' ? <>{Intl.NumberFormat().format(row.montant_total)} Francs CFA</> : <>0 Francs CFA</>;
         } else {
           const t = row.paiements.reduce((mt, a) => mt + a.montant, 0)
-          return <>{row.montant_total - t} Francs CFA</>;
+          return <>{Intl.NumberFormat().format(row.montant_total - t)} Francs CFA</>;
         }
       },
       grow: 1.5,
@@ -190,7 +189,7 @@ function DetailClient() {
                   <div className="d-flex align-items-center">
                     <div>
                       <p className="mb-0 text-secondary">totale vente</p>
-                      <h4 >{ventes.reduce((mt, a) => mt + a.montant_total, 0)} Francs CFA</h4>
+                      <h4 >{Intl.NumberFormat().format(ventes.reduce((mt, a) => mt + a.montant_total, 0))} Francs CFA</h4>
                     </div>
                     <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
                     </div>
@@ -205,7 +204,7 @@ function DetailClient() {
                   <div className="d-flex align-items-center">
                     <div>
                       <p className="mb-0 text-secondary">Totale créance</p>
-                      <h4 >{totalCreances} Francs CFA</h4>
+                      <h4 >{Intl.NumberFormat().format(totalCreances)} Francs CFA</h4>
                     </div>
                     <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
                     </div>

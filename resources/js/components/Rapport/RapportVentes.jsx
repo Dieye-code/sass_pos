@@ -15,12 +15,12 @@ function RapportVentes() {
         },
         {
             name: 'Montant Total',
-            selector: row => row.montant_total + " Francs CFA",
+            selector: row => Intl.NumberFormat().format(row.montant_total) + " Francs CFA",
             sortable: true,
         },
         {
             name: 'Montant Encaisé',
-            selector: row => row.paiements.reduce((mt, a) => mt + a.montant, 0) + " Francs CFA",
+            selector: row => Intl.NumberFormat().format(row.paiements.reduce((mt, a) => mt + a.montant, 0)) + " Francs CFA",
             sortable: true,
         },
         {
@@ -152,7 +152,7 @@ function RapportVentes() {
                             <div className="d-flex align-items-center">
                                 <div>
                                     <p className="mb-0 text-secondary">Total vendu</p>
-                                    <h4 >{total} Francs CFA</h4>
+                                    <h4 >{Intl.NumberFormat().format(total)} Francs CFA</h4>
                                 </div>
                                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
                                 </div>
@@ -166,7 +166,7 @@ function RapportVentes() {
                             <div className="d-flex align-items-center">
                                 <div>
                                     <p className="mb-0 text-secondary">Total encaissé</p>
-                                    <h4 >{totalPaye} Francs CFA</h4>
+                                    <h4 >{Intl.NumberFormat().format(totalPaye)} Francs CFA</h4>
                                 </div>
                                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
                                 </div>
@@ -180,7 +180,7 @@ function RapportVentes() {
                             <div className="d-flex align-items-center">
                                 <div>
                                     <p className="mb-0 text-secondary">Total créance</p>
-                                    <h4 >{total - totalPaye} Francs CFA</h4>
+                                    <h4 >{Intl.NumberFormat().format(total - totalPaye)} Francs CFA</h4>
                                 </div>
                                 <div className="widget-icon-large bg-gradient-purple text-white ms-auto"><i className="bi bi-currency-exchange"></i>
                                 </div>
