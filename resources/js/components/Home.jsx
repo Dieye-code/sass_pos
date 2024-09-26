@@ -121,7 +121,7 @@ function Home() {
                   <h4 className="my-1">{Intl.NumberFormat().format(depenses)}  Francs CFA</h4>
                 </div>
                 <div className='ms-auto'>
-                  <Link to={'/liste-creance'} >
+                  <Link to={'/depenses'} >
                     <div className="widget-icon-large bg-gradient-danger text-white ms-auto">
                       <i className="bi bi-currency-exchange"></i>
                     </div>
