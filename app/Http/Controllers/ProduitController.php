@@ -11,13 +11,4 @@ class ProduitController extends BaseController
     {
         $this->repository = $repository;
     }
-    
-
-    public function beforeCreating()
-    {
-        if (key_exists('photo', $this->validate)) {
-            $photo = storefile($this->validate['photo']);
-            $this->validate['photo'] = $photo;
-        }
-    }
 }
