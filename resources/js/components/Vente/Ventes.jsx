@@ -35,6 +35,7 @@ function Ventes() {
             <Link to={`/ventes/${row.id}/details`} >
               <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
             </Link>
+            <span className='text-danger btn' onClick={() => retour(row)}><i className='bi bi-cart-x fs-5'></i> </span>
           </>
         } else {
           if (row.etat == "en cours") {
@@ -43,6 +44,7 @@ function Ventes() {
               <Link to={`/ventes/${row.id}/details`} >
                 <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
               </Link>
+              <span className='text-danger btn' onClick={() => retour(row)}><i className='bi bi-cart-x fs-5'></i> </span>
             </>
           } else {
             return <>
