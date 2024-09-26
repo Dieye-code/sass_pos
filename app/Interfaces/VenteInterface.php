@@ -12,4 +12,5 @@ interface VenteInterface extends BaseInterface
     public function getVenteDeLaSemaine();
     public function getVenteDuMois();
     public function getVenteByIntervallee($debut, $fin);
+    public function retour($id);
 }

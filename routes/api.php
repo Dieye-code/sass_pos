@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/ventes/semaine', [VenteController::class, 'venteDeLaSemaine']);
     Route::get('/ventes/mois', [VenteController::class, 'venteDuMois']);
     Route::post('/ventes/intervalle', [VenteController::class, 'venteIntervalle']);
+    Route::delete('/ventes/{id}/retour', [VenteController::class, 'retour'])->where('id', "[0-9a-z]+")->name('ventes.retour');
 
     Route::get('/achats/jour', [AchatController::class, 'achatDuJour']);
     Route::get('/achats/mois', [AchatController::class, 'achatDuMois']);

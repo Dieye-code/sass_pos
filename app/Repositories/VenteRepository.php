@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\VenteInterface;
+use App\Models\Paiementvente;
 use App\Models\Produit;
 use App\Models\Vente;
 use App\Models\VenteProduit;
@@ -59,23 +60,43 @@ class VenteRepository  extends BaseRepository implements VenteInterface
         return Vente::with('produits')->with('paiements')->where('client_id', $idClient)->get();
     }
 
-    public function getVenteWithPaiements(){
+    public function getVenteWithPaiements()
+    {
         return Vente::with('paiements')->where('abonnement_id', Auth::user()?->abonnement_id)->with('client')->get();
     }
 
-    public function getVenteDuMois(){
+    public function getVenteDuMois()
+    {
         return Vente::whereRaw('DATEDIFF(NOW(), date) <= 30')->with('paiements')->with('client')->get();
     }
 
-    public function getVenteDuJour(){
+    public function getVenteDuJour()
+    {
         return Vente::whereDate('date', Carbon::today())->with('paiements')->with('client')->get();
     }
 
-    public function getVenteDeLaSemaine(){
+    public function getVenteDeLaSemaine()
+    {
         return Vente::whereRaw('DATEDIFF(NOW(), date) <= 7')->with('paiements')->with('client')->get();
     }
 
-    public function getVenteByIntervallee($debut, $fin){
+    public function getVenteByIntervallee($debut, $fin)
+    {
         return Vente::with('paiements')->with('client')->whereBetween('date', [$debut, $fin])->get();
+    }
+
+    public function retour($id)
+    {
+        $v = Vente::find($id);
+        if ($v != null) {
+            foreach ($v->produits as $vente) {
+                VenteProduit::find($vente->pivot?->id)?->delete();
+            }
+            foreach ($v->paiements as $paiement) {
+                Paiementvente::find($paiement->id)?->delete();
+            }
+            $v->delete();
+        }
+        return $v;
     }
 }

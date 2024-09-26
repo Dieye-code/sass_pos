@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 function Sidebar() {
 
     const user = useAuth();
-    
+
     const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
     return (
         <div>
@@ -24,9 +24,6 @@ function Sidebar() {
                     </div>
                 </div>
                 <ul className="metismenu" id="menu">
-
-
-
                     {decoded.role == 'admin' ?
                         <li>
                             <Link to="/abonnements"><i className="bi bi-people-fill ml-sb" /> Abonnements</Link>

@@ -17,7 +17,7 @@ class Vente extends BaseModel
 
     public function produits()
     {
-        return $this->belongsToMany(Produit::class, 'vente_produits')->withPivot('montant_vente', 'quantite');
+        return $this->belongsToMany(Produit::class, 'vente_produits')->withPivot('montant_vente', 'quantite', 'id');
     }
 
     public function client()

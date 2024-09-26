@@ -7,6 +7,7 @@ use App\Interfaces\ProduitInterface;
 use App\Interfaces\VenteInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class VenteController extends BaseController
@@ -36,7 +37,7 @@ class VenteController extends BaseController
             DB::beginTransaction();
             $data = $request->only(['client_id', 'date']);
             $data['etat'] = $request->paiement == 1 ?  'en attente' : 'encaissé';
-            $data['abonnement_id'] = auth()->user()->abonnement_id;
+            $data['abonnement_id'] = Auth::user()->abonnement_id;
             $this->model = $this->repository->create($data);
             $total = 0;
 
@@ -54,7 +55,7 @@ class VenteController extends BaseController
             $this->model->montant_total = $total;
             $this->repository->update($this->model->id, $this->model->toArray());
             if ($request->paiement != 1) {
-                $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'vente_id' => $this->model->id, 'abonnement_id' => auth()->user()->abonnement_id]);
+                $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'vente_id' => $this->model->id, 'abonnement_id' => Auth::user()->abonnement_id]);
                 if ($total > $request->montant_paye) {
                     $this->model->etat = 'en cours';
                     $this->repository->update($this->model->id, $this->model->toArray());
@@ -69,7 +70,6 @@ class VenteController extends BaseController
 
     public function creances()
     {
-
         $totalCreances = [];
         $v = $this->venteRepository->getVenteWithPaiements();
         foreach ($v as  $value) {
@@ -81,20 +81,31 @@ class VenteController extends BaseController
         return response()->json($totalCreances);
     }
 
-    public function venteDuJour(){
+    public function venteDuJour()
+    {
         return response()->json($this->venteRepository->getVenteDuJour());
     }
 
-    public function venteDeLaSemaine(){
+    public function venteDeLaSemaine()
+    {
         return response()->json($this->venteRepository->getVenteDeLaSemaine());
     }
 
-    public function venteDuMois(){
+    public function venteDuMois()
+    {
         return response()->json($this->venteRepository->getVenteDuMois());
     }
 
-    public function venteIntervalle(Request $request){
+    public function venteIntervalle(Request $request)
+    {
         return response()->json($this->venteRepository->getVenteByIntervallee($request->debut ?? null, $request->fin ?? null));
     }
 
+    public function retour($id, Request $request)
+    {
+        DB::beginTransaction();
+        $v = $this->venteRepository->retour($id);
+        DB::commit();
+        responseFind($v);
+    }
 }

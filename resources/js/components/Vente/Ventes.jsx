@@ -50,6 +50,7 @@ function Ventes() {
               <Link to={`/ventes/${row.id}/details`} >
                 <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
               </Link>
+              <span className='text-danger btn' onClick={() => retour(row)}><i className='bi bi-cart-x fs-5'></i> </span>
             </>
           }
         }
@@ -69,46 +70,45 @@ function Ventes() {
     })
   }, [])
 
-  const deleteAchat = (c) => {
-    swal({
-      title: "Voulez-vous supprimer ce Produit?",
-      icon: "error",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          baseApi.delete('/achats/' + c.id).then((response) => {
-            if (response.status === 200) {
-              swal("Le produit a été bien supprimer", {
-                icon: "success",
-              }).then(() => {
+  
 
-                baseApi.get("achats").then((data) => {
-                  setAchats(data.data.reverse())
-                  initProduit();
-                })
-              });
-            } else {
-              swal("Erreur lors de la suppression du produit", {
-                icon: "error",
-              });
-            }
-          }).catch((error) => {
+	const retour = (c) => {
+		swal({
+			title: "Voulez-vous retourner cette vente?",
+			icon: "error",
+			buttons: true,
+			dangerMode: true,
+		})
+			.then((willDelete) => {
+				if (willDelete) {
+					baseApi.delete('/ventes/' + c.id + '/retour').then((response) => {
+						if (response.status === 200) {
+							swal("La vente a été bien retourner", {
+								icon: "success",
+							}).then(() => {
 
-            swal("Erreur au niveau du serveur", {
-              icon: "error",
-            });
-          })
-        }
-      });
-  }
-
+								baseApi.get("ventes").then((data) => {
+									setVentes(data.data);
+								})
+							});
+						} else {
+							swal("Erreur lors du retour de la vente", {
+								icon: "error",
+							});
+						}
+					}).catch((error) => {
+						swal("Erreur au niveau du serveur", {
+							icon: "error",
+						});
+					})
+				}
+			});
+	}
 
   return (
     <>
       <span className="btn btn-primary text-white  mb-2">
-        <Link className='text-white' to={'/save-vente'}>Nouveau Vente</Link>
+        <Link className='text-white' to={'/save-vente'}>Nouvelle Vente</Link>
       </span>
       <DataTable
         columns={columns}
