@@ -14,7 +14,7 @@ class AbonnementController extends Controller
 
     public function __construct(AbonnementInterface $abonnementRepository)
     {
-        if(Auth::user()->role != 'admin'){
+        if(auth()?->user()?->role != 'admin'){
             return abort(403, 'Vous n\'avez pas accés a cette ressource');
         }
         $this->abonnementRepository = $abonnementRepository;

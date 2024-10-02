@@ -80,7 +80,7 @@ function Users() {
     setShow(true);
     setUser(r);
     console.log(r);
-    
+
   }
 
   const deleteUser = (u) => {
@@ -90,77 +90,75 @@ function Users() {
   }
 
   const arrete = function (id) {
-      console.log(id);
+    console.log(id);
 
-      swal({
-          title: "Voulez-vous désactiver cet utilisateur?",
-          icon: "error",
-          buttons: true,
-          dangerMode: true,
-      })
-          .then((willDelete) => {
-            return;
-              if (willDelete) {
-                  baseApi.get('abonnements/' + id + '/arrete').then((response) => {
-                      if (response.status === 200) {
-                          swal("Le produit a été bien arrêté", {
-                              icon: "success",
-                          }).then(() => {
+    swal({
+      title: "Voulez-vous désactiver cet utilisateur?",
+      icon: "error",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        return;
+        if (willDelete) {
+          baseApi.get('abonnements/' + id + '/arrete').then((response) => {
+            if (response.status === 200) {
+              swal("Le produit a été bien arrêté", {
+                icon: "success",
+              }).then(() => {
 
-                              baseApi.get("abonnements").then((data) => {
-                                  setAbonnements(data.data)
-                              })
-                          });
-                      } else {
-                          swal("Erreur lors du traitement de l'opération", {
-                              icon: "error",
-                          });
-                      }
-                  }).catch((error) => {
+                baseApi.get("abonnements").then((data) => {
+                  setAbonnements(data.data)
+                })
+              });
+            } else {
+              swal("Erreur lors du traitement de l'opération", {
+                icon: "error",
+              });
+            }
+          }).catch((error) => {
 
-                      swal("Erreur au niveau du serveur", {
-                          icon: "error",
-                      });
-                  })
-              }
-          });
+            swal("Erreur au niveau du serveur", {
+              icon: "error",
+            });
+          })
+        }
+      });
 
   }
   const reactive = function (id) {
-      console.log(id);
+    swal({
+      title: "Voulez-vous réactiver cet utilisateur?",
+      icon: "info",
+      buttons: true,
+      dangerMode: false,
+    })
+      .then((willDelete) => {
+        return;
+        if (willDelete) {
+          baseApi.get('abonnements/' + id + '/active').then((response) => {
+            if (response.status === 200) {
+              swal("Le boutique a été bien réactivé", {
+                icon: "success",
+              }).then(() => {
 
-      swal({
-          title: "Voulez-vous réactiver cet utilisateur?",
-          icon: "info",
-          buttons: true,
-          dangerMode: false,
-      })
-          .then((willDelete) => {
-            return;
-              if (willDelete) {
-                  baseApi.get('abonnements/' + id + '/active').then((response) => {
-                      if (response.status === 200) {
-                          swal("Le boutique a été bien réactivé", {
-                              icon: "success",
-                          }).then(() => {
+                baseApi.get("abonnements").then((data) => {
+                  setAbonnements(data.data)
+                })
+              });
+            } else {
+              swal("Erreur lors du traitement de l'opération", {
+                icon: "error",
+              });
+            }
+          }).catch((error) => {
 
-                              baseApi.get("abonnements").then((data) => {
-                                  setAbonnements(data.data)
-                              })
-                          });
-                      } else {
-                          swal("Erreur lors du traitement de l'opération", {
-                              icon: "error",
-                          });
-                      }
-                  }).catch((error) => {
-
-                      swal("Erreur au niveau du serveur", {
-                          icon: "error",
-                      });
-                  })
-              }
-          });
+            swal("Erreur au niveau du serveur", {
+              icon: "error",
+            });
+          })
+        }
+      });
 
   }
 
