@@ -28,6 +28,7 @@ import Dashboard from '../components/Dashboard';
 import ChangePassword from '../components/Auth/ChangePassword';
 import NewAbonnement from '../components/Abonnement/NewAbonnement';
 import Depenses from '../components/Depense/Depenses';
+import Users from '../components/User/Users';
 
 function Router(props) {
 
@@ -55,6 +56,7 @@ function Router(props) {
                 { path: "/liste-dette", element: <Dettes /> },
                 { path: "/liste-creance", element: <Creances /> },
                 { path: "/ventes/:id/facture", element: <Facture /> },
+                { path: "/users", element: <Users /> },
                 {
                     path: "/rapports",
                     element: <Rapports />,

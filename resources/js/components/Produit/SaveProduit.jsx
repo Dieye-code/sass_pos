@@ -16,13 +16,9 @@ function SaveProduit({ setShowModal, newProduit = { libelle: "", prix: 0, quanti
     const initProduit = () => {
         setProduit({ libelle: "", prix: 0, quantite: 0 });
     }
-
-
     const HandleChangeFile = (e) => {
         setImage(e.target.files[0])
     }
-
-
     const handleSubmit = async (e) => {
         setLoad(true);
         e.preventDefault();

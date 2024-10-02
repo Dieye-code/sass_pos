@@ -93,7 +93,7 @@ class AuthController
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(['error' => 'Téléphone ou code incorrect'], 401);
         }
-        if (auth()->user()->etat == 0 ||  (auth()->user()->abonnement != null && auth()->user()->abonnement?->etat == 0)) {
+        if (Auth::user()->etat == 0 ||  (Auth::user()->abonnement != null && Auth::user()->abonnement?->etat == 0)) {
             Auth::logout();
             return response()->json(['error' => 'Ce compte n\'est pas actif'], 401);
         }

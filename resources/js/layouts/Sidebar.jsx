@@ -54,6 +54,9 @@ function Sidebar() {
                             <li>
                                 <Link to="/rapports"><i className="bi bi-receipt-cutoff ml-sb" /> Rapports</Link>
                             </li>
+                            <li>
+                                <Link to="/users"><i className="ml-sb bi bi-people-fill" /> Utilisateurs</Link>
+                            </li>
                         </>
                     }
                     <li>
