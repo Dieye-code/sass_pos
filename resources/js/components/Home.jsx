@@ -25,7 +25,7 @@ function Home() {
 
   useEffect(() => {
 
-    if (decoded.role == 'admin') {
+    if (decoded.role == 'super admin') {
       navigate('/dashboard');
       return;
     }
@@ -133,7 +133,7 @@ function Home() {
         </div>
       </div>
 
-      {decoded.role != 'admin' ?
+      {decoded.role != 'super admin' ?
         <>
           <Row>
             <Col md="6" className='mt-2' style={!matches ? { maxHeight: "300px", overflowY: 'auto' } : { height: 'auto' }}>

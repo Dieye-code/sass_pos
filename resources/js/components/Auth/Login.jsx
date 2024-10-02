@@ -39,7 +39,7 @@ function Login() {
                 localStorage.setItem('nom', token.nom);
                 user.setNewToken(result.data.access_token);
                 user.setNewRole(token.role);
-                if (token.role == "admin")
+                if (token.role == "super admin")
                     navigate('/dashboard');
                 navigate('/', { replace: true });
             }).catch(e => {

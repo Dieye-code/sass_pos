@@ -24,7 +24,7 @@ function Sidebar() {
                     </div>
                 </div>
                 <ul className="metismenu" id="menu">
-                    {decoded.role == 'admin' ?
+                    {decoded.role == 'super admin' ?
                         <li>
                             <Link to="/abonnements"><i className="bi bi-people-fill ml-sb" /> Abonnements</Link>
                         </li>

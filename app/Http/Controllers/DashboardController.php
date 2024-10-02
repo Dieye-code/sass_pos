@@ -53,7 +53,7 @@ class DashboardController
     public function admin()
     {
 
-        if(Auth::user()->role != "admin")
+        if(Auth::user()->role != "super admin")
             return abort(403, 'Vous n\'avez pas accées à cette ressource');
 
         $abonnementActifs = $this->abonnementRepository->getAbonnementActifs();
