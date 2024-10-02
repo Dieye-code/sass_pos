@@ -99,16 +99,15 @@ function Users() {
       dangerMode: true,
     })
       .then((willDelete) => {
-        return;
         if (willDelete) {
-          baseApi.get('abonnements/' + id + '/arrete').then((response) => {
+          baseApi.get('/users/' + id + '/arrete').then((response) => {
             if (response.status === 200) {
-              swal("Le produit a été bien arrêté", {
+              swal("L'utilisateur a été bien arrété", {
                 icon: "success",
               }).then(() => {
 
-                baseApi.get("abonnements").then((data) => {
-                  setAbonnements(data.data)
+                baseApi.get("users").then((data) => {
+                  setUsers(data.data)
                 })
               });
             } else {
@@ -134,16 +133,15 @@ function Users() {
       dangerMode: false,
     })
       .then((willDelete) => {
-        return;
         if (willDelete) {
-          baseApi.get('abonnements/' + id + '/active').then((response) => {
+          baseApi.get('/users/'+id+'/active').then((response) => {
             if (response.status === 200) {
-              swal("Le boutique a été bien réactivé", {
+              swal("L\'utilisateur a été bien réactivé", {
                 icon: "success",
               }).then(() => {
 
-                baseApi.get("abonnements").then((data) => {
-                  setAbonnements(data.data)
+                baseApi.get("users").then((data) => {
+                  setUsers(data.data)
                 })
               });
             } else {

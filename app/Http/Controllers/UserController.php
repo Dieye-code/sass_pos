@@ -20,6 +20,10 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    public function get($id){
+        return responseFind($this->userRepository->find($id));
+    }
+
     public function index()
     {
         return $this->userRepository->getAll();
@@ -93,4 +97,19 @@ class UserController extends Controller
         $user = $this->userRepository->update($id, ['id' => $id, 'nom' => $request->nom, 'telephone' => $request->telephone, 'role' => $request->role, 'abonnement_id' => Auth::user()?->abonnement_id]);
         return responseFind($user);
     }
+
+    public function ad($id){
+        $user = $this->userRepository->find($id);
+    }
+
+    public function active($id, Request $request){
+        $user = $this->userRepository->active($id);
+        return responseFind($user);
+    }
+
+    public function arrete($id){
+        $user = $this->userRepository->arrete($id);
+        return responseFind($user);
+    }
+
 }

@@ -45,4 +45,24 @@ class UserRepository  implements UserInterface
     {
         return Abonnement::create($info);
     }
+
+    public function arrete($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->etat = 0;
+            $user->save();
+        }
+        return $user;
+    }
+
+    public function active($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->etat = 1;
+            $user->save();
+        }
+        return $user;
+    }
 }

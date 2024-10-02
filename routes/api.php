@@ -56,6 +56,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/user/change-password', [AuthController::class, 'changePassword']);
 
+    Route::get("/users/{id}/active", [UserController::class, 'active'])->where('id', '[0-9a-z]+')->name('users.active');
+
+    Route::get('/users/{id}/arrete', [UserController::class, 'arrete'])->where('id', '[0-9a-z]+')->name('users.arrete');
+
     defaultRoutesFor('users', UserController::class);
     defaultRoutesFor('depenses', DepenseController::class);
     defaultRoutesFor('fournisseurs', FournisseurController::class);
