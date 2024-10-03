@@ -107,69 +107,157 @@ function PaiementVente() {
             </Modal>
 
 
-            <div>
-                Client: <b>{vente?.client?.nom}</b> <br />
-                Téléphone: <i>{vente?.client?.telephone}</i> <br />
-                Etat: <span className={vente?.etat == 'en attente' ? 'text-danger' : vente?.etat == 'en cours' ? 'text-warning' : 'text-success'}>{vente?.etat}</span> <br />
-                Date: {formatDate(vente?.date)}<br />
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 row-cols-xxl-3">
+                <div class="col">
+                    <div class="card border shadow-none radius-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="icon-box bg-light-primary border-0">
+                                    <i class="bi bi-person text-primary"></i>
+                                </div>
+                                <div class="info">
+                                    <h6 class="mb-2">Client</h6>
+                                    <p class="mb-1">{vente?.client?.nom}</p>
+                                    <p class="mb-1"><i>{vente?.client?.telephone}</i></p>
+                                    <p class="mb-1">{formatDate(vente?.date)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col">
+
+                    <div class="card border shadow-none bg-light radius-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-4">
+                                <div>
+                                    <h5 class="mb-0">Résumé de la vente</h5>
+                                </div>
+                                <div class="ms-auto">
+                                    <button type="button" className={vente?.etat == 'en attente' ? 'btn alert-danger radius-30 px-4' : vente?.etat == 'en cours' ? 'btn alert-warning radius-30 px-4' : 'btn alert-success radius-30 px-4'}>{vente?.etat}</button>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div>
+                                    <p class="mb-0">Montant Total</p>
+                                </div>
+                                <div class="ms-auto">
+                                    <h5 class="mb-0">{Intl.NumberFormat().format(vente?.montant_total)} F</h5>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div>
+                                    <p class="mb-0">Montant payé</p>
+                                </div>
+                                <div class="ms-auto">
+                                    <h5 class="mb-0">{Intl.NumberFormat().format(total)} F</h5>
+                                </div>
+                            </div>
+                            {vente?.montant_total > total ? <>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div>
+                                        <p class="mb-0">Montant restant</p>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <h5 class="mb-0 text-danger">{Intl.NumberFormat().format(vente?.montant_total - total)} F</h5>
+                                    </div>
+                                </div>
+                            </> : <></>}
+
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <Row>
-                <Col md='6'>
-                    <h5>Liste des produits vendus</h5>
-                    <Table striped bordered  >
-                        <thead>
-                            <tr>
-                                <th>Produit</th>
-                                <th>Montant</th>
-                                <th>Quantité</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
 
-                            {vente?.produits?.map(element => {
-                                return (<tr>
-                                    <td>{element.libelle}</td>
-                                    <td>{Intl.NumberFormat().format(element.pivot?.montant_vente) + " Francs CFA"}</td>
-                                    <td>{element.pivot?.quantite}</td>
-                                    <td>{Intl.NumberFormat().format(element.pivot?.montant_vente * element.pivot?.quantite) + " Francs CFA"}</td>
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <div class="card border shadow-none radius-10">
+                        <div class="card-body">
+                            <div>
+                                <h5>Liste des produits vendus</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Produit</th>
+                                            <th>Prix</th>
+                                            <th>Quantite</th>
+                                            <th>Montant</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                </tr>);
-                            })}
-                        </tbody>
-                    </Table>
-                    <b>Total: </b> {Intl.NumberFormat().format(vente?.montant_total)} Francs CFA
-                </Col>
-                <Col md='6'>
-                    <h5>Paiements</h5>
-                    {
-                        vente?.montant_total > total ?
-                            <><span className="btn btn-primary mb-2" onClick={handleShow}>Encaisser</span> </> :
-                            <></>
-                    }
-                    <Table striped bordered >
-                        <thead>
-                            <tr>
-                                <th>Montant</th>
-                                <th>Date</th>
-                                <th>Mode de Paiement</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                                        {vente?.produits?.map(element => {
+                                            return (<tr>
+                                                <td>{element.libelle}</td>
+                                                <td>{Intl.NumberFormat().format(element.pivot?.montant_vente) + " Francs CFA"}</td>
+                                                <td>{element.pivot?.quantite}</td>
+                                                <td>{Intl.NumberFormat().format(element.pivot?.montant_vente * element.pivot?.quantite) + " Francs"}</td>
 
-                            {paiements?.map(element => {
-                                return (<tr>
-                                    <td>{Intl.NumberFormat().format(element.montant) + " Francs CFA"}</td>
-                                    <td>{formatDate(element.date)}</td>
-                                    <td>{element.mode_paiement}</td>
-                                </tr>);
-                            })}
-                        </tbody>
-                    </Table>
-                    <b>Total paiement: </b> {total} Francs CFA
-                </Col>
-            </Row>
+                                            </tr>);
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="card border shadow-none bg-light radius-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-4">
+                                <div>
+                                    <h5>Paiements</h5>
+                                </div>
+                            </div>
+
+                            {
+                                vente?.montant_total > total ?
+                                    <><span className="btn btn-primary mb-2" onClick={handleShow}>Encaisser</span> </> :
+                                    <></>
+                            }
+
+                            <Table >
+                                <thead >
+                                    <tr>
+                                        <th>
+                                            <p>Montant</p>
+                                        </th>
+                                        <th >
+                                            <p>Date</p>
+                                        </th>
+                                        <th >
+                                            <p>Mode Paiement</p>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {paiements?.map(element => {
+                                        return (
+                                            <tr>
+                                                <td >
+                                                    <p>{Intl.NumberFormat().format(element.montant) + "Francs"}</p>
+                                                </td>
+                                                <td >
+                                                    <p>{formatDate(element.date)}</p>
+                                                </td>
+                                                <td >
+                                                    <p>{element.mode_paiement}</p>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </Table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </>
     )
 }
