@@ -91,6 +91,8 @@ class VenteRepository  extends BaseRepository implements VenteInterface
         if ($v != null) {
             foreach ($v->produits as $vente) {
                 VenteProduit::find($vente->pivot?->id)?->delete();
+                $vente->quantite = $vente->quantite + $vente->pivot->quantite;
+                Produit::find($vente->id)?->update($vente->toArray());
             }
             foreach ($v->paiements as $paiement) {
                 Paiementvente::find($paiement->id)?->delete();

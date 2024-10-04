@@ -208,29 +208,26 @@ function PaiementVente() {
                 <div class="col-12 col-lg-4">
                     <div class="card border shadow-none bg-light radius-10">
                         <div class="card-body">
-                            <div class="d-flex align-items-center mb-4">
-                                <div>
-                                    <h5>Paiements</h5>
-                                </div>
+                            <div >
+                                <h5>Paiements</h5>
                             </div>
-
                             {
                                 vente?.montant_total > total ?
                                     <><span className="btn btn-primary mb-2" onClick={handleShow}>Encaisser</span> </> :
                                     <></>
                             }
 
-                            <Table >
-                                <thead >
+                            <Table class="table align-middle mb-0" >
+                                <thead class="table-light">
                                     <tr>
                                         <th>
-                                            <p>Montant</p>
+                                            Montant
                                         </th>
                                         <th >
-                                            <p>Date</p>
+                                            Date
                                         </th>
                                         <th >
-                                            <p>Mode Paiement</p>
+                                            Mode Paiement
                                         </th>
                                     </tr>
                                 </thead>
@@ -240,13 +237,13 @@ function PaiementVente() {
                                         return (
                                             <tr>
                                                 <td >
-                                                    <p>{Intl.NumberFormat().format(element.montant) + "Francs"}</p>
+                                                    {Intl.NumberFormat().format(element.montant) + "Francs"}
                                                 </td>
                                                 <td >
-                                                    <p>{formatDate(element.date)}</p>
+                                                    {formatDate(element.date)}
                                                 </td>
                                                 <td >
-                                                    <p>{element.mode_paiement}</p>
+                                                    {element.mode_paiement}
                                                 </td>
                                             </tr>
                                         );
