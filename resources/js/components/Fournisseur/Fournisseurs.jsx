@@ -3,11 +3,14 @@ import DataTable from 'react-data-table-component';
 import Savefournisseur from './SaveFournisseur';
 import { Button, Modal } from 'react-bootstrap';
 import swal from 'sweetalert';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { baseApi } from '../../services/BaseService';
+import { jwtDecode } from 'jwt-decode';
 
 function Fournisseurs() {
 
+	const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+	const navigate = useNavigate();
 
 	const columns = [
 		{
@@ -50,6 +53,8 @@ function Fournisseurs() {
 	const [fournisseurs, setFournisseurs] = useState([]);
 	const [fournisseur, setFournisseur] = useState({ nom: "", telephone: "", adresse: "" });
 	useEffect(() => {
+		if (decoded.role != 'admin')
+			return navigate(-1);
 		baseApi.get("fournisseurs").then((response) => {
 			setFournisseurs(response.data);
 		})

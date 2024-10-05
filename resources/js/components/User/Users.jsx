@@ -3,8 +3,13 @@ import { baseApi } from '../../services/BaseService';
 import DataTable from 'react-data-table-component';
 import { Button, Modal } from 'react-bootstrap';
 import SaveUser from './SaveUser';
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 function Users() {
+
+  const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -61,6 +66,8 @@ function Users() {
   const [user, setUser] = useState({ nom: "", telephone: "", password: '', role: "user" });
 
   useEffect(() => {
+    if (decoded.role != 'admin')
+      return navigate(-1);
     document.title = "utilisateurs"
     baseApi.get("users").then((response) => {
       setUsers(response.data);
@@ -134,7 +141,7 @@ function Users() {
     })
       .then((willDelete) => {
         if (willDelete) {
-          baseApi.get('/users/'+id+'/active').then((response) => {
+          baseApi.get('/users/' + id + '/active').then((response) => {
             if (response.status === 200) {
               swal("L\'utilisateur a été bien réactivé", {
                 icon: "success",

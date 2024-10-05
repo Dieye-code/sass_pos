@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { baseApi } from '../../services/BaseService';
 import DataTable from 'react-data-table-component';
 import { Col, Form, FormGroup, Image, Modal, Row } from 'react-bootstrap';
 import { Env, formatDate } from '../../config/Env';
+import { jwtDecode } from 'jwt-decode';
 
 function DetailFournisseur() {
+    const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+    const navigate = useNavigate();
 
     const columns = [
         {
@@ -78,6 +81,8 @@ function DetailFournisseur() {
     const [validated, setValidated] = useState(false);
 
     useEffect(() => {
+        if (decoded.role != 'admin')
+            return navigate(-1);
         baseApi.get(`fournisseurs/${id}/details`).then(response => {
             setFournisseur(response?.data?.fournisseur);
             setAchats(response?.data?.achats);

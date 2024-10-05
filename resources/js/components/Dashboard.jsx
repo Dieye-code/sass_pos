@@ -7,9 +7,6 @@ import { useMediaQuery } from '@mui/material';
 import { formatDate } from '../config/Env';
 
 function Dashboard() {
-
-
-
     const matches = useMediaQuery('(min-width:768px)');
     const matchess = useMediaQuery('(min-width:768px)');
 
@@ -25,7 +22,7 @@ function Dashboard() {
 
 
     useEffect(() => {
-        if (decoded?.role == 'user') {
+        if (decoded?.role != 'super admin') {
             navigate('/dashboard');
             return;
         }

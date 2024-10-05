@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { baseApi } from '../../services/BaseService';
 import DataTable from 'react-data-table-component';
 import { formatDate } from '../../config/Env';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 function Abonnements() {
 
+    const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+    const navigate = useNavigate();
 
     const columns = [
         {
@@ -137,6 +141,8 @@ function Abonnements() {
 
 
     useEffect(() => {
+        if (decoded.role = 'super admin')
+            return navigate(-1);
         baseApi.get('abonnements').then(
             result => {
                 setAbonnements(result.data)

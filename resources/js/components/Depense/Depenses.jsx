@@ -4,8 +4,14 @@ import DataTable from 'react-data-table-component';
 import { Button, Modal } from 'react-bootstrap';
 import SaveDepenses from './SaveDepenses';
 import { formatDate } from '../../config/Env';
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 function Depenses() {
+
+
+    const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+    const navigate = useNavigate();
 
     const columns = [
         {
@@ -45,6 +51,8 @@ function Depenses() {
     const [depenses, setDepenses] = useState([]);
     const [depense, setDepense] = useState({ libelle: "", montant: 0, date: "" });
     useEffect(() => {
+        if (decoded.role != 'admin')
+            return navigate(-1);
         baseApi.get("depenses").then((response) => {
             setDepenses(response.data.reverse());
         })

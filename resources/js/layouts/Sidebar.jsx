@@ -1,11 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../components/Auth/AuthProvider'
 import { jwtDecode } from 'jwt-decode';
 
 function Sidebar() {
-
-    const user = useAuth();
 
     const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
     return (

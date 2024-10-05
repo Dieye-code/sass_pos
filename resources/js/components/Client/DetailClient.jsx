@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { baseApi } from '../../services/BaseService';
 import { Col, Form, FormGroup, Image, Modal, Row } from 'react-bootstrap';
 import { Env, formatDate } from '../../config/Env';
 import DataTable from 'react-data-table-component';
+import { jwtDecode } from 'jwt-decode';
 
 function DetailClient() {
 
+  const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -79,6 +82,8 @@ function DetailClient() {
 
 
   useEffect(() => {
+    if (decoded.role != 'admin')
+      return navigate(-1);
     baseApi.get(`clients/${id}/details`).then(response => {
       setClient(response?.data?.client);
       setVentes(response?.data?.ventes);

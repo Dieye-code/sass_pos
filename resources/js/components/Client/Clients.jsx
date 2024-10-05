@@ -3,9 +3,13 @@ import SaveClient from './SaveClient';
 import { Button, Modal } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { baseApi } from '../../services/BaseService';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 function Clients() {
+
+    const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+    const navigate = useNavigate();
 
 	const columns = [
 		{
@@ -42,6 +46,8 @@ function Clients() {
 	const [clients, setClients] = useState([]);
 	const [client, setClient] = useState({ nom: "", telephone: "" });
 	useEffect(() => {
+        if (decoded.role != 'admin')
+            return navigate(-1);
 		baseApi.get("clients").then((response) => {
 			setClients(response.data);
 		})

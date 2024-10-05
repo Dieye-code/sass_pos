@@ -4,8 +4,14 @@ import { Button, Image, Modal } from 'react-bootstrap';
 import SaveProduit from './SaveProduit';
 import DataTable from 'react-data-table-component';
 import { baseApi } from '../../services/BaseService';
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 function Produits() {
+
+
+	const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+	const navigate = useNavigate();
 
 	const columns = [
 		{
@@ -44,6 +50,8 @@ function Produits() {
 	const [produits, setProduits] = useState([]);
 	const [produit, setProduit] = useState({ libelle: "", prix: 0, quantite: 0 });
 	useEffect(() => {
+		if (decoded.role != 'admin')
+			return navigate(-1);
 		baseApi.get("produits").then((response) => {
 			setProduits(response.data);
 		})
