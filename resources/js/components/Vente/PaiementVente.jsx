@@ -132,7 +132,7 @@ function PaiementVente() {
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-4">
                                 <div>
-                                    <h5 class="mb-0">Résumé de la vente</h5>
+                                    <h5 class="mb-0">Etat de la vente</h5>
                                 </div>
                                 <div class="ms-auto">
                                     <button type="button" className={vente?.etat == 'en attente' ? 'btn alert-danger radius-30 px-4' : vente?.etat == 'en cours' ? 'btn alert-warning radius-30 px-4' : 'btn alert-success radius-30 px-4'}>{vente?.etat}</button>
@@ -213,8 +213,7 @@ function PaiementVente() {
                             </div>
                             {
                                 vente?.montant_total > total ?
-                                    <><span className="btn btn-primary mb-2" onClick={handleShow}>Encaisser</span> </> :
-                                    <></>
+                                    <><span className="btn btn-primary mb-2" onClick={handleShow}>Encaisser</span> </> : <></>
                             }
 
                             <Table class="table align-middle mb-0" >

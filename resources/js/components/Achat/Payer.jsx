@@ -79,7 +79,7 @@ function Payer() {
         onHide={handleClose1}
         backdrop="static"
         keyboard={false}>
-          
+
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
@@ -122,72 +122,149 @@ function Payer() {
         </Modal.Body>
       </Modal>
 
+      <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 row-cols-xxl-3">
+        <div class="col">
+          <div class="card border shadow-none radius-10">
+            <div class="card-body">
+              <div class="d-flex align-items-center gap-3">
+                <div class="icon-box bg-light-primary border-0">
+                  <i class="bi bi-person text-primary"></i>
+                </div>
+                <div class="info">
+                  <h6 class="mb-2">Fournisseur</h6>
+                  <p class="mb-1">{achat?.fournisseur?.nom}</p>
+                  <p class="mb-1"><i>{achat?.fournisseur?.telephone}</i></p>
+                  <p class="mb-1"><i>{achat?.fournisseur?.adresse}</i></p>
+                  <p class="mb-1">{formatDate(achat?.date)}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col">
+          <div class="card border shadow-none bg-light radius-10">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-4">
+                <div>
+                  <h5 class="mb-0">Etat de l'achat</h5>
+                </div>
+                <div class="ms-auto">
+                  <button type="button" className={achat?.etat == 'en attente' ? 'btn alert-danger radius-30 px-4' : achat?.etat == 'en cours' ? 'btn alert-warning radius-30 px-4' : 'btn alert-success radius-30 px-4'}>{achat?.etat}</button>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <div>
+                  <p class="mb-0">Montant Total</p>
+                </div>
+                <div class="ms-auto">
+                  <h5 class="mb-0">{Intl.NumberFormat().format(achat?.montant_total)} F</h5>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <div>
+                  <p class="mb-0">Montant payé</p>
+                </div>
+                <div class="ms-auto">
+                  <h5 class="mb-0">{Intl.NumberFormat().format(total)} F</h5>
+                </div>
+              </div>
+              {achat?.montant_total > total ? <>
+                <div class="d-flex align-items-center mb-3">
+                  <div>
+                    <p class="mb-0">Montant restant</p>
+                  </div>
+                  <div class="ms-auto">
+                    <h5 class="mb-0 text-danger">{Intl.NumberFormat().format(achat?.montant_total - total)} F</h5>
+                  </div>
+                </div>
+              </> : <></>}
 
-      <div>
-        Fournisseur: <b>{achat?.fournisseur?.nom}</b> <br />
-        adresse: <i>{achat?.fournisseur?.adresse}</i> <br />
-        Téléphone: <i>{achat?.fournisseur?.telephone}</i> <br />
-        Etat: <span className={achat?.etat == 'en attente' ? 'text-danger' : achat?.etat == 'en cours' ? 'text-warning' : 'text-success'}>{achat?.etat}</span> <br />
-        Date: {formatDate(achat?.date)} <br/>
-        {achat?.facture ? <span className='btn btn-outline-primary' onClick={handleShow1}>Bon de réception</span> : ''}
+            </div>
+          </div>
+        </div>
       </div>
 
-      <Row>
-        <Col md='6'>
-          <h5>Liste des produits achetés</h5>
-          <Table striped bordered  >
-            <thead>
-              <tr>
-                <th>Produit</th>
-                <th>Montant</th>
-                <th>Quantité</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
 
-              {achat?.produits?.map(element => {
-                return (<tr>
-                  <td>{element.libelle}</td>
-                  <td>{Intl.NumberFormat().format(element.pivot?.montant_achat) + " Francs CFA"}</td>
-                  <td>{element.pivot?.quantite}</td>
-                  <td>{Intl.NumberFormat().format(element.pivot?.montant_achat * element.pivot?.quantite) + " Francs CFA"}</td>
+      <div class="row">
+        <div class="col-12 col-lg-8">
+          <div class="card border shadow-none radius-10">
+            <div class="card-body">
+              <div>
+                <h5>Liste des produits vendus</h5>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Produit</th>
+                      <th>Prix</th>
+                      <th>Quantite</th>
+                      <th>Montant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {achat?.produits?.map(element => {
+                      return (<tr>
+                        <td>{element.libelle}</td>
+                        <td>{Intl.NumberFormat().format(element.pivot?.montant_achat) + " Francs CFA"}</td>
+                        <td>{element.pivot?.quantite}</td>
+                        <td>{Intl.NumberFormat().format(element.pivot?.montant_achat * element.pivot?.quantite) + " Francs"}</td>
 
-                </tr>);
-              })}
-            </tbody>
-          </Table>
-          <b>Total: </b> {Intl.NumberFormat().format(achat?.montant_total)} Francs CFA
-        </Col>
-        <Col md='6'>
-          <h5>Paiements</h5>
-          {
-            achat?.montant_total > total ?
-              <><span className="btn btn-primary mb-2" onClick={handleShow}>Payer</span> </> :
-              <></>
-          }
-          <Table striped bordered >
-            <thead>
-              <tr>
-                <th>Montant</th>
-                <th>Date</th>
-                <th>Mode de Paiement</th>
-              </tr>
-            </thead>
-            <tbody>
+                      </tr>);
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4">
+          <div class="card border shadow-none bg-light radius-10">
+            <div class="card-body">
+              <div >
+                <h5>Paiements</h5>
+              </div>
+              {
+                achat?.montant_total > total ?
+                  <><span className="btn btn-primary mb-2" onClick={handleShow}>Payer</span> </> : <></>
+              }
+              <Table class="table align-middle mb-0" >
+                <thead class="table-light">
+                  <tr>
+                    <th>
+                      Montant
+                    </th>
+                    <th >
+                      Date
+                    </th>
+                    <th >
+                      Mode Paiement
+                    </th>
+                  </tr>
+                </thead>
 
-              {paiements.map(element => {
-                return (<tr>
-                  <td>{Intl.NumberFormat().format(element.montant) + " Francs CFA"}</td>
-                  <td>{formatDate(element.date)}</td>
-                  <td>{element.mode_paiement}</td>
-                </tr>);
-              })}
-            </tbody>
-          </Table>
-          <b>Total paiement: </b> {total} Francs CFA
-        </Col>
-      </Row>
+                <tbody>
+                  {paiements?.map(element => {
+                    return (
+                      <tr>
+                        <td >
+                          {Intl.NumberFormat().format(element.montant) + "Francs"}
+                        </td>
+                        <td >
+                          {formatDate(element.date)}
+                        </td>
+                        <td >
+                          {element.mode_paiement}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
