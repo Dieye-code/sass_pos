@@ -9,7 +9,7 @@ function Payer() {
   const [paiement, setPaiement] = useState({ montant: 0, mode_paiement: '2' })
   const [paiements, setPaiements] = useState([]);
   const [total, setTotal] = useState(0);
-  const [achat, setAchat] = useState();
+  const [achat, setAchat] = useState({});
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [validated, setValidated] = useState(false);

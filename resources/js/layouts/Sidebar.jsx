@@ -33,30 +33,38 @@ function Sidebar() {
                             <li>
                                 <Link to="/"><i className="bi bi-house-fill ml-sb" /> Home</Link>
                             </li>
-                            <li>
-                                <Link to="/fournisseurs"><i className="bi bi-people-fill ml-sb" /> Fournisseurs</Link>
-                            </li>
-                            <li>
-                                <Link to="/clients"><i className="bi bi-people-fill ml-sb" /> Clients</Link>
-                            </li>
-                            <li>
-                                <Link to="/produits"><i className="bi bi-diagram-3-fill ml-sb" /> Produits</Link>
-                            </li>
+                            {decoded.role == 'admin' ?
+                                <>
+                                    <li>
+                                        <Link to="/fournisseurs"><i className="bi bi-people-fill ml-sb" /> Fournisseurs</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/clients"><i className="bi bi-people-fill ml-sb" /> Clients</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/produits"><i className="bi bi-diagram-3-fill ml-sb" /> Produits</Link>
+                                    </li>
+                                </>
+                                : <></>}
                             <li>
                                 <Link to="/achats"><i className="bi bi-minecart-loaded ml-sb" /> Achats</Link>
                             </li>
                             <li>
                                 <Link to="/ventes"><i className="bi bi-cart-check-fill ml-sb" /> Ventes</Link>
                             </li>
-                            <li>
-                                <Link to="/depenses"><i className="bi bi-cash-coin ml-sb" /> <span className='ml-1' >Depenses</span></Link>
-                            </li>
+                            {decoded.role == 'admin' ?
+                                <li>
+                                    <Link to="/depenses"><i className="bi bi-cash-coin ml-sb" /> <span className='ml-1' >Depenses</span></Link>
+                                </li>
+                                : <></>}
                             <li>
                                 <Link to="/rapports"><i className="bi bi-receipt-cutoff ml-sb" /> Rapports</Link>
                             </li>
-                            <li>
-                                <Link to="/users"><i className="ml-sb bi bi-people-fill" /> Utilisateurs</Link>
-                            </li>
+                            {decoded.role == 'admin' ?
+                                <li>
+                                    <Link to="/users"><i className="ml-sb bi bi-people-fill" /> Utilisateurs</Link>
+                                </li>
+                                : <></>}
                         </>
                     }
                     <li>
