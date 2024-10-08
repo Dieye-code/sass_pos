@@ -25,11 +25,11 @@ class DashboardController
     }
     public function index(Request $request)
     {
-        $ventes = $this->venteRepository->getLatestVente();
-        $achats = $this->achatRepository->getLastAchat(null);
-        $totalVente = $this->venteRepository->getAll(null)->sum('montant_total');
-        $totalAchat = $this->achatRepository->getAll(null)->sum('montant_total');
-        $depenses = $this->depenseRepository->getAll()->sum('montant');
+        $ventes = Auth::user()?->role == 'admin' ? $this->venteRepository->getLatestVente() : $this->venteRepository->getVenteDuJour()->splice(0,10);
+        $achats = Auth::user()?->role == 'admin' ? $this->achatRepository->getLastAchat() : $this->achatRepository->getAchatDuJour()->splice(0,10);
+        $totalVente =Auth::user()?->role == 'admin' ? $this->venteRepository->getVenteDuMois(null)->sum('montant_total') : $this->venteRepository->getVenteDuJour()->sum('montant_total');
+        $totalAchat = Auth::user()?->role == 'admin' ? $this->achatRepository->getAchatDuMois(null)->sum('montant_total') : $this->achatRepository->getAchatDuJour()->sum('montant_total');
+        $depenses =  $this->depenseRepository->getAll()->sum('montant');
         
         $totalDettes = [];
         $totalCreances = [];
