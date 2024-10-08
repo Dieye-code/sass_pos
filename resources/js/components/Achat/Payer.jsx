@@ -190,7 +190,7 @@ function Payer() {
           <div class="card border shadow-none radius-10">
             <div class="card-body">
               <div>
-                <h5>Liste des produits vendus</h5>
+                <h5>Liste des produits achetés</h5>
               </div>
               <div class="table-responsive">
                 <table class="table align-middle mb-0">
