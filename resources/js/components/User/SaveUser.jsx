@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Form, FormGroup, Row, Spinner } from 'react-bootstrap';
 import { baseApi } from '../../services/BaseService';
 
-function SaveUser({ setShowModal, newUser = { nom: "", telephone: "", password: '', role: "user" } }) {
+function SaveUser({ setShowModal, newUser = { nom: "", telephone: "", password: '', role: "vendeur" } }) {
 
 
 
@@ -14,7 +14,7 @@ function SaveUser({ setShowModal, newUser = { nom: "", telephone: "", password: 
         setUser({ ...user, [e.target.name]: e.target.value })
     }
     const initUser = () => {
-        setUser({ nom: "", telephone: "", role: "user" });
+        setUser({ nom: "", telephone: "", role: "vendeur" });
     }
 
     const handleSubmit = async (e) => {
@@ -61,7 +61,7 @@ function SaveUser({ setShowModal, newUser = { nom: "", telephone: "", password: 
                     <FormGroup>
                         <Form.Label>Role</Form.Label>
                         <Form.Select size="sm" name='role' value={user.role} onChange={(e) => onInputChange(e)}>
-                            <option value={'user'}>user</option>
+                            <option value={'vendeur'}>vendeur</option>
                             <option value={'admin'}>admin</option>
                         </Form.Select>
                     </FormGroup>

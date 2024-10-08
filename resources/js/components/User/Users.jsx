@@ -63,7 +63,7 @@ function Users() {
   };
   const [show, setShow] = useState(false);
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({ nom: "", telephone: "", password: '', role: "user" });
+  const [user, setUser] = useState({ nom: "", telephone: "", password: '', role: "vendeur" });
 
   useEffect(() => {
     if (decoded.role != 'admin')
@@ -80,7 +80,7 @@ function Users() {
   };
   const handleShow = () => setShow(true);
   const initUser = () => {
-    setUser({ nom: "", telephone: "", password: '', role: "user" });
+    setUser({ nom: "", telephone: "", password: '', role: "vendeur" });
   }
 
   const editUser = (r) => {
