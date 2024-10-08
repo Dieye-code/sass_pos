@@ -8,6 +8,7 @@ use App\Interfaces\ProduitInterface;
 use App\Repositories\AchatRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AchatController extends BaseController
@@ -16,12 +17,20 @@ class AchatController extends BaseController
     private AchatRepository $achatRepository;
     private PaiementAchatInterface $paiementRepository;
     private $produitRepository;
+
+
     public function __construct(AchatInterface $repository, PaiementAchatInterface $paiement, ProduitInterface $produitRepository)
     {
         $this->repository = $repository;
         $this->achatRepository = $repository;
         $this->paiementRepository = $paiement;
         $this->produitRepository = $produitRepository;
+    }
+
+    public function index()
+    {
+        $achats = Auth::user()?->role == 'admin' ? $this->achatRepository->getAll() : $this->achatRepository->getAchatDuJour();
+        return response()->json($achats);
     }
 
     public function last()
@@ -39,7 +48,7 @@ class AchatController extends BaseController
                 $data['facture'] = $facture;
             }
             $data['etat'] = $request->paiement == 1 ?  'en attente' : 'payé';
-            $data['abonnement_id'] = auth()->user()->abonnement_id;
+            $data['abonnement_id'] = Auth::user()?->abonnement_id;
             $this->model = $this->repository->create($data);
             $total = 0;
             foreach (json_decode($request->produits) as  $value) {
@@ -51,7 +60,7 @@ class AchatController extends BaseController
             $this->model->montant_total = $total;
             $this->repository->update($this->model->id, $this->model->toArray());
             if ($request->paiement != 1) {
-                $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'achat_id' => $this->model->id, 'abonnement_id' => auth()->user()->abonnement_id]);
+                $p = $this->paiementRepository->create(['montant' => $request->montant_paye, 'date' => Carbon::now(), 'mode_paiement' => paiement($request->paiement), 'achat_id' => $this->model->id, 'abonnement_id' => Auth::user()?->abonnement_id]);
             }
             if ($total > $request->montant_paye) {
                 $this->model->etat = 'en cours';
