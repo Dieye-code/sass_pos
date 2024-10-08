@@ -3,8 +3,12 @@ import { Button, Col, Form, FormGroup, Row } from 'react-bootstrap'
 import { baseApi } from '../../services/BaseService';
 import DataTable from 'react-data-table-component';
 import { formatDate } from '../../config/Env';
+import { jwtDecode } from 'jwt-decode';
 
 function RapportAchats() {
+
+
+    const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
 
 
     const columns = [
@@ -113,12 +117,16 @@ function RapportAchats() {
 
     return (
         <>
-            <div key="inline-radio" className="mb-3">
-                <Form.Check inline label="Journalier" name="filter" type='radio' id="journalier" value={"journalier"} onChange={(e) => onInputChange(e)} />
-                <Form.Check inline label="Hebdomadaire" name="filter" type='radio' id="hebdomadaire" value={"hebdomadaire"} onChange={(e) => onInputChange(e)} />
-                <Form.Check inline label="Mensuel" name="filter" type='radio' id="mensuel" value={"mensuel"} onChange={(e) => onInputChange(e)} />
-                <Form.Check inline label="intervalle" name="filter" type='radio' id="intervalle" value={"intervalle"} onChange={(e) => onInputChange(e)} />
-            </div>
+            {
+                decoded.role == 'admin' ?
+                    <div key="inline-radio" className="mb-3">
+                        <Form.Check inline label="Journalier" name="filter" type='radio' id="journalier" value={"journalier"} onChange={(e) => onInputChange(e)} />
+                        <Form.Check inline label="Hebdomadaire" name="filter" type='radio' id="hebdomadaire" value={"hebdomadaire"} onChange={(e) => onInputChange(e)} />
+                        <Form.Check inline label="Mensuel" name="filter" type='radio' id="mensuel" value={"mensuel"} onChange={(e) => onInputChange(e)} />
+                        <Form.Check inline label="intervalle" name="filter" type='radio' id="intervalle" value={"intervalle"} onChange={(e) => onInputChange(e)} />
+                    </div>
+                    : <></>
+            }
 
             {show ?
                 <Row className='mb-3' >
@@ -193,8 +201,7 @@ function RapportAchats() {
 
 
             <DataTable
-        noDataComponent="Pas de données trouvées"
-				noDataComponent="Aucun achats trouvés"
+                noDataComponent="Pas de données trouvées"
                 columns={columns}
                 data={achats}
                 pagination

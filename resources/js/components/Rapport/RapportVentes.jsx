@@ -3,9 +3,11 @@ import { Button, Col, Form, FormGroup, Row } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { baseApi } from '../../services/BaseService';
 import { formatDate } from '../../config/Env';
+import { jwtDecode } from 'jwt-decode';
 
 function RapportVentes() {
 
+    const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
 
     const columns = [
         {
@@ -112,12 +114,17 @@ function RapportVentes() {
 
     return (
         <>
-            <div key="inline-radio" className="mb-3">
-                <Form.Check inline label="Jour" name="filter" type='radio' id="jour" value={"jour"} onChange={(e) => onInputChange(e)} />
-                <Form.Check inline label="Semaine" name="filter" type='radio' id="semaine" value={"semaine"} onChange={(e) => onInputChange(e)} />
-                <Form.Check inline label="Mois" name="filter" type='radio' id="mois" value={"mois"} onChange={(e) => onInputChange(e)} />
-                <Form.Check inline label="interval" name="filter" type='radio' id="interval" value={"interval"} onChange={(e) => onInputChange(e)} />
-            </div>
+            {
+                decoded.role == 'admin' ?
+                    <div key="inline-radio" className="mb-3">
+                        <Form.Check inline label="Jour" name="filter" type='radio' id="jour" value={"jour"} onChange={(e) => onInputChange(e)} />
+                        <Form.Check inline label="Semaine" name="filter" type='radio' id="semaine" value={"semaine"} onChange={(e) => onInputChange(e)} />
+                        <Form.Check inline label="Mois" name="filter" type='radio' id="mois" value={"mois"} onChange={(e) => onInputChange(e)} />
+                        <Form.Check inline label="interval" name="filter" type='radio' id="interval" value={"interval"} onChange={(e) => onInputChange(e)} />
+                    </div>
+                    : <></>
+            }
+
 
             {show ?
                 <Row className='mb-3' >
@@ -192,8 +199,7 @@ function RapportVentes() {
 
 
             <DataTable
-        noDataComponent="Pas de données trouvées"
-				noDataComponent="Aucune ventes trouvées"
+                noDataComponent="Pas de données trouvées"
                 columns={columns}
                 data={ventes}
                 pagination
