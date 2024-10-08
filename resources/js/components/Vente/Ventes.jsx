@@ -5,9 +5,11 @@ import { baseApi } from '../../services/BaseService';
 import Facture from './Facture';
 import { BlobProvider, PDFViewer } from '@react-pdf/renderer';
 import { formatDate } from '../../config/Env';
+import { jwtDecode } from 'jwt-decode';
 
 function Ventes() {
 
+  const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
 
   const columns = [
     {
@@ -52,7 +54,9 @@ function Ventes() {
               <Link to={`/ventes/${row.id}/details`} >
                 <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
               </Link>
-              <span className='text-danger btn' onClick={() => retour(row)}><i className='bi bi-cart-x fs-5'></i> </span>
+              {decoded.role == 'admin' ?
+                <span className='text-danger btn' onClick={() => retour(row)}><i className='bi bi-cart-x fs-5'></i> </span>
+                : <></>}
             </>
           }
         }
@@ -72,40 +76,40 @@ function Ventes() {
     })
   }, [])
 
-  
 
-	const retour = (c) => {
-		swal({
-			title: "Voulez-vous retourner cette vente?",
-			icon: "error",
-			buttons: true,
-			dangerMode: true,
-		})
-			.then((willDelete) => {
-				if (willDelete) {
-					baseApi.delete('/ventes/' + c.id + '/retour').then((response) => {
-						if (response.status === 200) {
-							swal("La vente a été bien retourner", {
-								icon: "success",
-							}).then(() => {
 
-								baseApi.get("ventes").then((data) => {
-									setVentes(data.data);
-								})
-							});
-						} else {
-							swal("Erreur lors du retour de la vente", {
-								icon: "error",
-							});
-						}
-					}).catch((error) => {
-						swal("Erreur au niveau du serveur", {
-							icon: "error",
-						});
-					})
-				}
-			});
-	}
+  const retour = (c) => {
+    swal({
+      title: "Voulez-vous retourner cette vente?",
+      icon: "error",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          baseApi.delete('/ventes/' + c.id + '/retour').then((response) => {
+            if (response.status === 200) {
+              swal("La vente a été bien retourner", {
+                icon: "success",
+              }).then(() => {
+
+                baseApi.get("ventes").then((data) => {
+                  setVentes(data.data);
+                })
+              });
+            } else {
+              swal("Erreur lors du retour de la vente", {
+                icon: "error",
+              });
+            }
+          }).catch((error) => {
+            swal("Erreur au niveau du serveur", {
+              icon: "error",
+            });
+          })
+        }
+      });
+  }
 
   return (
     <>

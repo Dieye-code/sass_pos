@@ -24,6 +24,13 @@ class VenteController extends BaseController
         $this->paiementRepository = $paiementRepository;
         $this->produitRepository = $produitRepository;
     }
+    
+
+    public function index()
+    {
+        $ventes = Auth::user()?->role == 'admin' ? $this->venteRepository->getAll() : $this->venteRepository->getVenteDuJour();
+        return response()->json($ventes);
+    }
 
     public function last()
     {
