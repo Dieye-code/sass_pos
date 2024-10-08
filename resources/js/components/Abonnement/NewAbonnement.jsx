@@ -102,6 +102,7 @@ function NewAbonnement() {
         <>
 
             <DataTable
+        noDataComponent="Pas de données trouvées"
                 columns={columns}
                 data={abonnements}
                 pagination

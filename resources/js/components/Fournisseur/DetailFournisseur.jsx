@@ -224,6 +224,7 @@ function DetailFournisseur() {
 
             <h4 className="card-title">Liste des achats</h4>
             <DataTable
+        noDataComponent="Pas de données trouvées"
                 columns={columns}
                 data={achats}
                 pagination

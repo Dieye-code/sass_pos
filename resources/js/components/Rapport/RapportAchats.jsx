@@ -193,6 +193,7 @@ function RapportAchats() {
 
 
             <DataTable
+        noDataComponent="Pas de données trouvées"
 				noDataComponent="Aucun achats trouvés"
                 columns={columns}
                 data={achats}

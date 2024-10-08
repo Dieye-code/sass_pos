@@ -95,6 +95,7 @@ function Creances() {
             </div>
             <h5>Liste des ventes avec une creance</h5>
             <DataTable
+        noDataComponent="Pas de données trouvées"
                 columns={columns}
                 data={creances}
                 pagination

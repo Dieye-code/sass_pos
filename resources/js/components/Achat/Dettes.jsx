@@ -95,6 +95,7 @@ function Dettes() {
             </div>
             <h5>Liste des achats avec une dette</h5>
             <DataTable
+        noDataComponent="Pas de données trouvées"
                 columns={columns}
                 data={dettes}
                 pagination

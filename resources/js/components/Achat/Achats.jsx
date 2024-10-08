@@ -117,6 +117,7 @@ function Achats() {
     <>
       <span className="btn btn-primary text-white  mb-2"><Link className='text-white' to={'/save-achat'}>Nouveau Achat</Link> </span>
       <DataTable
+        noDataComponent="Pas de données trouvées"
         columns={columns}
         data={achats}
         pagination

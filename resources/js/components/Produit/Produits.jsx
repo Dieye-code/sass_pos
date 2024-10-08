@@ -125,6 +125,7 @@ function Produits() {
 				</Modal.Body>
 			</Modal>
 			<DataTable
+        noDataComponent="Pas de données trouvées"
 				columns={columns}
 				data={produits}
 				pagination

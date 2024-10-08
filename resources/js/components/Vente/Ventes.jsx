@@ -113,6 +113,7 @@ function Ventes() {
         <Link className='text-white' to={'/save-vente'}>Nouvelle Vente</Link>
       </span>
       <DataTable
+        noDataComponent="Pas de données trouvées"
         columns={columns}
         data={ventes}
         pagination

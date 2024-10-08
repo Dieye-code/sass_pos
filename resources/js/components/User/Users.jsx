@@ -185,6 +185,7 @@ function Users() {
       </Modal>
 
       <DataTable
+        noDataComponent="Pas de données trouvées"
         columns={columns}
         data={users ?? []}
         pagination

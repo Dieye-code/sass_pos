@@ -226,6 +226,7 @@ function DetailClient() {
 
       <h4 className="card-title">Liste des ventes</h4>
       <DataTable
+        noDataComponent="Pas de données trouvées"
         columns={columns}
         data={ventes}
         pagination

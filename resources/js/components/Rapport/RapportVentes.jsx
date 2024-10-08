@@ -192,6 +192,7 @@ function RapportVentes() {
 
 
             <DataTable
+        noDataComponent="Pas de données trouvées"
 				noDataComponent="Aucune ventes trouvées"
                 columns={columns}
                 data={ventes}
