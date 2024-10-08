@@ -15,6 +15,14 @@ return new class extends Migration
             if (!Schema::hasColumn('ventes', 'numero')) {
                 $table->string('numero', 30)->nullable();
             }
+            if (!Schema::hasColumn('ventes', 'user_id')) {
+                $table->foreignUuid('user_id')->nullable()->constrained('users');
+            }
+        });
+        Schema::table('achats', function (Blueprint $table) {
+            if (!Schema::hasColumn('achats', 'user_id')) {
+                $table->foreignUuid('user_id')->nullable()->constrained('users');
+            }
         });
     }
 
@@ -23,11 +31,20 @@ return new class extends Migration
      */
     public function down(): void
     {
-
         if (Schema::hasTable('ventes')) {
             Schema::table('ventes', function (Blueprint $table) {
                 if (Schema::hasColumn('ventes', 'numero')) {
                     $table->dropColumn('numero');
+                }
+                if (Schema::hasColumn('ventes', 'user_id')) {
+                    $table->dropColumn('user_id');
+                }
+            });
+        }
+        if (Schema::hasTable('achats')) {
+            Schema::table('achats', function (Blueprint $table) {
+                if (Schema::hasColumn('achats', 'user_id')) {
+                    $table->dropColumn('user_id');
                 }
             });
         }
