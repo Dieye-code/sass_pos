@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Abonnement extends BaseModel
 {
 
-
+    public function type(){
+        return $this->belongsTo(TypeAbonnement::class,'type_abonnement_id');
+    }
 
     public function user(){
         return $this->hasOne(User::class);
