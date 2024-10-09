@@ -10,6 +10,7 @@ use App\Interfaces\FournisseurInterface;
 use App\Interfaces\PaiementAchatInterface;
 use App\Interfaces\PaiementVenteInterface;
 use App\Interfaces\ProduitInterface;
+use App\Interfaces\TypeAbonnementInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\VenteInterface;
 use App\Repositories\AbonnementRepository;
@@ -20,6 +21,7 @@ use App\Repositories\FournisseurRepository;
 use App\Repositories\PaiementAchatRepository;
 use App\Repositories\PaiementVenteRepository;
 use App\Repositories\ProduitRepository;
+use App\Repositories\TypeAbonnementRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VenteRepository;
 use Illuminate\Support\ServiceProvider;
@@ -41,6 +43,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(AbonnementInterface::class, AbonnementRepository::class);
         $this->app->bind(DepenseInterface::class, DepenseRepository::class);
+        $this->app->bind(TypeAbonnementInterface::class, TypeAbonnementRepository::class);
     }
 
     /**
