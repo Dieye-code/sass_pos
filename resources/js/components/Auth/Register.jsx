@@ -60,10 +60,9 @@ function Register() {
                 })
                 .catch((error) => {
                     if (error.response.status == 400) {
-                        if (Array.isArray(error.response.data))
-                        {
+                        if (Array.isArray(error.response.data)) {
                             console.log(error.response.data);
-                            // setErrors(error.response.data);
+                            setErrors(error.response.data);
                         }
                         else {
                             // setErrors(error.response.data);
