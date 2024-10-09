@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('logo', 150)->nullable();
             $table->date('date')->nullable();
             $table->date('dateLimit')->nullable();
+            $table->foreignUuid('type_abonnement_id')->nullable()->constrained('type_abonnements');
             $table->timestamps();
         });
-
     }
 
     /**
