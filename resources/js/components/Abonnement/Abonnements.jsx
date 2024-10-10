@@ -141,7 +141,7 @@ function Abonnements() {
 
 
     useEffect(() => {
-        if (decoded.role == 'super admin')
+        if (decoded.role != 'super admin')
             return navigate(-1);
         baseApi.get('abonnements').then(
             result => {
