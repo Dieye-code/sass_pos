@@ -24,7 +24,7 @@ class AbonnementRepository  implements AbonnementInterface
 
     public function getAll()
     {
-        return Abonnement::all();
+        return Abonnement::with('type')->get();
     }
 
     public function arrete($id)
@@ -66,14 +66,14 @@ class AbonnementRepository  implements AbonnementInterface
 
     public function getAbonnementActifs()
     {
-        return Abonnement::where('etat', 1)->get();
+        return Abonnement::with('type')->where('etat', 1)->get();
     }
     public function getAbonnementInactifs()
     {
-        return Abonnement::where('etat', 0)->where('is_new', 0)->get();
+        return Abonnement::wwith('type')->here('etat', 0)->where('is_new', 0)->get();
     }
     public function getNewAbonnements()
     {
-        return Abonnement::with('user')->where('is_new', 1)->where('etat', 0)->get();
+        return Abonnement::with('type')->with('user')->where('is_new', 1)->where('etat', 0)->get();
     }
 }
