@@ -17,14 +17,20 @@ function Sidebar() {
 
 
                     </div>
-                    <div className="toggle-icon ms-auto"><i className="bi bi-chevron-double-left"></i>
+                    <div className="toggle-icon ms-auto">
+                        <i className="bi bi-chevron-double-left"></i>
                     </div>
                 </div>
                 <ul className="metismenu" id="menu">
                     {decoded.role == 'super admin' ?
-                        <li>
-                            <Link to="/abonnements"><i className="bi bi-people-fill ml-sb" /> Abonnements</Link>
-                        </li>
+                        <>
+                            <li>
+                                <Link to="/type-abonnements"><i className="bi bi-house ml-sb" />Type Abonnements</Link>
+                            </li>
+                            <li>
+                                <Link to="/abonnements"><i className="bi bi-people-fill ml-sb" /> Abonnements</Link>
+                            </li>
+                        </>
                         :
                         <>
                             <li>

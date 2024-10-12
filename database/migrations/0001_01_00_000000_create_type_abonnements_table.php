@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('type_abonnements', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('libelle', 45)->nullable()->after('id');
             $table->unsignedInteger('inscription')->default(0);
             $table->unsignedInteger('mensualite')->default(0);
             $table->unsignedInteger('mois_reduit_anne')->default(2);

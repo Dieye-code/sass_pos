@@ -29,6 +29,7 @@ import ChangePassword from '../components/Auth/ChangePassword';
 import NewAbonnement from '../components/Abonnement/NewAbonnement';
 import Depenses from '../components/Depense/Depenses';
 import Users from '../components/User/Users';
+import TypeAbonnements from '../components/TypeAbonnement/TypeAbonnements';
 
 function Router(props) {
 
@@ -64,6 +65,10 @@ function Router(props) {
                 {
                     path: "/abonnements",
                     element: <Abonnements />,
+                },
+                {
+                    path: "/type-abonnements",
+                    element: <TypeAbonnements />,
                 },
                 {
                     path: "/new-abonnement",
