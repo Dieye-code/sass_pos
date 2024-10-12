@@ -25,6 +25,9 @@ function Sidebar() {
                     {decoded.role == 'super admin' ?
                         <>
                             <li>
+                                <Link to="/dashboard"><i className="bi bi-house-fill ml-sb" /> Home</Link>
+                            </li>
+                            <li>
                                 <Link to="/type-abonnements"><i className="bi bi-house ml-sb" />Type Abonnements</Link>
                             </li>
                             <li>

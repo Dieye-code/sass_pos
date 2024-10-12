@@ -70,7 +70,7 @@ class AbonnementRepository  implements AbonnementInterface
     }
     public function getAbonnementInactifs()
     {
-        return Abonnement::wwith('type')->here('etat', 0)->where('is_new', 0)->get();
+        return Abonnement::with('type')->where('etat', 0)->where('is_new', 0)->get();
     }
     public function getNewAbonnements()
     {
