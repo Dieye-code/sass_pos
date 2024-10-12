@@ -13,5 +13,5 @@ export const formatDate = (date) => {
 }
 
 export const Env = {
-     API_URL: URL == 'DEV' ? 'http://localhost:8000/' : 'https://shop.samacaisse.cloud/',
+     API_URL: window.location.origin+'/',
 }
