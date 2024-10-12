@@ -17,6 +17,11 @@ function Abonnements() {
             sortable: true,
         },
         {
+            name: 'Type',
+            selector: row => row.type?.libelle,
+            sortable: true,
+        },
+        {
             name: 'Adresse',
             selector: row => row.adresse,
             sortable: true,
