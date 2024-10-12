@@ -10,6 +10,7 @@ use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\PaiementAchatController;
 use App\Http\Controllers\PaiementVenteController;
 use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\TypeAbonnementController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
 
-    
+
     Route::get('/dashboard-admin', [DashboardController::class, 'admin']);
 
 
@@ -67,7 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
     defaultRoutesFor('produits', ProduitController::class);
     defaultRoutesFor('achats', AchatController::class);
     defaultRoutesFor('ventes', VenteController::class);
-    // Route::get('/auth/refresh', [AuthController::class, 'refresh'])->name('refresh');
+    defaultRoutesFor('type-abonnements', TypeAbonnementController::class);
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
