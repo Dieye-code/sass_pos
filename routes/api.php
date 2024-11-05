@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/achats/mois', [AchatController::class, 'achatDuMois']);
     Route::get('/achats/semaine', [AchatController::class, 'achatDeLaSemaine']);
     Route::post('/achats/intervalle', [AchatController::class, 'achatIntervalle']);
+    Route::delete('/achats/{id}/retour', [AchatController::class, 'retour'])->where('id', "[0-9a-z]+")->name('achats.retour');
 
     Route::get('/abonnements', [AbonnementController::class, 'index']);
     Route::get('/abonnements/{id}/arrete', [AbonnementController::class, 'arrete']);

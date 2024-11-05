@@ -72,17 +72,17 @@ class VenteRepository  extends BaseRepository implements VenteInterface
 
     public function getVenteDuJour()
     {
-        return Vente::whereDate('date', Carbon::today())->with('paiements')->with('client')->get();
+        return Vente::whereDate('date', Carbon::today())->with('paiements')->with('client')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
 
     public function getVenteDeLaSemaine()
     {
-        return Vente::whereRaw('DATEDIFF(NOW(), date) <= 7')->with('paiements')->with('client')->get();
+        return Vente::whereRaw('DATEDIFF(NOW(), date) <= 7')->with('paiements')->with('client')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
 
     public function getVenteByIntervallee($debut, $fin)
     {
-        return Vente::with('paiements')->with('client')->whereBetween('date', [$debut, $fin])->get();
+        return Vente::with('paiements')->with('client')->whereBetween('date', [$debut, $fin])->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
 
     public function retour($id)

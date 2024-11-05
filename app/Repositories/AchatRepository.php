@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\AchatInterface;
 use App\Models\Achat;
 use App\Models\AchatProduit;
+use App\Models\PaiementAchat;
 use App\Models\Produit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -77,5 +78,23 @@ class AchatRepository extends BaseRepository implements AchatInterface
     public function getAchatByIntervallee($debut, $fin)
     {
         return Achat::with('paiements')->with('fournisseur')->whereBetween('date', [$debut, $fin])->get();
+    }
+    
+
+    public function retour($id)
+    {
+        $v = Achat::find($id);
+        if ($v != null) {
+            foreach ($v->produits as $achat) {
+                AchatProduit::find($achat->pivot?->id)?->delete();
+                $achat->quantite = $achat->quantite + $achat->pivot->quantite;
+                Produit::find($achat->id)?->update($achat->toArray());
+            }
+            foreach ($v->paiements as $paiement) {
+                PaiementAchat::find($paiement->id)?->delete();
+            }
+            $v->delete();
+        }
+        return $v;
     }
 }

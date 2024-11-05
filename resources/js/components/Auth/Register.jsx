@@ -76,7 +76,76 @@ function Register() {
 
     return (
         <>
-            <Card style={{ width: '18rem' }} className='w-75 position-absolute top-50 start-50 d-flex aligns-items-center  card translate-middle'>
+
+            <div class="row row-cols-1 row-cols-lg-4 gx-0">
+                <div class="col">
+                    <div class="card rounded-0">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h5 class="mb-4">Basic</h5>
+                                <h1 class="card-price"><span class="fs-6 text-secondary">$</span>49<span class="fs-6 text-secondary">/mo</span></h1>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>3 Months Support</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Demo Instalation</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Automatic Updates</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Theme Documentation</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Free Subdomain</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Community Access</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Dedicated Phone Support</li>
+                            </ul>
+                            <div class="text-center mt-3 d-grid d-lg-block">
+                                <a href="javascript:;" class="btn btn-outline-primary rounded-0 px-4 shadow">BUY NOW</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card rounded-0">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h5 class="mb-4">Small Business</h5>
+                                <h1 class="card-price"><span class="fs-6 text-secondary">$</span>299<span class="fs-6 text-secondary">/mo</span></h1>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>3 Months Support</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Demo Instalation</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Automatic Updates</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Theme Documentation</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Free Subdomain</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Community Access</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Dedicated Phone Support</li>
+                            </ul>
+                            <div class="text-center mt-3 d-grid d-lg-block">
+                                <a href="javascript:;" class="btn btn-outline-primary rounded-0 px-4 shadow">BUY NOW</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card rounded-0 border border-3 border-primary">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h5 class="mb-4">Professional</h5>
+                                <h1 class="card-price"><span class="fs-6 text-secondary">$</span>399<span class="fs-6 text-secondary">/mo</span></h1>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>3 Months Support</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Demo Instalation</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Automatic Updates</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Theme Documentation</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Free Subdomain</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Community Access</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle me-2"></i>Dedicated Phone Support</li>
+                            </ul>
+                            <div class="text-center mt-3 d-grid d-lg-block">
+                                <a href="javascript:;" class="btn btn-primary rounded-0 px-4 shadow">BUY NOW</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* <Card style={{ width: '18rem' }} className='w-75 position-absolute top-50 start-50 d-flex aligns-items-center  card translate-middle'>
 
                 <Card.Img variant="top" src={'/images/logo.jpg'} style={{ width: 200, marginLeft: 'auto', marginRight: 'auto' }} />
                 <Card.Body>
@@ -123,7 +192,7 @@ function Register() {
                         <span style={{ fontSize: 16, marginTop: 15 }}>connectez-vous <Link to={'/login'} style={{ fontWeight: 'bold' }}>ici</Link>  et commencez maintenant !</span>
                     </Form>
                 </Card.Body>
-            </Card>
+            </Card> */}
         </>
     )
 }

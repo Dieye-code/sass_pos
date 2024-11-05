@@ -103,5 +103,13 @@ class AchatController extends BaseController
         return response()->json($this->achatRepository->getAchatByIntervallee($request->debut ?? null, $request->fin ?? null));
     }
 
+    public function retour($id, Request $request)
+    {
+        DB::beginTransaction();
+        $v = $this->achatRepository->retour($id);
+        DB::commit();
+        responseFind($v);
+    }
+
     
 }
