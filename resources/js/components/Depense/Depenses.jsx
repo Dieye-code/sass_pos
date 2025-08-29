@@ -1,23 +1,54 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { baseApi } from '../../services/BaseService';
 import DataTable from 'react-data-table-component';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Form, Image, Modal } from 'react-bootstrap';
 import SaveDepenses from './SaveDepenses';
-import { formatDate } from '../../config/Env';
+import { Env, formatDate, getStorageLink } from '../../config/Env';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+
+const FilterComponent = ({ filterText, onFilter, onClear }) => (
+	<div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '10px' }}>
+		<Form.Control
+			id="search"
+			type="text"
+			placeholder="Filtrer par libellé"
+			aria-label="Search Input"
+			value={filterText}
+			onChange={onFilter}
+		/>
+		<Button variant="outline-secondary" type="button" onClick={onClear}>
+			X
+		</Button>
+	</div>
+);
 
 function Depenses() {
 
 
-    const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+    const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
     const navigate = useNavigate();
 
     const columns = [
         {
             name: 'Libelle',
-            selector: row => row.libelle,
+            selector: row => {
+                return <>
+                    {row.libelle}
+                    <Image 
+                        src={getStorageLink(row.pieces_justificatifs)} 
+                        width='30' 
+                        roundedCircle 
+                        style={{objectFit: 'cover', marginLeft: '10px', cursor: 'pointer'}} 
+                        onClick={() => {
+                            setSelectedPiece(row.pieces_justificatifs);
+                            setShowPiece(true);
+                        }}
+                    />
+                </>
+            },
             sortable: true,
+            grow: 2
         },
         {
             name: 'Montant Total',
@@ -47,16 +78,27 @@ function Depenses() {
         rangeSeparatorText: 'sur',
     };
 
+    const [filterText, setFilterText] = useState('');
+    const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+    const [filteredItems, setFilteredItems] = useState([]);
     const [show, setShow] = useState(false);
     const [depenses, setDepenses] = useState([]);
     const [depense, setDepense] = useState({ libelle: "", montant: 0, date: "" });
+    const [showPiece, setShowPiece] = useState(false);
+    const [selectedPiece, setSelectedPiece] = useState("");
     useEffect(() => {
-        if (decoded.role != 'admin')
+		if(decoded == null)
+			return navigate("/login")
+        if (decoded?.role != 'admin')
             return navigate(-1);
         baseApi.get("depenses").then((response) => {
             setDepenses(response.data.reverse());
         })
     }, [show])
+
+    useEffect(() => {
+        setFilteredItems(depenses.filter(item => item.libelle && item.libelle.toLowerCase().includes(filterText.toLowerCase())));
+    }, [filterText, depenses])
 
     const init = () => {
         setDepense({ libelle: "", montant: 0, date: "" });
@@ -105,8 +147,26 @@ function Depenses() {
     };
     const handleShow = () => setShow(true);
 
+    const SubHeaderComponentMemo = useMemo(() => {
+        const handleClear = () => {
+          if (filterText) {
+            setResetPaginationToggle(!resetPaginationToggle);
+            setFilterText('');
+          }
+        };
+        return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
+      }, [filterText, resetPaginationToggle]);
+
     return (
         <>
+            <Modal show={showPiece} onHide={() => setShowPiece(false)} size="lg" centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Pièce Justificative</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="text-center">
+                    <Image src={getStorageLink(selectedPiece)} style={{maxWidth: '100%', height: 'auto'}} />
+                </Modal.Body>
+            </Modal>
             <Button className='mb-3' variant="primary" onClick={handleShow}>Nouvelle Dépense</Button>
             <Modal show={show} size='lg' centered
                 onHide={handleClose}
@@ -123,8 +183,11 @@ function Depenses() {
             <DataTable
         noDataComponent="Pas de données trouvées"
                 columns={columns}
-                data={depenses}
+                data={filteredItems.length > 0 || filterText ? filteredItems : depenses}
                 pagination
+                subHeader={true}
+                subHeaderComponent={SubHeaderComponentMemo}
+                paginationResetDefaultPage={resetPaginationToggle}
                 paginationComponentOptions={paginationComponentOptions}
             />
         </>

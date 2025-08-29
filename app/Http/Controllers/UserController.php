@@ -60,7 +60,8 @@ class UserController extends Controller
             }
             return response()->json($errors, 400);
         }
-        return $this->userRepository->create(['nom' => $request->nom, 'telephone' => $request->telephone, 'password' => $request->password, 'role' => $request->role, 'abonnement_id' => Auth::user()?->abonnement_id]);
+
+        return $this->userRepository->create(['nom' => $request->nom, 'telephone' => $request->telephone, 'password' => $request->password, 'role' =>Auth::user()?->role == 'super admin' ? 'super admin' : $request->role, 'abonnement_id' => Auth::user()?->abonnement_id]);
     }
 
     public function update($id, Request $request)
@@ -94,7 +95,7 @@ class UserController extends Controller
             }
             return response()->json($errors, 400);
         }
-        $user = $this->userRepository->update($id, ['id' => $id, 'nom' => $request->nom, 'telephone' => $request->telephone, 'role' => $request->role, 'abonnement_id' => Auth::user()?->abonnement_id]);
+        $user = $this->userRepository->update($id, ['id' => $id, 'nom' => $request->nom, 'telephone' => $request->telephone, 'role' =>Auth::user()?->role == 'super admin' ? 'super admin' : $request->role, 'abonnement_id' => Auth::user()?->abonnement_id]);
         return responseFind($user);
     }
 

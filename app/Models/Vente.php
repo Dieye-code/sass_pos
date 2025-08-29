@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Vente extends BaseModel
 {
@@ -30,9 +31,16 @@ class Vente extends BaseModel
         return $this->hasMany(Paiementvente::class, 'vente_id');
     }
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
     public static function booted()
     {
         self::creating(function ($model) {
+
+            $model->user_id = Auth::user()?->id;
+
             $ventes = Vente::where('date', $model->date)->get()->last();
             if ($ventes != null) {
                 $numero = explode("-", $ventes->numero);
@@ -45,6 +53,18 @@ class Vente extends BaseModel
                 $model->numero = 'F00-' . str_replace("-", "", $model->date) . '-00001';
             }
             // $model->save();
+        });
+
+        self::deleting(function (Vente $model) {
+
+            $achats = VenteProduit::where('vente_id', $model->id)->get();
+            foreach ($achats as $p) {
+                $p->delete();
+            }
+            foreach ($model->paiements as $p) {
+                $p->delete();
+            }
+            
         });
     }
 }

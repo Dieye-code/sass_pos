@@ -22,16 +22,16 @@ class VenteRepository  extends BaseRepository implements VenteInterface
 
     public function getLatestVente()
     {
-        return Vente::with('produits')->with('client')->where('abonnement_id', Auth::user()?->abonnement_id)->orderBy('created_at', 'desc')->limit(10)->get();
+        return Vente::with('produits')->with('client')->with('user')->where('abonnement_id', Auth::user()?->abonnement_id)->orderBy('created_at', 'desc')->limit(10)->get();
     }
 
     public function getAll()
     {
-        return Vente::with('produits')->with('client')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
+        return Vente::with('produits')->with('client')->with('user')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function find($id)
     {
-        return Vente::where('id', $id)->with('client')->with('produits')->with('paiements')->first();
+        return Vente::where('id', $id)->with('client')->with('user')->with('produits')->with('paiements')->first();
     }
     public function delete($id)
     {
@@ -57,32 +57,32 @@ class VenteRepository  extends BaseRepository implements VenteInterface
 
     public function getVenteByClient($idClient)
     {
-        return Vente::with('produits')->with('paiements')->where('client_id', $idClient)->get();
+        return Vente::with('produits')->with('paiements')->where('abonnement_id', Auth::user()?->abonnement_id)->where('client_id', $idClient)->get();
     }
 
     public function getVenteWithPaiements()
     {
-        return Vente::with('paiements')->where('abonnement_id', Auth::user()?->abonnement_id)->with('client')->get();
+        return Vente::with('paiements')->where('abonnement_id', Auth::user()?->abonnement_id)->with('client')->with('user')->get();
     }
 
     public function getVenteDuMois()
     {
-        return Vente::whereRaw('DATEDIFF(NOW(), date) <= 30')->with('paiements')->with('client')->get();
+        return Vente::whereRaw('DATEDIFF(NOW(), date) <= 30')->where('abonnement_id', Auth::user()?->abonnement_id)->with('paiements')->with('client')->with('user')->get();
     }
 
     public function getVenteDuJour()
     {
-        return Vente::whereDate('date', Carbon::today())->with('paiements')->with('client')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
+        return Vente::whereDate('date', Carbon::today())->where('abonnement_id', Auth::user()?->abonnement_id)->with('paiements')->with('client')->with('user')->get();
     }
 
     public function getVenteDeLaSemaine()
     {
-        return Vente::whereRaw('DATEDIFF(NOW(), date) <= 7')->with('paiements')->with('client')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
+        return Vente::whereRaw('DATEDIFF(NOW(), date) <= 7')->where('abonnement_id', Auth::user()?->abonnement_id)->with('paiements')->with('client')->with('user')->get();
     }
 
     public function getVenteByIntervallee($debut, $fin)
     {
-        return Vente::with('paiements')->with('client')->whereBetween('date', [$debut, $fin])->where('abonnement_id', Auth::user()?->abonnement_id)->get();
+        return Vente::with('paiements')->with('client')->with('user')->whereBetween('date', [$debut, $fin])->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
 
     public function retour($id)

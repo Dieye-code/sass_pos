@@ -12,11 +12,6 @@ function NewAbonnement() {
             sortable: true,
         },
         {
-            name: 'Type',
-            selector: row => row.type?.libelle,
-            sortable: true,
-        },
-        {
             name: 'Adresse',
             selector: row => row.adresse,
             sortable: true,
@@ -56,7 +51,6 @@ function NewAbonnement() {
 
 
     const activer = function (id) {
-        console.log(id);
 
         swal({
             title: "Voulez-vous activé l'abonnement de ce boutique?",

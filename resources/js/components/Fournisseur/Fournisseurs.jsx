@@ -1,15 +1,34 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import DataTable from 'react-data-table-component';
 import Savefournisseur from './SaveFournisseur';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { Link, useNavigate } from 'react-router-dom';
 import { baseApi } from '../../services/BaseService';
 import { jwtDecode } from 'jwt-decode';
 
+
+
+const FilterComponent = ({ filterText, onFilter, onClear }) => (
+	<div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '10px' }}>
+		<Form.Control
+			id="search"
+			type="text"
+			placeholder="Filtrer par nom"
+			aria-label="Search Input"
+			value={filterText}
+			onChange={onFilter}
+		/>
+		<Button variant="outline-secondary" type="button" onClick={onClear}>
+			X
+		</Button>
+	</div>
+);
+
+
 function Fournisseurs() {
 
-	const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+	const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
 	const navigate = useNavigate();
 
 	const columns = [
@@ -49,16 +68,29 @@ function Fournisseurs() {
 		rowsPerPageText: 'lignes par page',
 		rangeSeparatorText: 'sur',
 	};
+
+	const [filterText, setFilterText] = useState('');
+	const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+	const [filteredItems, setFilteredItems] = useState([]);
 	const [show, setShow] = useState(false);
 	const [fournisseurs, setFournisseurs] = useState([]);
 	const [fournisseur, setFournisseur] = useState({ nom: "", telephone: "", adresse: "" });
 	useEffect(() => {
-		if (decoded.role != 'admin')
+		if (decoded == null)
+			return navigate("/login");
+		if (decoded?.role != 'admin')
 			return navigate(-1);
 		baseApi.get("fournisseurs").then((response) => {
 			setFournisseurs(response.data);
 		})
 	}, [show])
+
+
+	useEffect(() => {
+		setFilteredItems(fournisseurs.filter(item =>
+			(item.nom && item.nom.toLowerCase().includes(filterText.toLowerCase()))
+		));
+	}, [filterText, fournisseurs])
 
 	const initfournisseur = () => {
 		setFournisseur({ nom: "", telephone: "", adresse: "" });
@@ -110,6 +142,17 @@ function Fournisseurs() {
 	};
 	const handleShow = () => setShow(true);
 
+
+	const SubHeaderComponentMemo = useMemo(() => {
+		const handleClear = () => {
+			if (filterText) {
+				setResetPaginationToggle(!resetPaginationToggle);
+				setFilterText('');
+			}
+		};
+		return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
+	}, [filterText, resetPaginationToggle]);
+
 	return (
 		<>
 			<Button className='mb-3' variant="primary" onClick={handleShow}>Nouveau fournisseur</Button>
@@ -126,10 +169,12 @@ function Fournisseurs() {
 				</Modal.Body>
 			</Modal>
 			<DataTable
-        noDataComponent="Pas de données trouvées"
+				noDataComponent="Pas de données trouvées"
 				columns={columns}
-				data={fournisseurs}
+				data={filteredItems.length > 0 || filterText ? filteredItems : fournisseurs}
 				pagination
+				subHeader={true}
+				subHeaderComponent={SubHeaderComponentMemo}
 				paginationComponentOptions={paginationComponentOptions}
 			/>
 		</>

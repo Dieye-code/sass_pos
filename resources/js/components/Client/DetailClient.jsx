@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 
 function DetailClient() {
 
-  const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+  const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
   const navigate = useNavigate();
 
   const columns = [
@@ -82,7 +82,9 @@ function DetailClient() {
 
 
   useEffect(() => {
-    if (decoded.role != 'admin')
+    if ( decoded == null)
+        return navigate("/login");
+    if (decoded?.role != 'admin')
       return navigate(-1);
     baseApi.get(`clients/${id}/details`).then(response => {
       setClient(response?.data?.client);
@@ -95,7 +97,6 @@ function DetailClient() {
       settotalCreances(montant);
       setPaiement({ ...paiement, ['montant']: montant })
     }).catch(error => {
-      console.log(error)
     }
     )
   }, [show])
@@ -133,7 +134,6 @@ function DetailClient() {
           //     buttons: true,
           //     showCancelButton: false,
           // });
-          console.log(error.response.data);
         }
       )
     }

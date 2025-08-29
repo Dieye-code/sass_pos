@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
 import { baseApi } from '../../services/BaseService';
@@ -6,10 +6,28 @@ import Facture from './Facture';
 import { BlobProvider, PDFViewer } from '@react-pdf/renderer';
 import { formatDate } from '../../config/Env';
 import { jwtDecode } from 'jwt-decode';
+import { Button, Form } from 'react-bootstrap';
+
+
+const FilterComponent = ({ filterText, onFilter, onClear }) => (
+  <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '10px' }}>
+    <Form.Control
+      id="search"
+      type="text"
+      placeholder="Filtrer par client ou date"
+      aria-label="Search Input"
+      value={filterText}
+      onChange={onFilter}
+    />
+    <Button variant="outline-secondary" type="button" onClick={onClear}>
+      X
+    </Button>
+  </div>
+);
 
 function Ventes() {
 
-  const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+  const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
 
   const columns = [
     {
@@ -28,7 +46,13 @@ function Ventes() {
       sortable: true,
     },
     {
+      name: 'Vendeur',
+      selector: row => row.user?.nom,
+      sortable: true,
+    },
+    {
       name: 'Etat',
+      grow: 2,
       selector: row => {
 
         if (row.etat === "en attente") {
@@ -54,7 +78,7 @@ function Ventes() {
               <Link to={`/ventes/${row.id}/details`} >
                 <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
               </Link>
-              {decoded.role == 'admin' ?
+              {decoded?.role == 'admin' ?
                 <span className='text-danger btn' onClick={() => retour(row)}><i className='bi bi-cart-x fs-5'></i> </span>
                 : <></>}
             </>
@@ -69,12 +93,26 @@ function Ventes() {
     rowsPerPageText: 'lignes par page',
     rangeSeparatorText: 'sur',
   };
+  
+  
+    const [filterText, setFilterText] = useState('');
+    const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+    const [filteredItems, setFilteredItems] = useState([]);
   const [ventes, setVentes] = useState([]);
   useEffect(() => {
+    if ( decoded == null)
+        return navigate("/login");
     baseApi.get("ventes").then((response) => {
       setVentes(response.data.reverse());
     })
   }, [])
+  
+    useEffect(() => {
+      setFilteredItems(ventes.filter(item => 
+        (item.date && formatDate(item.date).toLowerCase().includes(filterText.toLowerCase())) || 
+        (item.client?.nom && item.client?.nom.toLowerCase().includes(filterText.toLowerCase()))
+      ));
+    }, [filterText, ventes])
 
 
 
@@ -111,6 +149,16 @@ function Ventes() {
       });
   }
 
+  const SubHeaderComponentMemo = useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+    return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
+  }, [filterText, resetPaginationToggle]);
+
   return (
     <>
       <span className="btn btn-primary text-white  mb-2">
@@ -119,8 +167,10 @@ function Ventes() {
       <DataTable
         noDataComponent="Pas de données trouvées"
         columns={columns}
-        data={ventes}
+        data={filteredItems.length > 0 || filterText ? filteredItems : ventes}
         pagination
+        subHeader={true}
+        subHeaderComponent={SubHeaderComponentMemo}
         paginationComponentOptions={paginationComponentOptions}
       />
     </>

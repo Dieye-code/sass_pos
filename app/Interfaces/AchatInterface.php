@@ -12,5 +12,4 @@ interface AchatInterface extends BaseInterface
     public function getAchatDuMois();
     public function getAchatDeLaSemaine();
     public function getAchatByIntervallee($debut, $fin);
-    public function retour($id);
 }

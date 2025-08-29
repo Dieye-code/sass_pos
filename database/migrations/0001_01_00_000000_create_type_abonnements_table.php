@@ -13,18 +13,12 @@ return new class extends Migration
     {
         Schema::create('type_abonnements', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('libelle', 45)->nullable()->after('id');
             $table->unsignedInteger('inscription')->default(0);
             $table->unsignedInteger('mensualite')->default(0);
             $table->unsignedInteger('mois_reduit_anne')->default(2);
             $table->unsignedInteger('nombre_utilisateur')->default(1);
             $table->unsignedInteger('nombre_produit')->default(1);
             $table->timestamps();
-        });
-        Schema::table('abonnements', function (Blueprint $table) {
-            if (!Schema::hasColumn('abonnements', 'type_abonnement_id')) {
-                $table->foreignUuid('type_abonnement_id')->nullable()->constrained('type_abonnements');
-            }
         });
     }
 

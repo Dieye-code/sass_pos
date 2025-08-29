@@ -1,14 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { baseApi } from '../../services/BaseService';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { formatDate } from '../../config/Env';
 import { jwtDecode } from 'jwt-decode';
 
+
+const FilterComponent = ({ filterText, onFilter, onClear }) => (
+  <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '10px' }}>
+    <Form.Control
+      id="search"
+      type="text"
+      placeholder="Filtrer par libellé"
+      aria-label="Search Input"
+      value={filterText}
+      onChange={onFilter}
+    />
+    <Button variant="outline-secondary" type="button" onClick={onClear}>
+      X
+    </Button>
+  </div>
+);
+
 function Achats() {
 
-  const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+  const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
+  const navigate = useNavigate();
+
 
   const columns = [
     {
@@ -36,9 +55,6 @@ function Achats() {
             <Link to={`/achats/${row.id}/details`} >
               <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
             </Link>
-              {decoded.role == 'admin' ?
-                <span className='text-danger btn' onClick={() => retour(row)}><i className='bi bi-cart-x fs-5'></i> </span>
-                : <></>}
           </>
         } else {
           if (row.etat == "en cours") {
@@ -47,9 +63,6 @@ function Achats() {
               <Link to={`/achats/${row.id}/details`} >
                 <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
               </Link>
-              {decoded.role == 'admin' ?
-                <span className='text-danger btn' onClick={() => retour(row)}><i className='bi bi-cart-x fs-5'></i> </span>
-                : <></>}
             </>
           } else {
             return <>
@@ -57,9 +70,6 @@ function Achats() {
               <Link to={`/achats/${row.id}/details`} >
                 <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
               </Link>
-              {decoded.role == 'admin' ?
-                <span className='text-danger btn' onClick={() => retour(row)}><i className='bi bi-cart-x fs-5'></i> </span>
-                : <></>}
 
             </>
 
@@ -82,13 +92,31 @@ function Achats() {
     rowsPerPageText: 'lignes par page',
     rangeSeparatorText: 'sur',
   };
+
+  const [filterText, setFilterText] = useState('');
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [achats, setAchats] = useState([]);
   useEffect(() => {
+
+    if (decoded == null)
+      return navigate("/login")
+
+    if (decoded?.role != 'admin')
+      return navigate(-1);
+
     document.title = "Achat produit"
     baseApi.get("achats").then((response) => {
       setAchats(response.data.reverse())
     })
   }, [])
+
+  useEffect(() => {
+    setFilteredItems(achats.filter(item => 
+      (item.date && formatDate(item.date).toLowerCase().includes(filterText.toLowerCase())) || 
+      (item.fournisseur?.nom && item.fournisseur?.nom.toLowerCase().includes(filterText.toLowerCase()))
+    ));
+  }, [filterText, achats])
 
   const deleteAchat = (c) => {
     swal({
@@ -124,42 +152,15 @@ function Achats() {
       });
   }
 
-  
-
-  const retour = (c) => {
-    swal({
-      title: "Voulez-vous retourner cette achat?",
-      icon: "error",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          baseApi.delete('/achats/' + c.id + '/retour').then((response) => {
-            if (response.status === 200) {
-              swal("L'achat a été bien retourner", {
-                icon: "success",
-              }).then(() => {
-
-                baseApi.get("achats").then((data) => {
-                  setVentes(data.data);
-                })
-              });
-            } else {
-              swal("Erreur lors du retour de la vente", {
-                icon: "error",
-              });
-            }
-          }).catch((error) => {
-            swal("Erreur au niveau du serveur", {
-              icon: "error",
-            });
-          })
-        }
-      });
-  }
-
-
+  const SubHeaderComponentMemo = useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+    return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
+  }, [filterText, resetPaginationToggle]);
 
   return (
     <>
@@ -167,8 +168,12 @@ function Achats() {
       <DataTable
         noDataComponent="Pas de données trouvées"
         columns={columns}
-        data={achats}
+
+        data={filteredItems.length > 0 || filterText ? filteredItems : achats}
         pagination
+        subHeader={true}
+        subHeaderComponent={SubHeaderComponentMemo}
+
         paginationComponentOptions={paginationComponentOptions}
       />
     </>

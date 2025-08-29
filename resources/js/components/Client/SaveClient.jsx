@@ -32,7 +32,6 @@ function SaveClient({ setShowModal, newClient = { nom: "", telephone: '' } }) {
           }
         ).catch(
           (error) => {
-            console.log(error);
             // for (const key in error.response.data.errors) {
             //   if (Object.hasOwnProperty.call(error.response.data.errors, key)) {
             //     const element = error.response.data.errors[key];

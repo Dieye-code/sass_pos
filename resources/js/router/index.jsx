@@ -25,11 +25,10 @@ import Logout from '../components/Auth/Logout';
 import Rapports from '../components/Rapport/Rapports';
 import Abonnements from '../components/Abonnement/Abonnements';
 import Dashboard from '../components/Dashboard';
-import ChangePassword from '../components/Auth/ChangePassword';
 import NewAbonnement from '../components/Abonnement/NewAbonnement';
 import Depenses from '../components/Depense/Depenses';
 import Users from '../components/User/Users';
-import TypeAbonnements from '../components/TypeAbonnement/TypeAbonnements';
+import ChangePassword from '../components/Abonnement/ChangePassword';
 
 function Router(props) {
 
@@ -63,12 +62,12 @@ function Router(props) {
                     element: <Rapports />,
                 },
                 {
-                    path: "/abonnements",
-                    element: <Abonnements />,
+                    path: "/abonnements/:id/change-password",
+                    element: <ChangePassword />,
                 },
                 {
-                    path: "/type-abonnements",
-                    element: <TypeAbonnements />,
+                    path: "/abonnements",
+                    element: <Abonnements />,
                 },
                 {
                     path: "/new-abonnement",

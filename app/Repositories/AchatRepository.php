@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Interfaces\AchatInterface;
 use App\Models\Achat;
 use App\Models\AchatProduit;
-use App\Models\PaiementAchat;
 use App\Models\Produit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -57,44 +56,26 @@ class AchatRepository extends BaseRepository implements AchatInterface
 
     public function getAchatByFournisseur($idFournisseur)
     {
-        return Achat::with('produits')->with('paiements')->where('fournisseur_id', $idFournisseur)->get();
+        return Achat::with('produits')->with('paiements')->where('fournisseur_id', $idFournisseur)->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
 
     public function getAchatWithPaiements(){
-        return Achat::with('paiements')->with('fournisseur')->get();
+        return Achat::with('paiements')->with('fournisseur')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function getAchatDuJour()
     {
-        return Achat::whereDate('date', Carbon::today())->with('paiements')->with('fournisseur')->get();
+        return Achat::whereDate('date', Carbon::today())->with('paiements')->with('fournisseur')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function getAchatDuMois()
     {
-        return Achat::whereRaw('DATEDIFF(NOW(), date) <= 30')->with('paiements')->with('fournisseur')->get();
+        return Achat::whereRaw('DATEDIFF(NOW(), date) <= 30')->with('paiements')->with('fournisseur')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function getAchatDeLaSemaine()
     {
-        return Achat::whereRaw('DATEDIFF(NOW(), date) <= 7')->with('paiements')->with('fournisseur')->get();
+        return Achat::whereRaw('DATEDIFF(NOW(), date) <= 7')->with('paiements')->with('fournisseur')->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
     public function getAchatByIntervallee($debut, $fin)
     {
-        return Achat::with('paiements')->with('fournisseur')->whereBetween('date', [$debut, $fin])->get();
-    }
-    
-
-    public function retour($id)
-    {
-        $v = Achat::find($id);
-        if ($v != null) {
-            foreach ($v->produits as $achat) {
-                AchatProduit::find($achat->pivot?->id)?->delete();
-                $achat->quantite = $achat->quantite + $achat->pivot->quantite;
-                Produit::find($achat->id)?->update($achat->toArray());
-            }
-            foreach ($v->paiements as $paiement) {
-                PaiementAchat::find($paiement->id)?->delete();
-            }
-            $v->delete();
-        }
-        return $v;
+        return Achat::with('paiements')->with('fournisseur')->whereBetween('date', [$debut, $fin])->where('abonnement_id', Auth::user()?->abonnement_id)->get();
     }
 }
