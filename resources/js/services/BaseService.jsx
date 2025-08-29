@@ -41,11 +41,16 @@ baseApi.interceptors.response.use(
       originalRequest.url == `auth/refresh`
     ) {
       localStorage.removeItem('token');
+      localStorage.removeItem('abonnement_adresse');
+      localStorage.removeItem('abonnement_logo');
+      localStorage.removeItem('abonnement_nom');
+      localStorage.removeItem('abonnement_telephone');
+      localStorage.removeItem('nom');
       window.location.href = '/login'
       return Promise.reject(error)
     }
 
-    if (error.response.status === 401 && !originalRequest._retry &&  originalRequest.url != "login") {
+    if (error.response.status === 401 && !originalRequest._retry ) {
       originalRequest._retry = true
       const refreshToken = getAccessToken()
       baseApi.get('auth/refresh').then(res => {
@@ -59,12 +64,29 @@ baseApi.interceptors.response.use(
             return baseApi(originalRequest);
           } else {
             localStorage.removeItem('token');
+            localStorage.removeItem('abonnement_adresse');
+            localStorage.removeItem('abonnement_logo');
+            localStorage.removeItem('abonnement_nom');
+            localStorage.removeItem('abonnement_telephone');
+            localStorage.removeItem('nom');
             window.location.href = '/login'
           }
 
           return Promise.reject(error)
         }
-      })
+      });
+      
+    
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('abonnement_adresse');
+      localStorage.removeItem('abonnement_logo');
+      localStorage.removeItem('abonnement_nom');
+      localStorage.removeItem('abonnement_telephone');
+      localStorage.removeItem('nom');
+      window.location.href = '/login';
+      return Promise.reject(error);
+    }
 
     }
     return Promise.reject(error)

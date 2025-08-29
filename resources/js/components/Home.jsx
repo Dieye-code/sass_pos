@@ -12,7 +12,7 @@ function Home() {
   const matches = useMediaQuery('(min-width:768px)');
   const matchess = useMediaQuery('(min-width:768px)');
 
-  const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+  const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
   const navigate = useNavigate();
 
   const [ventes, setVentes] = useState([]);
@@ -24,8 +24,10 @@ function Home() {
   const [depenses, setDepenses] = useState([]);
 
   useEffect(() => {
+    if (decoded == null)
+      return navigate("/login");
 
-    if (decoded.role == 'super admin') {
+    if (decoded?.role == 'super admin') {
       navigate('/dashboard');
       return;
     }
@@ -112,7 +114,7 @@ function Home() {
             </div>
           </div>
         </div>
-        {decoded.role == 'admin' ?
+        {decoded?.role == 'admin' ?
           <div className="col">
             <div className="card radius-10">
               <div className="card-body">
@@ -135,7 +137,7 @@ function Home() {
           : <></>}
       </div>
 
-      {decoded.role != 'super admin' ?
+      {decoded?.role != 'super admin' ?
         <>
           <Row>
             <Col md="6" className='mt-2' style={!matches ? { maxHeight: "300px", overflowY: 'auto' } : { height: 'auto' }}>
@@ -176,42 +178,45 @@ function Home() {
                 </tbody>
               </Table>
             </Col>
-            <Col md="6" className='mt-2' style={!matches ? { maxHeight: "300px", overflowY: 'auto' } : { height: 'auto' }}>
-              <span className="btn btn-primary text-white mb-3"><Link className='text-white' to={'/achats'}>Achats</Link> </span>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Fournisseur</th>
-                    <th>Montant</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {achats.map(e => {
-                    return (
-                      <tr>
-                        <td>{formatDate(e.date)}</td>
-                        <td>
-                          <span className='text-primary btn' >
-                            <Link to={'/fournisseurs/' + e.fournisseur?.id + '/details'} >{e.fournisseur?.nom}</Link>
-                          </span>
-                        </td>
-                        <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success'}>
-                          {Intl.NumberFormat().format(e.montant_total)} Francs CFA
-                        </td>
-                        <td>
-                          <Link to={`/achats/${e.id}/details`} >
-                            <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
-                          </Link>
-                          {/* <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span> */}
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </Table>
-            </Col>
+            {decoded?.role == 'admin' ? <>
+
+              <Col md="6" className='mt-2' style={!matches ? { maxHeight: "300px", overflowY: 'auto' } : { height: 'auto' }}>
+                <span className="btn btn-primary text-white mb-3"><Link className='text-white' to={'/achats'}>Achats</Link> </span>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Fournisseur</th>
+                      <th>Montant</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {achats.map(e => {
+                      return (
+                        <tr>
+                          <td>{formatDate(e.date)}</td>
+                          <td>
+                            <span className='text-primary btn' >
+                              <Link to={'/fournisseurs/' + e.fournisseur?.id + '/details'} >{e.fournisseur?.nom}</Link>
+                            </span>
+                          </td>
+                          <td className={e.etat == 'en attente' ? 'text-danger' : e.etat == 'en cours' ? 'text-warning' : 'text-success'}>
+                            {Intl.NumberFormat().format(e.montant_total)} Francs CFA
+                          </td>
+                          <td>
+                            <Link to={`/achats/${e.id}/details`} >
+                              <span className='text-primary btn'><i className='bi bi-cash-coin'></i> </span>
+                            </Link>
+                            {/* <span className='text-primary btn'><i className='bi bi-file-earmark-text'></i> </span> */}
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </Table>
+              </Col>
+            </> : <></>}
           </Row>
         </> : <></>}
 

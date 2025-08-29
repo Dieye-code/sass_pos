@@ -1,15 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import SaveClient from './SaveClient';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { baseApi } from '../../services/BaseService';
 import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
+
+const FilterComponent = ({ filterText, onFilter, onClear }) => (
+  <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '10px' }}>
+	<Form.Control
+	  id="search"
+	  type="text"
+	  placeholder="Filtrer par nom"
+	  aria-label="Search Input"
+	  value={filterText}
+	  onChange={onFilter}
+	/>
+	<Button variant="outline-secondary" type="button" onClick={onClear}>
+	  X
+	</Button>
+  </div>
+);
+
 function Clients() {
 
-    const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
-    const navigate = useNavigate();
+	const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
+	const navigate = useNavigate();
 
 	const columns = [
 		{
@@ -42,16 +59,28 @@ function Clients() {
 		rowsPerPageText: 'lignes par page',
 		rangeSeparatorText: 'sur',
 	};
+
+	const [filterText, setFilterText] = useState('');
+	const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+	const [filteredItems, setFilteredItems] = useState([]);
 	const [show, setShow] = useState(false);
 	const [clients, setClients] = useState([]);
 	const [client, setClient] = useState({ nom: "", telephone: "" });
 	useEffect(() => {
-        if (decoded.role != 'admin')
-            return navigate(-1);
+		if (decoded == null)
+			return navigate("/login")
+		if (decoded?.role != 'admin')
+			return navigate(-1);
 		baseApi.get("clients").then((response) => {
 			setClients(response.data);
 		})
 	}, [show])
+
+	useEffect(() => {
+		setFilteredItems(clients.filter(item =>
+			(item.nom && item.nom.toLowerCase().includes(filterText.toLowerCase()))
+		));
+	}, [filterText, clients])
 
 	const initClient = () => {
 		setClient({ nom: "", telephone: "" });
@@ -103,7 +132,15 @@ function Clients() {
 	};
 	const handleShow = () => setShow(true);
 
-
+	const SubHeaderComponentMemo = useMemo(() => {
+		const handleClear = () => {
+			if (filterText) {
+				setResetPaginationToggle(!resetPaginationToggle);
+				setFilterText('');
+			}
+		};
+		return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
+	}, [filterText, resetPaginationToggle]);
 	return (
 		<>
 			<Button className='mb-3' variant="primary" onClick={handleShow}>Nouveau client</Button>
@@ -120,10 +157,14 @@ function Clients() {
 				</Modal.Body>
 			</Modal>
 			<DataTable
-        noDataComponent="Pas de données trouvées"
+				noDataComponent="Pas de données trouvées"
 				columns={columns}
-				data={clients}
+
+				data={filteredItems.length > 0 || filterText ? filteredItems : clients}
 				pagination
+				subHeader={true}
+				subHeaderComponent={SubHeaderComponentMemo}
+
 				paginationComponentOptions={paginationComponentOptions}
 			/>
 		</>

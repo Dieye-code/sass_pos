@@ -7,7 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 
 function RapportVentes() {
 
-    const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+    const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
 
     const columns = [
         {
@@ -53,6 +53,8 @@ function RapportVentes() {
     const [totalPaye, setTotalPaye] = useState(0);
 
     useEffect(() => {
+        if ( decoded == null)
+            return navigate("/login");
         getVente('jour');
         setShow(false);
     }, []);
@@ -115,7 +117,7 @@ function RapportVentes() {
     return (
         <>
             {
-                decoded.role == 'admin' ?
+                decoded?.role == 'admin' ?
                     <div key="inline-radio" className="mb-3">
                         <Form.Check inline label="Jour" name="filter" type='radio' id="jour" value={"jour"} onChange={(e) => onInputChange(e)} />
                         <Form.Check inline label="Semaine" name="filter" type='radio' id="semaine" value={"semaine"} onChange={(e) => onInputChange(e)} />

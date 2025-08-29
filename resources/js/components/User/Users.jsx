@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Users() {
 
-  const decoded = jwtDecode(localStorage.getItem("token" ?? ""));
+  const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
   const navigate = useNavigate();
 
   const columns = [
@@ -34,12 +34,12 @@ function Users() {
 
           return <>
             <span className='text-success'>Actif</span>
-            <span className='text-danger btn' onClick={() => arrete(row.id)}><i className='bi bi-file-x-fill'></i> </span>
+            {row.role != 'admin' ? <span className='text-danger btn' onClick={() => arrete(row.id)}><i className='bi bi-file-x-fill'></i> </span> : <></>}
           </>
         } else {
           return <>
             <span className='text-danger'>Inactif</span>
-            <span className='text-success btn' onClick={() => reactive(row.id)}><i className='bi bi-file-check-fill'></i> </span>
+            {row.role != 'admin' ? <span className='text-success btn' onClick={() => reactive(row.id)}><i className='bi bi-file-check-fill'></i> </span> : <></>}
           </>
         }
       },
@@ -48,11 +48,13 @@ function Users() {
     {
       name: 'Edit',
       cell: row => (<>
-        <span className='text-primary btn' onClick={() => editUser(row)}>
-          <i className="bi bi-pencil m-r-5"></i></span>
-        <span className='text-danger btn' onClick={() => {
+        {row.role == 'admin' || row.role == 'super admin' ? <>
+          <span className='text-primary btn' onClick={() => editUser(row)}>
+            <i className="bi bi-pencil m-r-5"></i></span>
+        </> : <></>}
+        {row.role != 'admin' && row.role != 'super admin' ? <span className='text-danger btn' onClick={() => {
           deleteUser(row)
-        }}><i className="bi bi-trash m-r-5"></i></span>
+        }}><i className="bi bi-trash m-r-5"></i></span> : <></>}
       </>
       )
     },
@@ -66,8 +68,10 @@ function Users() {
   const [user, setUser] = useState({ nom: "", telephone: "", password: '', role: "vendeur" });
 
   useEffect(() => {
-    if (decoded.role != 'admin')
-      return navigate(-1);
+    if (decoded == null)
+      return navigate("/login");
+    // if (decoded?.role != 'admin')
+    //   return navigate(-1);
     document.title = "utilisateurs"
     baseApi.get("users").then((response) => {
       setUsers(response.data);
@@ -86,7 +90,6 @@ function Users() {
   const editUser = (r) => {
     setShow(true);
     setUser(r);
-    console.log(r);
 
   }
 
@@ -97,7 +100,6 @@ function Users() {
   }
 
   const arrete = function (id) {
-    console.log(id);
 
     swal({
       title: "Voulez-vous désactiver cet utilisateur?",

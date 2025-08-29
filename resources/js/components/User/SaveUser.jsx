@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Button, Form, FormGroup, Row, Spinner } from 'react-bootstrap';
 import { baseApi } from '../../services/BaseService';
+import { jwtDecode } from 'jwt-decode';
 
 function SaveUser({ setShowModal, newUser = { nom: "", telephone: "", password: '', role: "vendeur" } }) {
 
 
+    const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
 
     const [user, setUser] = useState(newUser);
     const [validated, setValidated] = useState(false);
@@ -20,13 +22,13 @@ function SaveUser({ setShowModal, newUser = { nom: "", telephone: "", password: 
     const handleSubmit = async (e) => {
         setLoad(true);
         e.preventDefault();
-        console.log(user);
-
+        
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
             e.stopPropagation();
         } else {
             try {
+
                 if (user.id == undefined) {
                     baseApi.post('users', user).then((result) => {
                         setShowModal(false)
@@ -58,13 +60,16 @@ function SaveUser({ setShowModal, newUser = { nom: "", telephone: "", password: 
                         <Form.Label>Téléphone</Form.Label>
                         <Form.Control required name='telephone' value={user.telephone} onChange={(e) => onInputChange(e)} type='text' ></Form.Control>
                     </FormGroup>
-                    <FormGroup>
+                    {decoded?.role == 'admin' ? <>
+                        <FormGroup>
                         <Form.Label>Role</Form.Label>
                         <Form.Select size="sm" name='role' value={user.role} onChange={(e) => onInputChange(e)}>
                             <option value={'vendeur'}>vendeur</option>
                             <option value={'admin'}>admin</option>
                         </Form.Select>
                     </FormGroup>
+                    </> : <></>}
+                    
                     {user.id == undefined || user.id == null ? <>
                         <FormGroup>
                             <Form.Label>Password</Form.Label>

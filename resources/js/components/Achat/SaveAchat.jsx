@@ -7,11 +7,14 @@ import Select from 'react-select';
 import SaveFournisseur from '../Fournisseur/SaveFournisseur';
 import { Env } from '../../config/Env';
 import SaveProduit from '../Produit/SaveProduit';
+import { jwtDecode } from 'jwt-decode';
 
 function SaveAchat() {
 
-    // const id = useParams();
+    const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
     const navigate = useNavigate();
+
+    // const id = useParams();
     const [achat, setAchat] = useState({ date: '', fournisseur_id: '', paiement: 0, montant_paye: 0, facture: null });
     const [fournisseurs, setFournisseurs] = useState([]);
     const [produits, setProduits] = useState([]);
@@ -26,6 +29,15 @@ function SaveAchat() {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
+
+
+        if (decoded == null)
+            return navigate("/login")
+
+        if (decoded?.role != 'admin')
+            return navigate(-1);
+
+
         baseApi.get('fournisseurs').then(response => {
             setFournisseurs(response.data);
 
@@ -333,9 +345,6 @@ function SaveAchat() {
                 <div>
                     <Button className='mt-3' type="submit" disabled={load}>
                         {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
-                    </Button>
-                    <Button className='mt-3 mx-3' type="submit" disabled={load}>
-                        {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer et Imprimer</span>}
                     </Button>
                 </div>
             </Form>

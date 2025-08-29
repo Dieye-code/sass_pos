@@ -3,7 +3,7 @@ import { baseApi } from '../../services/BaseService';
 import { Button, Col, Form, FormGroup, Row } from 'react-bootstrap';
 
 function SaveDepenses({ setShowModal,
-    newDepense = { libelle: "", montant: 0, date: "" }
+    newDepense = { libelle: "", montant: 0, date: "", pieces_justificatifs: null }
 }) {
 
 
@@ -16,7 +16,25 @@ function SaveDepenses({ setShowModal,
         setDepense({ ...depense, [e.target.name]: e.target.value })
     }
     const initDepense = () => {
-        setDepense({ libelle: "", montant: 0, date: "" });
+        setDepense({ libelle: "", montant: 0, date: "", pieces_justificatifs: null });
+    }
+    
+    const HandleChangeFile = (e) => {
+        const imageFile = e.target.files[0];
+        if (!imageFile.name.match(/\.(jpg|jpeg|png)$/)) {
+            swal({
+                text: "La piéce justificatif doit etre une image!",
+                icon: "info",
+                buttons: true,
+                showCancelButton: false,
+            });
+            e.value = '';
+            e.target.value = '';
+            e.preventDefault();
+            return;
+        }
+        
+        imageFile ? setDepense({ ...depense, ['pieces_justificatifs']: imageFile }) : '';
     }
 
     const handleSubmit = (event) => {
@@ -26,8 +44,20 @@ function SaveDepenses({ setShowModal,
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
+            
+
+            var formData = new FormData();
+            formData.append('date', depense.date);
+            formData.append('libelle', depense.libelle);
+            formData.append('montant', depense.montant);
+            depense.pieces_justificatifs ? formData.append('pieces_justificatifs', depense.pieces_justificatifs) : '';
+
             if (depense.id === undefined) {
-                baseApi.post("depenses", depense).then(
+                baseApi.post("depenses",  formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(
                     (response) => {
                         setShowModal(false);
                     }
@@ -43,7 +73,11 @@ function SaveDepenses({ setShowModal,
                 )
             } else {
 
-                baseApi.put("depenses/" + depense.id, depense).then(
+                baseApi.post("depenses/" + depense.id, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(
                     (response) => {
                         setShowModal(false);
                     }
@@ -68,17 +102,22 @@ function SaveDepenses({ setShowModal,
         <>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row>
-                    <FormGroup as={Col} >
+                    <FormGroup >
                         <Form.Label>Libelle</Form.Label>
                         <Form.Control required name='libelle' value={depense.libelle} onChange={(e) => onInputChange(e)} type='text' ></Form.Control>
                     </FormGroup>
-                    <FormGroup as={Col}>
+                    <FormGroup >
                         <Form.Label>Montant</Form.Label>
                         <Form.Control required name='montant' value={depense.montant} onChange={(e) => onInputChange(e)} type='number' ></Form.Control>
                     </FormGroup>
-                    <FormGroup as={Col}>
+                    <FormGroup >
                         <Form.Label>Date</Form.Label>
                         <Form.Control required name='date' value={depense.date} onChange={(e) => onInputChange(e)} type='date' ></Form.Control>
+                    </FormGroup>
+
+                    <FormGroup >
+                        <Form.Label>Piéce justificatif </Form.Label>
+                        <Form.Control name='pieces_justificatifs' onChange={(e) => HandleChangeFile(e)} type='file' accept="image/png, image/jpg, image/jpeg" ></Form.Control>
                     </FormGroup>
 
                 </Row>

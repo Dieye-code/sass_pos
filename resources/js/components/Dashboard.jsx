@@ -12,7 +12,7 @@ function Dashboard() {
 
 
     const navigate = useNavigate();
-    const decoded = jwtDecode(localStorage.getItem('token', '') ?? '')
+    const decoded = localStorage.getItem("token") != null ? jwtDecode(localStorage.getItem("token" ?? "")) : null;
 
     const [abonnementActifs, setAbonnementActifs] = useState([]);
     const [abonnementInactifs, setAbonnementInactifs] = useState([]);
@@ -22,6 +22,10 @@ function Dashboard() {
 
 
     useEffect(() => {
+        
+        if ( decoded == null)
+            return navigate("/login");
+
         if (decoded?.role != 'super admin') {
             navigate('/dashboard');
             return;
@@ -113,7 +117,7 @@ function Dashboard() {
                                 <th>Nom Entreprise</th>
                                 <th>Telephone</th>
                                 <th>Adresse</th>
-                                <th>Date Limite</th>
+                                <th>Date fin abonnement</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -138,7 +142,7 @@ function Dashboard() {
                                 <th>Nom Entreprise</th>
                                 <th>Telephone</th>
                                 <th>Adresse</th>
-                                <th>Date Limite</th>
+                                <th>Date fin abonnement</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -147,7 +151,7 @@ function Dashboard() {
                                     <tr>
                                         <td>{e.nom}</td>
                                         <td>{e.telephone}</td>
-                                        <td>{e.adresse}</td>
+                                        <td>{ e.adresse}</td>
                                         <td>{formatDate(e.dateLimit)}</td>
                                     </tr>
                                 )

@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem('token', token);
             if(token != undefined && token != '' && token != null){
                 const decoded = jwtDecode(token);
-                setRole(decoded.role);
+                setRole(decoded?.role);
             }
         } else {
             delete baseApi.defaults.headers.common['Authorization'];

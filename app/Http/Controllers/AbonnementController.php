@@ -14,15 +14,25 @@ class AbonnementController extends Controller
 
     public function __construct(AbonnementInterface $abonnementRepository)
     {
-        if(auth()?->user()?->role != 'super admin'){
+        if(Auth::user()?->role != 'super admin'){
             return abort(403, 'Vous n\'avez pas accés a cette ressource');
         }
         $this->abonnementRepository = $abonnementRepository;
     }
 
+    public function get($id)
+    {
+        return response()->json($this->abonnementRepository->get($id));
+    }
+
     public function index()
     {
         return response()->json($this->abonnementRepository->getAll());
+    }
+
+    public function supprimer($id){
+        $abonnement = $this->abonnementRepository->supprimer($id);
+        return responseFind($abonnement);
     }
 
     public function arrete($id){
@@ -31,7 +41,7 @@ class AbonnementController extends Controller
     }
 
     public function active($id){
-        $abonnement = $this->abonnementRepository->active($id);
+        $abonnement = $this->abonnementRepository->activeWithUsers($id);
         return responseFind($abonnement);
     }
 
@@ -44,4 +54,16 @@ class AbonnementController extends Controller
     {
         return response()->json($this->abonnementRepository->getNewAbonnements());
     }
+
+    public function changePassword($id, Request $request) {
+        $abonnement = $this->abonnementRepository->changePassword($id, $request->password);
+        return responseFind($abonnement);
+    }
+
+    public function change($id, Request $request) {
+        $abonnement = $this->abonnementRepository->change($id, $request->debut, $request->fin);
+        return responseFind($abonnement);
+    }
+
+
 }

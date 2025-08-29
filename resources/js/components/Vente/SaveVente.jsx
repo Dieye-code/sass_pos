@@ -20,6 +20,7 @@ function SaveVente() {
     const [items, setItems] = useState([]);
     const [total, setTotal] = useState(0);
     const [load, setLoad] = useState(false);
+    const [currentQ, setCurrentQ] = useState(null);
 
     const [facture, SetFacture] = useState(false)
 
@@ -52,6 +53,7 @@ function SaveVente() {
     const changeProduitSelect = (e) => {
         const produit = produits.find(p => p.id === e.value);
         setCurrentProduit({ ...currentProduit, produit_id: produit.id, libelle: produit.libelle, montant_vente: produit.prix, quantite: 0 })
+        setCurrentQ(produit?.quantite);
     }
 
     const handleValChange = (e) => {
@@ -65,6 +67,17 @@ function SaveVente() {
         if (currentProduit.quantite <= 0) {
             swal({
                 text: "Vous devez saisir la quantité à vendre!",
+                icon: "info",
+                buttons: true,
+                showCancelButton: false,
+            });
+            return;
+        }
+        
+
+        if (currentQ != null && currentQ != undefined && currentProduit.quantite > currentQ) {
+            swal({
+                text: "La quantité de stockage est inferieur à la quantité que vous avez saisie",
                 icon: "info",
                 buttons: true,
                 showCancelButton: false,
@@ -94,6 +107,9 @@ function SaveVente() {
         setTotal(t);
         setVente({ ...vente, ['montant_paye']: t })
         setProduitVentes(newProducts);
+        setCurrentQ(null);
+        
+        setCurrentProduit({ produit_id: '', libelle: '', montant_vente: 0, quantite: 0 });
     }
 
     const handleSubmit = (event) => {
@@ -236,7 +252,7 @@ function SaveVente() {
                         <Form.Control name='montant_vente' value={currentProduit.montant_vente} type='number' onChange={handleValChange} />
                     </FormGroup>
                     <FormGroup as={Col} sm="2">
-                        <Form.Label>Quantité</Form.Label>
+                        <Form.Label>Quantité {currentQ != null && currentQ != undefined ? '('+currentQ+' en stock)' : ''}</Form.Label>
                         <Form.Control name='quantite' value={currentProduit.quantite} type='number' onChange={handleValChange} />
                     </FormGroup>
                     <FormGroup as={Col}>
@@ -310,9 +326,6 @@ function SaveVente() {
                 <div>
                     <Button className='mt-3' type="submit" disabled={load}>
                         {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer</span>}
-                    </Button>
-                    <Button className='mt-3 mx-3' type="submit" disabled={load} onClick={(e) => SetFacture(true)}>
-                        {load ? <><Spinner animation="border" size='sm' /><span>Chargement...</span></> : <span className='m-2'>Enregistrer et Imprimer</span>}
                     </Button>
                 </div>
 

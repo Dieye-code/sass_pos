@@ -10,7 +10,6 @@ use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\PaiementAchatController;
 use App\Http\Controllers\PaiementVenteController;
 use App\Http\Controllers\ProduitController;
-use App\Http\Controllers\TypeAbonnementController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
 
-
+    
     Route::get('/dashboard-admin', [DashboardController::class, 'admin']);
 
 
@@ -47,13 +46,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/achats/mois', [AchatController::class, 'achatDuMois']);
     Route::get('/achats/semaine', [AchatController::class, 'achatDeLaSemaine']);
     Route::post('/achats/intervalle', [AchatController::class, 'achatIntervalle']);
-    Route::delete('/achats/{id}/retour', [AchatController::class, 'retour'])->where('id', "[0-9a-z]+")->name('achats.retour');
 
     Route::get('/abonnements', [AbonnementController::class, 'index']);
+    Route::get('/abonnements/{id}', [AbonnementController::class, 'get']);
     Route::get('/abonnements/{id}/arrete', [AbonnementController::class, 'arrete']);
     Route::get('/abonnements/{id}/active', [AbonnementController::class, 'active']);
     Route::get('/new-abonnements', [AbonnementController::class, 'new']);
     Route::get('/abonnements/{id}/active-new', [AbonnementController::class, 'newActive']);
+    Route::post('/abonnements/{id}/change-password', [AbonnementController::class, 'changePassword']);
+    Route::post('/abonnements/{id}/change', [AbonnementController::class, 'change']);
+    Route::get('/abonnements/{id}/supprimer', [AbonnementController::class, 'supprimer']);
 
 
     Route::post('/user/change-password', [AuthController::class, 'changePassword']);
@@ -61,6 +63,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get("/users/{id}/active", [UserController::class, 'active'])->where('id', '[0-9a-z]+')->name('users.active');
 
     Route::get('/users/{id}/arrete', [UserController::class, 'arrete'])->where('id', '[0-9a-z]+')->name('users.arrete');
+    
+    Route::post('/depenses/{id}', [DepenseController::class, 'edit']);
 
     defaultRoutesFor('users', UserController::class);
     defaultRoutesFor('depenses', DepenseController::class);
@@ -69,7 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
     defaultRoutesFor('produits', ProduitController::class);
     defaultRoutesFor('achats', AchatController::class);
     defaultRoutesFor('ventes', VenteController::class);
-    defaultRoutesFor('type-abonnements', TypeAbonnementController::class);
+    // Route::get('/auth/refresh', [AuthController::class, 'refresh'])->name('refresh');
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 });
 

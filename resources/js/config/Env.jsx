@@ -9,9 +9,15 @@ export const URL = 'DEV'
 
 export const formatDate = (date) => {
      let d = new Date(date);
-     return d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+     var month = d.getMonth() + 1;
+     return d.getDate() + "/" + month + "/" + d.getFullYear();
 }
 
 export const Env = {
      API_URL: window.location.origin+'/',
+}
+
+
+export const getStorageLink = (link) => {
+     return `${window.location.origin}/storage/${link}`
 }

@@ -104,7 +104,7 @@ class BaseController extends Controller
 
             return $this->repository->find($id);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return response()->json(["eoore" => $th->getMessage()]);
         }
     }
 
